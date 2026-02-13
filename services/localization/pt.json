@@ -1,0 +1,36 @@
+{
+    "menu": {
+       "nav": [
+        {
+            "id": 0,
+            "label": "Início",
+            "href": "/"
+        },
+        {
+            "id": 1,
+            "label": "Calendário",
+            "href": "/calendario"
+        },
+        {
+            "id": 2,
+            "label": "Filmes",
+            "href": "/filmes"
+        },
+        {
+            "id": 3,
+            "label": "Sobre",
+            "href": "/sobre"
+        },
+        {
+            "id": 4,
+            "label": "Ajuda",
+            "href": "/ajuda"
+        }
+    ],
+     "logo": {
+        "alt": "Showtime Logo",
+        "src": "/img/logo/showtime.br.png"
+    }
+    }
+   
+}
