@@ -10,11 +10,11 @@ const Menu = () => {
   const { city } = useLocationStore();
 
   return (
-    <header className="relative w-full z-50">
-      <div className="w-full text-white absolute bg-linear-to-b from-black via-black/70 to-transparent">
+    <header className="w-full z-50 text-white absolute bg-linear-to-b from-black via-black/70 to-transparent">
+      <div className="relative w-full md:max-w-360 m-auto ">
         <div
           className="
-            container mx-auto px-5 md:px-0 py-3 md:py-9
+            mx-auto px-5 md:px-6 lg:px-7 py-3 md:py-9
             grid gap-3 lg:gap-6 items-center
 
             grid-cols-[auto_1fr_auto]
@@ -35,7 +35,10 @@ const Menu = () => {
 
           {/* SELECT CIDADE */}
           <div className="row-start-1 col-start-2 md:col-start-2">
-            <select className="bg-gray-800 border border-gray-600 text-sm px-2 py-1 rounded-md w-full lg:w-[182px]">
+            <select
+              className="bg-gray-800 border border-gray-600 text-sm px-2 py-1 rounded-md w-full lg:w-45.5"
+              aria-label="Selecionar cidade"
+            >
               <option>{city}</option>
             </select>
           </div>

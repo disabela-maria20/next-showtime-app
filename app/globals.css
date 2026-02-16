@@ -3,7 +3,7 @@
 @theme {
   --color-*: initial;
 
-  --color-white: #FFFFFF;
+  --color-white: #ffffff;
   --color-black: #000000;
 
   --color-neutral-400: #808080;
@@ -11,17 +11,17 @@
   --color-neutral-700: #333333;
   --color-neutral-800: #262626;
 
-  --color-amber-400: #FFC249;
-  --color-blue-600: #2573D2;
+  --color-amber-400: #ffc249;
+  --color-blue-600: #2573d2;
+  --color-blue-700: #105bb7;
 
   --font-hanken-grotesk: var(--font-hanken-grotesk);
 }
 
-*{
+* {
   font-family: var(--font-hanken-grotesk), sans-serif;
 }
 body {
   background: var(--color-black);
   color: var(--color-white);
-  
 }

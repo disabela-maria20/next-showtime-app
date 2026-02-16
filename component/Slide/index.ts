@@ -1,13 +1,16 @@
-import { SlideTrack } from './SlideTrack'
-import { SlideItem } from './SlideItem'
-import { SlideArrows } from './SlideArrows'
-import { SlideDots } from './SlideDots'
-import { SlideContent } from './SlideContent'
+'use client';
 
-export const Slide = Object.assign(SlideRoot, {
-  Track: SlideTrack,
-  Item: SlideItem,
-  Arrows: SlideArrows,
-  Dots: SlideDots,
-  Content: SlideContent,
-})
+import Track from './Track';
+import Item from './Item';
+import Arrows from './Arrows';
+import Dots from './Dots';
+import Content from './Content';
+import Root from './Root';
+
+export const Slide = Object.assign(Root, {
+  Track: Track,
+  Item: Item,
+  Arrows: Arrows,
+  Dots: Dots,
+  Content: Content,
+});
