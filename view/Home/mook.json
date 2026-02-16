@@ -1,0 +1,14 @@
+{
+    "bannerMobile": {
+        "src": "/img/banner/banner-mobile.png",
+        "alt": "Banner Mobile"
+    },
+    "bannerDesktop": {
+        "src": "/img/banner/banner-desktop.png",
+        "alt": "Banner Desktop"
+    },
+    "title": "Titulo Filme Aqui",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
+    "star": 4.5,
+    "gender": "Aventura, Ficção Científica"
+}

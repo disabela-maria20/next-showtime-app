@@ -1,10 +1,7 @@
-import Image from 'next/image';
-import { Button } from 'primereact/button';
+import { Home } from '@/view';
 
-export default function Home() {
+export default function PageHome() {
   return (
-    <div className="focus:ring-0">
-      <Button label="Submit" />
-    </div>
+    <Home />
   );
 }

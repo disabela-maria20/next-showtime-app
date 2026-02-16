@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Hanken_Grotesk } from 'next/font/google';
-
+import { Hanken_Grotesk } from 'next/font/google';
+      
 import './globals.css';
 import 'primereact/resources/themes/tailwind-light/theme.css';
 import 'primereact/resources/primereact.min.css';

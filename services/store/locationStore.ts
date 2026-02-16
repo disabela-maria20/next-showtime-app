@@ -27,11 +27,12 @@ export const useLocationStore = create<LocationState>()(
 
         try {
           const data = await getUserLocation();
-
-          if (data?.success) {
+          console.log(data);
+          
+          if (data) {
             set({
               city: data.city ?? null,
-              state: data.region ?? null,
+              state: data.regionName ?? null,
               country: data.country ?? null,
               loading: false,
             });
