@@ -5,6 +5,7 @@ import mook from './mook.json';
 import { autoplay, CtaButton, Divider, Slide } from '@/component';
 import { Rating } from 'primereact/rating';
 import text from '../../services/localization/pt.json';
+import Link from 'next/link';
 const Home = () => {
   const { isMobile, isLoading } = useIsMobile();
   return (
@@ -25,7 +26,7 @@ const Home = () => {
         )} */}
       </section>
 
-      <Slide options={{ loop: false }} plugins={[autoplay]}>
+      <Slide options={{ loop: true }} plugins={[autoplay(2000)]}>
         <Slide.Track>
           {mook.banner.map((item) => (
             <Slide.Item key={item.id}>
@@ -82,9 +83,11 @@ const Home = () => {
         <Slide.Dots />
       </Slide>
       {isMobile && <Divider />}
-      <section className="py-14">
-        <div className="container px-12">
-          <h2 className="text-2xl font-bold mb-6">{text.secao2}</h2>
+      <section className="py-14 md:py-32 overflow-hidden">
+        <div className="container px-12 ">
+          <h2 className="text-2xl md:text-6xl font-bold mb-6 md:mb-12">
+            {text.secao2}
+          </h2>
           <Slide
             options={{
               loop: false,
@@ -97,20 +100,43 @@ const Home = () => {
                   slides: { perView: 3, spacing: 16 },
                 },
                 '(min-width: 1024px)': {
-                  slides: { perView: 5, spacing: 20 },
+                  slides: { perView: 7, spacing: 20 },
                 },
               },
             }}
           >
-            <Slide.Track>
+            <Slide.Track style={{ overflow: 'visible' }}>
               {mook.estreias.map((item) => (
                 <Slide.Item key={item.id}>
-                  <div className="relative">
-                    <img
-                      src={item.img}
-                      alt={item.title}
-                      className="w-full object-cover"
-                    />
+                  <div className="flex flex-col gap-3">
+                    <div className="relative bg-neutral-800 rounded text-center p-2 md:py-4 h">
+                      <div className="absolute top-0 left-0 bg-amber-400 text-black font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-br-lg z-10">
+                        {item.id + 1}
+                      </div>
+                      <div className="">
+                        <img
+                          src={item.img}
+                          alt={item.title}
+                          className="min-h-52.5 max-h-45 w-full object-cover"
+                        />
+                      </div>
+
+                      <div>
+                        <div className=" inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                        <h3 className="text-white mb-4 font-bold text-lg md:text-xl xl:text-2xl truncate mt-4">
+                          {item.title}
+                        </h3>
+
+                        <Link
+                          href={'/'}
+                          className={`w-full py-2 px-3 rounded text-[12px] md:text-sm font-semibold transition-colors duration-200 bg-neutral-400 text-white hover:text-black hover:bg-amber-400
+                            `}
+                        >
+                          comprar ingressos
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </Slide.Item>
               ))}
