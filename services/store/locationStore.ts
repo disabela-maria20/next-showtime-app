@@ -19,16 +19,11 @@ export const useLocationStore = create<LocationState>()(
       state: null,
       country: null,
       loading: false,
-
       fetchLocation: async () => {
         if (get().city) return; 
-
         set({ loading: true });
-
         try {
-          const data = await getUserLocation();
-          console.log(data);
-          
+          const data = await getUserLocation();          
           if (data) {
             set({
               city: data.city ?? null,
