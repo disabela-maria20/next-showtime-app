@@ -50,124 +50,798 @@
     {
       "id": 0,
       "title": "Chainsaw Man",
-      "link": "/chainsaw-man",
-      "img": "/img/banner/chainsaw-man.png"
+      "slug": "/chainsaw-man",
+      "cover": "/img/banner/chainsaw-man.png"
     },
     {
       "id": 1,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 2,
       "title": "Chainsaw Man",
-      "link": "/chainsaw-man",
-      "img": "/img/banner/chainsaw-man.png"
+      "slug": "/chainsaw-man",
+      "cover": "/img/banner/chainsaw-man.png"
     },
     {
       "id": 3,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 4,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 5,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 6,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 7,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 8,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 9,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     }
   ],
-   "estreiasSemana": [
+  "estreiasSemana": [
     {
       "id": 0,
       "title": "Chainsaw Man",
-      "link": "/chainsaw-man",
-      "img": "/img/banner/chainsaw-man.png"
+      "slug": "/chainsaw-man",
+      "cover": "/img/banner/chainsaw-man.png"
     },
     {
       "id": 1,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 2,
       "title": "Chainsaw Man",
-      "link": "/chainsaw-man",
-      "img": "/img/banner/chainsaw-man.png"
+      "slug": "/chainsaw-man",
+      "cover": "/img/banner/chainsaw-man.png"
     },
     {
       "id": 3,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 4,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 5,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 6,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 7,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 8,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 9,
       "title": "A Empregada",
-      "link": "/a-empregada",
-      "img": "/img/banner/a-empregada.png"
+      "slug": "/a-empregada",
+      "cover": "/img/banner/a-empregada.png"
+    }
+  ],
+  "cinema": [
+    {
+      "id": 1,
+      "title": "Filme Exemplo 1",
+      "originalTitle": "Sample Movie 1",
+      "slug": "filme-exemplo-1",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-24",
+      "premiereDate": "2024-07-20 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 1,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19441"
+    },
+    {
+      "id": 2,
+      "title": "Filme Exemplo 2",
+      "originalTitle": "Sample Movie 2",
+      "slug": "filme-exemplo-2",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-26",
+      "premiereDate": "2024-07-21 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 2,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19442"
+    },
+    {
+      "id": 3,
+      "title": "Filme Exemplo 3",
+      "originalTitle": "Sample Movie 3",
+      "slug": "filme-exemplo-3",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-27",
+      "premiereDate": "2024-07-21 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 3,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19443"
+    },
+    {
+      "id": 4,
+      "title": "Filme Exemplo 4",
+      "originalTitle": "Sample Movie 4",
+      "slug": "filme-exemplo-4",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-21 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 4,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19444"
+    },
+    {
+      "id": 5,
+      "title": "Filme Exemplo 5",
+      "originalTitle": "Sample Movie 5",
+      "slug": "filme-exemplo-5",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-27",
+      "premiereDate": "2024-07-21 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 5,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19445"
+    },
+    {
+      "id": 6,
+      "title": "Filme Exemplo 6",
+      "originalTitle": "Sample Movie 6",
+      "slug": "filme-exemplo-6",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-21 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 6,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19446"
+    },
+    {
+      "id": 7,
+      "title": "Filme Exemplo 7",
+      "originalTitle": "Sample Movie 7",
+      "slug": "filme-exemplo-7",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-21 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 7,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19447"
+    },
+    {
+      "id": 8,
+      "title": "Filme Exemplo 8",
+      "originalTitle": "Sample Movie 8",
+      "slug": "filme-exemplo-8",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-21 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 8,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19448"
+    },
+    {
+      "id": 9,
+      "title": "Filme Exemplo 9",
+      "originalTitle": "Sample Movie 9",
+      "slug": "filme-exemplo-9",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-21 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 9,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19449"
+    },
+    {
+      "id": 10,
+      "title": "Filme Exemplo 10",
+      "originalTitle": "Sample Movie 10",
+      "slug": "filme-exemplo-10",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-21 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 10,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19450"
+    },
+    {
+      "id": 11,
+      "title": "Filme Exemplo 11",
+      "originalTitle": "Sample Movie 11",
+      "slug": "filme-exemplo-11",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-23 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 11,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19451"
+    },
+    {
+      "id": 12,
+      "title": "Filme Exemplo 12",
+      "originalTitle": "Sample Movie 12",
+      "slug": "filme-exemplo-12",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-23 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 12,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19452"
+    },
+    {
+      "id": 13,
+      "title": "Filme Exemplo 13",
+      "originalTitle": "Sample Movie 13",
+      "slug": "filme-exemplo-13",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-23 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 13,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19453"
+    },
+    {
+      "id": 14,
+      "title": "Filme Exemplo 14",
+      "originalTitle": "Sample Movie 14",
+      "slug": "filme-exemplo-14",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-23 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 14,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19454"
+    },
+    {
+      "id": 15,
+      "title": "Filme Exemplo 15",
+      "originalTitle": "Sample Movie 15",
+      "slug": "filme-exemplo-15",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-23 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 15,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19455"
+    },
+    {
+      "id": 16,
+      "title": "Filme Exemplo 16",
+      "originalTitle": "Sample Movie 16",
+      "slug": "filme-exemplo-16",
+      "countryOrigin": "EUA",
+      "contentRating": "14 anos",
+      "duration": 120,
+      "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+      "shortSynopsis": "Sinopse curta do filme.",
+      "cast": "Ator 1, Ator 2",
+      "director": "Diretor Exemplo",
+      "genre_id": 1,
+      "genre": "Ação/Aventura",
+      "releasedate": "2024-07-25",
+      "premiereDate": "2024-07-23 00:00:00",
+      "releaseYear": "2024",
+      "partnerCode": "studio",
+      "status": "lancamento",
+      "cover": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "bannerMobile": "https://image.tmdb.org/t/p/w780/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "bannerDesktop": "https://image.tmdb.org/t/p/original/6XjMwQTvnICBz6TguiDKkDVHvgS.jpg",
+      "color": "#000000",
+      "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/dEbe0rS4Z2A"
+        }
+      ],
+      "images": [
+        "https://image.tmdb.org/t/p/original/9l1eZiJHmhr5jIlthMdJN5WYoff.jpg",
+        "https://image.tmdb.org/t/p/original/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+        "https://image.tmdb.org/t/p/original/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+        "https://image.tmdb.org/t/p/original/2s6z5vJk1GzK2X2hfqRSbVSSMzd.jpg",
+        "https://image.tmdb.org/t/p/original/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg"
+      ],
+      "streaming": [],
+      "orderField": 16,
+      "created_at": "2024-07-03 12:41:37",
+      "hasSession": true,
+      "idVibezzMovie": "19456"
     }
   ]
 }

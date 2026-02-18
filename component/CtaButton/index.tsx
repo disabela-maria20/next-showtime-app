@@ -25,6 +25,7 @@ const CtaButton: React.FC<CtaButtonProps> = ({
           bg-white
           -translate-x-full
           group-hover:translate-x-0
+          group-active:translate-x-0
           transition-transform duration-300 ease-out
           z-0
         "
@@ -37,6 +38,7 @@ const CtaButton: React.FC<CtaButtonProps> = ({
           flex items-center justify-center
           transition-colors duration-300
           group-hover:text-blue-600
+          group-active:text-blue-600
         "
       >
         {children}
@@ -63,7 +65,10 @@ const CtaButton: React.FC<CtaButtonProps> = ({
     shadow-md
     transition-all
     duration-300
+
     hover:scale-105
+    active:scale-95
+
     ${className}
   `;
 
