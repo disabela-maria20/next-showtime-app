@@ -70,7 +70,7 @@ const Home = () => {
                       <p>{item.description}</p>
                     </div>
                     <div>
-                      <CtaButton href="/">comprar ingressos</CtaButton>
+                      <CtaButton href="/">{text.ctaCompra}</CtaButton>
                     </div>
                   </div>
                 </section>
@@ -83,19 +83,33 @@ const Home = () => {
         <Slide.Dots />
       </Slide>
       {isMobile && <Divider />}
-      <section className="py-14 md:py-32 overflow-hidden">
-        <div className="container px-12 ">
-          <h2 className="text-2xl md:text-5xl 2xl:text-6xl font-bold mb-6 md:mb-12">
+      <section
+        className="py-14 md:py-32 overflow-hidden relative
+          before:content-['']
+          before:absolute
+          before:top-0
+          before:right-0
+          before:h-full
+          before:w-24 md:before:w-40
+          before:bg-linear-to-l
+          before:from-black/95
+          before:to-transparent
+          before:pointer-events-none
+          before:z-10"
+      >
+        <div className="container px-12">
+          <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-bold mb-6 md:mb-12">
             {text.secao2}
           </h2>
+
           <Slide
             options={{
               loop: false,
-              slides: {
-                perView: 2,
-                spacing: 12,
-              },
+              slides: { perView: 2, spacing: 12 },
               breakpoints: {
+                '(min-width: 640px)': {
+                  slides: { perView: 2, spacing: 16 },
+                },
                 '(min-width: 768px)': {
                   slides: { perView: 3, spacing: 16 },
                 },
@@ -108,21 +122,60 @@ const Home = () => {
             <Slide.Track style={{ overflow: 'visible' }}>
               {mook.estreias.map((item) => (
                 <Slide.Item key={item.id}>
-                  <CardMovie
-                    id={item.id}
-                    title={item.title}
-                    img={item.img}
-                    href="/"
-                  />
+                  <CardMovie {...item} href="/" />
                 </Slide.Item>
               ))}
             </Slide.Track>
-
-            {/* <Slide.Arrows />
-            <Slide.Dots /> */}
           </Slide>
         </div>
       </section>
+      <section
+        className="py-14 md:py-32 bg-neutral-700 overflow-hidden relative
+          before:content-['']
+          before:absolute
+          before:top-0
+          before:right-0
+          before:h-full
+          before:w-24 md:before:w-40
+          before:bg-linear-to-l
+          before:from-neutral-700/95
+          before:to-transparent
+          before:pointer-events-none
+          before:z-10"
+      >
+        <div className="container px-12">
+          <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-bold mb-6 md:mb-12">
+            {text.secao3}
+          </h2>
+
+          <Slide
+            options={{
+              loop: false,
+              slides: { perView: 2, spacing: 12 },
+              breakpoints: {
+                '(min-width: 640px)': {
+                  slides: { perView: 2, spacing: 16 },
+                },
+                '(min-width: 768px)': {
+                  slides: { perView: 3, spacing: 16 },
+                },
+                '(min-width: 1024px)': {
+                  slides: { perView: 5, spacing: 20 },
+                },
+              },
+            }}
+          >
+            <Slide.Track style={{ overflow: 'visible' }}>
+              {mook.estreias.map((item) => (
+                <Slide.Item key={item.id}>
+                  <CardMovie {...item} href="/" />
+                </Slide.Item>
+              ))}
+            </Slide.Track>
+          </Slide>
+        </div>
+      </section>
+      {!isMobile && <Divider />}
     </main>
   );
 };

@@ -107,5 +107,67 @@
       "link": "/a-empregada",
       "img": "/img/banner/a-empregada.png"
     }
+  ],
+   "estreiasSemana": [
+    {
+      "id": 0,
+      "title": "Chainsaw Man",
+      "link": "/chainsaw-man",
+      "img": "/img/banner/chainsaw-man.png"
+    },
+    {
+      "id": 1,
+      "title": "A Empregada",
+      "link": "/a-empregada",
+      "img": "/img/banner/a-empregada.png"
+    },
+    {
+      "id": 2,
+      "title": "Chainsaw Man",
+      "link": "/chainsaw-man",
+      "img": "/img/banner/chainsaw-man.png"
+    },
+    {
+      "id": 3,
+      "title": "A Empregada",
+      "link": "/a-empregada",
+      "img": "/img/banner/a-empregada.png"
+    },
+    {
+      "id": 4,
+      "title": "A Empregada",
+      "link": "/a-empregada",
+      "img": "/img/banner/a-empregada.png"
+    },
+    {
+      "id": 5,
+      "title": "A Empregada",
+      "link": "/a-empregada",
+      "img": "/img/banner/a-empregada.png"
+    },
+    {
+      "id": 6,
+      "title": "A Empregada",
+      "link": "/a-empregada",
+      "img": "/img/banner/a-empregada.png"
+    },
+    {
+      "id": 7,
+      "title": "A Empregada",
+      "link": "/a-empregada",
+      "img": "/img/banner/a-empregada.png"
+    },
+    {
+      "id": 8,
+      "title": "A Empregada",
+      "link": "/a-empregada",
+      "img": "/img/banner/a-empregada.png"
+    },
+    {
+      "id": 9,
+      "title": "A Empregada",
+      "link": "/a-empregada",
+      "img": "/img/banner/a-empregada.png"
+    }
   ]
 }
