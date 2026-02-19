@@ -228,10 +228,10 @@ const Home = () => {
           <div className="container max-w-490 m-auto px-12">
             {/* 🎬 DATAS */}
             <h2
-              className="text-2xl md:text-4xl 2xl:text-5xl font-bold mb-6 md:mb-12 text-amber-400"
+              className="text-2xl md:text-4xl 2xl:text-5xl mb-6 md:mb-12 text-amber-400"
               dangerouslySetInnerHTML={{ __html: text.secao4 }}
             />
-            <div className="mb-5">
+            <div className="mb-5 ">
               <Slide
                 options={{
                   loop: false,
@@ -256,8 +256,69 @@ const Home = () => {
                 </Slide.Track>
               </Slide>
             </div>
+
+            <div className="grid grid-cols-2 grid-rows-3 gap-2 mb-5 xl:grid-cols-6 lg:grid-rows-1">
+              <div className="">
+                <input type="text" name="pesquisar" id="pesquisar" className='w-full p-2 border border-amber-400 placeholder:text-amber-400 bg-black text-amber-400 text-sm rounded' placeholder="Pesquisar filmes..." />
+              </div>
+              <div className="">
+                <select name="genero" id="genero" className='w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded'>
+                  <option value="">Todos os gêneros</option>
+                  <option value="acao">Ação</option>
+                  <option value="comedia">Comédia</option>
+                  <option value="drama">Drama</option>
+                </select>
+              </div>
+              <div className="">
+                <select name="cinema" id="cinema" className='w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded'>
+                  <option value="">Todos os cinemas</option>
+                  <option value="cinema1">Cinema 1</option>
+                  <option value="cinema2">Cinema 2</option>
+                  <option value="cinema3">Cinema 3</option>
+                </select>
+              </div>
+              <div className='grid grid-cols-2 gap-2 items-center'>
+                <button className='w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded'>Dublado</button>
+                <button className='w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded'>Legendado</button>
+              </div>
+              <div className="">
+                <select name="cinema" id="cinema" className='w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded'>
+                  <option value="">tecnologia</option>
+                  <option value="cinema1">tecnologia 1</option>
+                  <option value="cinema2">tecnologia 2</option>
+                  <option value="cinema3">tecnologia 3</option>
+                </select>
+              </div>
+              <div>
+                <button className='w-full p-2 border border-amber-400 bg-amber-400 text-black text-sm rounded'>buscar filmes</button>
+              </div>
+            </div>
             {/* 🎥 FILMES */}
-            <div className="flex gap-4 flex-wrap">
+
+             <div className="mb-5 md:hidden ">
+              <Slide
+                key={activeDate}
+                options={{
+                  loop: false,
+                  mode: 'free-snap',
+                  slides: {
+                    perView: 2,
+                    spacing: 20,
+                  },
+                }}
+              >
+                <Slide.Track style={{ overflow: 'visible' }}>
+                   {activeDate &&
+                    moviesByDate[activeDate]?.map((movie: any) => (
+                      <Slide.Item key={movie.id} >
+                        <CardMovie  {...movie} />
+                      </Slide.Item>
+                    
+                    ))}
+                </Slide.Track>
+              </Slide>
+            </div>
+            <div className="hidden md:flex gap-4 flex-wrap">
               {activeDate &&
                 moviesByDate[activeDate]?.map((movie: any) => (
                   <CardMovie key={movie.id} {...movie} />
