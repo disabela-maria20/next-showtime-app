@@ -8,22 +8,6 @@ import text from '../../services/localization/pt.json';
 import Link from 'next/link';
 import { useFormattedDate } from '@/hooks/useFormattedDate';
 
-type Movie = {
-  id: number;
-  title: string;
-  genre: string;
-  partnerCode: string; // cinema
-  technology?: string;
-  dubbed?: boolean;
-  releasedate: string;
-};
-
-type Props = {
-  movies: Movie[];
-  onFilter: (movies: Movie[]) => void;
-  activeDate: string | null;
-};
-
 const DateBadge = ({
   date,
   active,
@@ -34,6 +18,8 @@ const DateBadge = ({
   onClick: () => void;
 }) => {
   const { weekDay, numericDate, isToday } = useFormattedDate(date);
+
+  const bta_active = 'boder';
   return (
     <button
       onClick={onClick}
@@ -48,156 +34,8 @@ const DateBadge = ({
   );
 };
 
-function MovieFilters({ movies, onFilter, activeDate }: Props) {
-  const [title, setTitle] = useState("");
-  const [cinema, setCinema] = useState("");
-  const [genre, setGenre] = useState("");
-  const [technology, setTechnology] = useState("");
-  const [dubbed, setDubbed] = useState(false);
-
-  // remove duplicados
-  const getUniqueValues = (array: (string | undefined)[]) => {
-    return [...new Set(array.filter(Boolean))] as string[];
-  };
-
-  // options dinâmicos baseados nos filmes da data ativa
-  const moviesForCurrentDate = useMemo(() => {
-    if (!activeDate) return movies;
-    return movies.filter(m => m.releasedate === activeDate);
-  }, [movies, activeDate]);
-
-  const cinemas = useMemo(
-    () => getUniqueValues(moviesForCurrentDate.map((m) => m.partnerCode)),
-    [moviesForCurrentDate]
-  );
-
-  const genres = useMemo(
-    () => getUniqueValues(moviesForCurrentDate.map((m) => m.genre)),
-    [moviesForCurrentDate]
-  );
-
-  const technologies = useMemo(
-    () => getUniqueValues(moviesForCurrentDate.map((m) => m.technology)),
-    [moviesForCurrentDate]
-  );
-
-  // ação do botão buscar
-  const handleSearch = () => {
-    console.log('Filtrando com:', { title, cinema, genre, technology, dubbed, activeDate });
-    
-    const result = movies.filter((movie) => {
-      // Primeiro filtra pela data se activeDate existir
-      if (activeDate && movie.releasedate !== activeDate) {
-        return false;
-      }
-
-      // Depois aplica os outros filtros
-      const matchesTitle = title === "" || 
-        movie.title.toLowerCase().includes(title.toLowerCase());
-      
-      const matchesCinema = cinema === "" || movie.partnerCode === cinema;
-      
-      const matchesGenre = genre === "" || movie.genre === genre;
-      
-      const matchesTechnology = technology === "" || movie.technology === technology;
-      
-      const matchesDubbed = !dubbed || movie.dubbed === true;
-
-      return matchesTitle && matchesCinema && matchesGenre && matchesTechnology && matchesDubbed;
-    });
-
-    console.log('Resultado:', result.length, 'filmes');
-    onFilter(result);
-  };
-
-  // Efeito para aplicar filtro quando activeDate ou qualquer filtro mudar
-  useEffect(() => {
-    handleSearch();
-  }, [activeDate, title, cinema, genre, technology, dubbed]);
-
-  return (
-    <div className="w-full flex flex-col gap-4">
-
-      {/* LINHA 1 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-
-        {/* INPUT TITULO */}
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Pesquisar filme"
-          className="input"
-        />
-
-        {/* GENERO */}
-        <select
-          value={genre}
-          onChange={(e) => setGenre(e.target.value)}
-          className="select"
-        >
-          <option value="">Gênero</option>
-          {genres.map((item) => (
-            <option key={item}>{item}</option>
-          ))}
-        </select>
-
-        {/* CINEMA */}
-        <select
-          value={cinema}
-          onChange={(e) => setCinema(e.target.value)}
-          className="select"
-        >
-          <option value="">Cinema</option>
-          {cinemas.map((item) => (
-            <option key={item}>{item}</option>
-          ))}
-        </select>
-
-        {/* DUBLADO TOGGLE */}
-        <button
-          onClick={() => setDubbed(!dubbed)}
-          className={`rounded-lg border px-6 py-3 transition
-          ${
-            dubbed
-              ? "bg-yellow-400 text-black border-yellow-400"
-              : "border-yellow-400 text-yellow-400"
-          }`}
-        >
-          Dublado
-        </button>
-      </div>
-
-      {/* LINHA 2 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-
-        {/* TECNOLOGIA */}
-        <select
-          value={technology}
-          onChange={(e) => setTechnology(e.target.value)}
-          className="select"
-        >
-          <option value="">Tecnologia</option>
-          {technologies.map((item) => (
-            <option key={item}>{item}</option>
-          ))}
-        </select>
-
-        {/* BOTÃO BUSCAR */}
-        <button
-          onClick={handleSearch}
-          className="md:col-span-3 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-8 py-3 rounded-lg transition"
-        >
-          Buscar Filmes
-        </button>
-      </div>
-    </div>
-  );
-}
-
 const Home = () => {
   const [activeDate, setActiveDate] = useState<string | null>(null);
-  const [filteredMovies, setFilteredMovies] = useState(mook.cinema);
-
   const { isMobile, isLoading } = useIsMobile();
 
   const moviesByDate = useMemo(() => {
@@ -215,6 +53,8 @@ const Home = () => {
       ),
     [moviesByDate]
   );
+
+  // 🎯 data ativa
 
   // ✅ selecionar HOJE automaticamente
   useEffect(() => {
@@ -391,51 +231,37 @@ const Home = () => {
               className="text-2xl md:text-4xl 2xl:text-5xl font-bold mb-6 md:mb-12 text-amber-400"
               dangerouslySetInnerHTML={{ __html: text.secao4 }}
             />
-            <Slide
-              options={{
-                loop: false,
-                slides: { perView: 4, spacing: 5 },
-              }}
-            >
-              <Slide.Track style={{ overflow: 'visible' }}>
-                {dates.map((date) => (
-                  <Slide.Item key={date}>
-                    <DateBadge
-                      date={date}
-                      active={activeDate === date}
-                      onClick={() => setActiveDate(date)}
-                    />
-                  </Slide.Item>
-                ))}
-              </Slide.Track>
-            </Slide>
-
-            <MovieFilters 
-              movies={mook.cinema} 
-              onFilter={setFilteredMovies} 
-              activeDate={activeDate}
-            />
-
-            <div className="mt-5 md:hidden">
+            <div className="mb-5">
               <Slide
                 options={{
-                  slides: { perView: 2, spacing: 22},
+                  loop: false,
+                  mode: 'free-snap',
+                  slides: {
+                    perView: 'auto',
+                    spacing: 20,
+                  },
                 }}
               >
                 <Slide.Track style={{ overflow: 'visible' }}>
-                  {filteredMovies.map((movie: any) => (
-                    <Slide.Item key={movie.id}>
-                      <CardMovie key={movie.id} {...movie} />
+                  {dates.map((date) => (
+                    <Slide.Item className="w-auto!">
+                      <DateBadge
+                        key={date}
+                        date={date}
+                        active={activeDate === date}
+                        onClick={() => setActiveDate(date)}
+                      />
                     </Slide.Item>
                   ))}
                 </Slide.Track>
               </Slide>
             </div>
-
-            <div className="hidden md:grid mt-5 gap-5 grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
-              {filteredMovies.map((movie: any) => (
-                <CardMovie key={movie.id} {...movie} />
-              ))}
+            {/* 🎥 FILMES */}
+            <div className="flex gap-4 flex-wrap">
+              {activeDate &&
+                moviesByDate[activeDate]?.map((movie: any) => (
+                  <CardMovie key={movie.id} {...movie} />
+                ))}
             </div>
           </div>
         </section>
