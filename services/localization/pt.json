@@ -33,5 +33,14 @@
   "secao2": "TOP 10 BRASIL",
   "secao3": "ESTREIAS DA SEMANA",
   "secao4": "<strong>puro suco</strong> do <u>cinema</u>",
-  "ctaCompra": "comprar ingressos"
+  "ctaCompra": "comprar ingressos",
+  "secao5":{
+    "title": "entre nessa comunidade.",
+    "description": "cadastre-se no portal que te ajuda a encontrar o melhor lugar para você viver o puro suco do cinema.",
+    "terms": "Eu aceito receber newsletters",
+    "img": {
+      "alt": "Imagem de um grupo de pessoas assistindo a um filme no cinema",
+      "src": "/img/section5.png"
+    }
+  } 
 }
