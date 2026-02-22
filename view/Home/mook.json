@@ -843,5 +843,64 @@
       "hasSession": true,
       "idVibezzMovie": "19456"
     }
+  ],
+  "lancamentos": [
+    {
+      "id": 0,
+      "title": "A24",
+      "img": "/img/logos/a24.png",
+      "list": [
+        {
+          "id": 0,
+          "title": "Nome filme aqui"
+        },
+        {
+          "id": 1,
+          "title": "Nome filme aqui"
+        },
+        {
+          "id": 2,
+          "title": "Nome filme aqui"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Warner Bros",
+      "img": "/img/logos/WB.png",
+      "list": [
+        {
+          "id": 0,
+          "title": "Nome filme aqui"
+        },
+        {
+          "id": 1,
+          "title": "Nome filme aqui"
+        },
+        {
+          "id": 2,
+          "title": "Nome filme aqui"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Paramount",
+      "img": "/img/logos/paramount.png",
+      "list": [
+        {
+          "id": 0,
+          "title": "Nome filme aqui"
+        },
+        {
+          "id": 1,
+          "title": "Nome filme aqui"
+        },
+        {
+          "id": 2,
+          "title": "Nome filme aqui"
+        }
+      ]
+    }
   ]
 }

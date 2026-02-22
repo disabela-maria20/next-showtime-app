@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Hanken_Grotesk } from 'next/font/google';
-      
+
 import './globals.css';
 import 'primereact/resources/themes/tailwind-light/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -8,7 +8,7 @@ import 'primeicons/primeicons.css';
 
 import { PrimeReactI18nProvider } from '@/services/config/i18n';
 import { PrimeReactProvider } from 'primereact/api';
-import { Menu } from '@/component';
+import { Footer, Menu } from '@/component';
 
 const HankenGrotesk = Hanken_Grotesk({
   variable: '--font-hanken-grotesk',
@@ -27,9 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${HankenGrotesk.variable} font-hanken-grotesk`}
-      >
+      <body className={`${HankenGrotesk.variable} font-hanken-grotesk`}>
         <PrimeReactI18nProvider>
           <PrimeReactProvider
             value={{
@@ -38,9 +36,9 @@ export default function RootLayout({
               locale: 'pt-BR',
             }}
           >
-            <Menu/>
+            <Menu />
             {children}
-     
+            <Footer />
           </PrimeReactProvider>
         </PrimeReactI18nProvider>
       </body>
