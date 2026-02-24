@@ -13,7 +13,8 @@
       "title": "Titulo Filme Aqui",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
       "star": 4.5,
-      "gender": "Aventura, Ficção Científica"
+      "gender": "Aventura, Ficção Científica",
+      "slug": "/filme-exemplo"
     },
     {
       "id": 1,
@@ -28,7 +29,8 @@
       "title": "Titulo Filme Aqui 2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
       "star": 4.5,
-      "gender": "Aventura, Ficção Científica"
+      "gender": "Aventura, Ficção Científica",
+      "slug": "/filme-exemplo"
     },
     {
       "id": 2,
@@ -43,68 +45,69 @@
       "title": "Titulo Filme Aqui 3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
       "star": 4.5,
-      "gender": "Aventura, Ficção Científica"
+      "gender": "Aventura, Ficção Científica",
+      "slug": "/filme-exemplo"
     }
   ],
   "estreias": [
     {
       "id": 0,
       "title": "Chainsaw Man",
-      "slug": "/chainsaw-man",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/chainsaw-man.png"
     },
     {
       "id": 1,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 2,
       "title": "Chainsaw Man",
-      "slug": "/chainsaw-man",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/chainsaw-man.png"
     },
     {
       "id": 3,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 4,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 5,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 6,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 7,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 8,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 9,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     }
   ],
@@ -112,61 +115,61 @@
     {
       "id": 0,
       "title": "Chainsaw Man",
-      "slug": "/chainsaw-man",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/chainsaw-man.png"
     },
     {
       "id": 1,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 2,
       "title": "Chainsaw Man",
-      "slug": "/chainsaw-man",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/chainsaw-man.png"
     },
     {
       "id": 3,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 4,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 5,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 6,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 7,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 8,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     },
     {
       "id": 9,
       "title": "A Empregada",
-      "slug": "/a-empregada",
+      "slug": "/filme-exemplo",
       "cover": "/img/banner/a-empregada.png"
     }
   ],

@@ -3,12 +3,78 @@
 import Link from 'next/link';
 import React from 'react';
 
+type Variant = 'primary' | 'secondary' | 'ghost' | 'blue' | 'warning';
+type Size = 'sm' | 'md' | 'lg';
+
 type StreamButtonProps = {
   href?: string;
   onClick?: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   icon?: string;
   className?: string;
+  variant?: Variant;
+  size?: Size;
+  iconOnly?: boolean;
+  loading?: boolean;
+  fullWidth?: boolean;
+};
+
+const variants = {
+  primary: {
+    text: 'text-white',
+    border: 'border-white/60',
+    fill: 'bg-white',
+    baseBg: 'bg-transparent',
+    hoverText: 'group-hover:text-black',
+    hoverBorder: 'group-hover:border-white',
+    hasFillAnimation: true,
+  },
+
+  secondary: {
+    text: 'text-black',
+    border: 'border-black/40',
+    fill: 'bg-black',
+    baseBg: 'bg-transparent',
+    hoverText: 'group-hover:text-white',
+    hoverBorder: 'group-hover:border-black',
+    hasFillAnimation: true,
+  },
+
+  ghost: {
+    text: 'text-white',
+    border: 'border-transparent',
+    fill: 'bg-white',
+    baseBg: 'bg-transparent',
+    hoverText: 'group-hover:text-black',
+    hoverBorder: '',
+    hasFillAnimation: true,
+  },
+
+  blue: {
+    text: 'text-white',
+    border: 'border-blue-600',
+    fill: 'bg-blue-600',
+    baseBg: 'bg-blue-600',
+    hoverText: 'group-hover:text-white',
+    hoverBorder: 'group-hover:border-blue-600',
+    hasFillAnimation: false,
+  },
+
+  warning: {
+    text: 'text-black',
+    border: 'border-amber-400',
+    fill: 'bg-amber-400',
+    baseBg: 'bg-amber-400',
+    hoverText: 'group-hover:text-black',
+    hoverBorder: 'group-hover:border-amber-400',
+    hasFillAnimation: false,
+  },
+};
+
+const sizes = {
+  sm: 'px-3 py-1 text-sm',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-5 py-3 text-lg',
 };
 
 const StreamButton = ({
@@ -17,77 +83,74 @@ const StreamButton = ({
   children,
   icon,
   className = '',
+  variant = 'primary',
+  size = 'md',
+  iconOnly = false,
+  loading = false,
+  fullWidth = false,
 }: StreamButtonProps) => {
+  const v = variants[variant];
+
+  const baseStyle = `
+    group relative
+    ${fullWidth ? 'flex w-full' : 'inline-flex w-fit'}
+    items-center justify-center
+    overflow-hidden
+    rounded-md
+    box-border
+    transition-all duration-300 ease-out
+    hover:scale-[1.02] active:scale-[0.98]
+    ${v.text}
+    ${v.border}
+    ${v.baseBg}
+    ${sizes[size]}
+    ${iconOnly ? 'px-2 py-2' : ''}
+    ${className}
+  `;
+
   const content = (
     <>
-      {/* FUNDO ANIMADO */}
-      <span
-        className="
-          absolute inset-0
-          bg-white
-          translate-y-full
-          group-hover:translate-y-0
-          group-active:translate-y-0
-          transition-transform duration-300 ease-out
-          z-0
-        "
-      />
+      {/* FUNDO ANIMADO (somente quando necessário) */}
+      {v.hasFillAnimation && (
+        <span
+          className={`
+            absolute inset-0
+            ${v.fill}
+            translate-y-full
+            group-hover:translate-y-0
+            transition-transform duration-300 ease-out
+          `}
+        />
+      )}
 
       {/* CONTEÚDO */}
-      <span className="relative z-10 flex items-center transition-colors duration-300">
-        <span
-          className="
-          pr-4 hidden md:inline
-          group-hover:text-black
-          group-active:text-black
-        "
-        >
-          {children}
-        </span>
-
-        {icon && (
-          <i
-            className={`
-              ${icon}
-              transition-colors duration-300
-              group-hover:text-black
-              group-active:text-black
-            `}
-          />
+      <span className="relative z-10 flex items-center justify-center w-full">
+        {!iconOnly && (
+          <span className={`font-semibold ${v.hoverText}`}>
+            {loading ? 'Carregando...' : children}
+          </span>
         )}
+
+        {icon && !loading && (
+          <i className={`${icon} ${v.hoverText}`} />
+        )}
+
+        {loading && <i className="pi pi-spin pi-spinner" />}
       </span>
 
       {/* BORDA */}
       <span
-        className="
+        className={`
+          pointer-events-none
           absolute inset-0
-          border border-white/60
           rounded-md
-          group-hover:border-white
-          group-active:border-white
-        "
+          border
+          ${v.border}
+          ${v.hoverBorder}
+        `}
       />
     </>
   );
-
-  const baseStyle = `
-    group
-    flex items-center
-    border border-white/60
-    px-3 py-1
-    rounded-md
-    text-white
-    overflow-hidden
-    relative
-
-    transition-all duration-300 ease-out
-
-    hover:scale-105
-    active:scale-95
-
-    cursor-pointer
-    ${className}
-  `;
 
   if (href) {
     return (
@@ -98,7 +161,7 @@ const StreamButton = ({
   }
 
   return (
-    <button onClick={onClick} className={baseStyle}>
+    <button onClick={onClick} className={baseStyle} disabled={loading}>
       {content}
     </button>
   );

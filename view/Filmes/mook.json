@@ -1,13 +1,13 @@
-[
+
   {
     "id": 1,
     "title": "Filme Exemplo 1",
     "originalTitle": "Sample Movie 1",
-    "slug": "filme-exemplo-1",
+    "slug": "filme-exemplo",
     "countryOrigin": "EUA",
     "contentRating": "14 anos",
     "duration": 120,
-    "synopsis": "Sinopse completa do filme para testes de layout e integração com o sistema.",
+    "synopsis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
     "shortSynopsis": "Sinopse curta do filme.",
     "cast": "Ator 1, Ator 2",
     "director": "Diretor Exemplo",
@@ -18,10 +18,11 @@
     "releaseYear": "2024",
     "partnerCode": "studio",
     "status": "lancamento",
-    "cover": "/img/banner/banner-mobile.png",
+    "cover": "/img/banner/poster.png",
     "bannerMobile": "/img/banner/banner-mobile.png",
     "bannerDesktop": "/img/banner/banner-desktop.png",
     "color": "#000000",
+    "star": 4.5,
     "trailer": "https://www.youtube.com/embed/dEbe0rS4Z2A",
     "videos": [
       {
@@ -39,4 +40,4 @@
     "hasSession": true,
     "idVibezzMovie": "19441"
   }
-]
+

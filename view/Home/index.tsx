@@ -115,7 +115,7 @@ const Home = () => {
                         <p>{item.description}</p>
                       </div>
                       <div>
-                        <CtaButton href="/">{text.ctaCompra}</CtaButton>
+                        <CtaButton href={item.slug}>{text.ctaCompra}</CtaButton>
                       </div>
                     </div>
                   </section>

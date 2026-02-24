@@ -46,11 +46,11 @@ const Menu = () => {
           {/* AÇÕES */}
           <div className="row-start-1 col-start-3 md:col-start-4 grid grid-flow-col gap-2 justify-self-end">
             <StreamButton href="/login" icon="pi pi-user">
-              {text.menu.entrar}
+            <span className='hidden md:block'>{text.menu.entrar}</span>  
             </StreamButton>
 
             <StreamButton href="/sair" icon="pi pi-sign-in">
-              {text.menu.sair}
+            <span className='hidden md:block'>{text.menu.sair}</span>  
             </StreamButton>
           </div>
 
