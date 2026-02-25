@@ -9,20 +9,14 @@ const Arrows = () => {
     <>
       <button
         onClick={() => instanceRef.current.prev()}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20
-                   bg-black/40 hover:bg-black/70
-                   text-white w-10 h-10 rounded-full"
-      >
-        ‹
+        className="absolute left-0 bottom-0 z-20 p-1.5 pb-4">
+        <img src="/img/icon/arrow-left.png" alt="" />
       </button>
 
       <button
         onClick={() => instanceRef.current.next()}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20
-                   bg-black/40 hover:bg-black/70
-                   text-white w-10 h-10 rounded-full"
-      >
-        ›
+        className="absolute right-0 bottom-0 z-20 p-1.5 pb-4">
+        <img src="/img/icon/arrow-right.png" alt="" />
       </button>
     </>
   );
