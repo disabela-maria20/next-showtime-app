@@ -7,6 +7,16 @@ import { Rating } from 'primereact/rating';
 import text from '../../services/localization/pt.json';
 import Link from 'next/link';
 import { useFormattedDate } from '@/hooks/useFormattedDate';
+import { Banner, Movie } from '@/services/models';
+import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator';
+
+interface HomeProps {
+  banner: Array<Banner>
+  listMovie: {
+    releases: Array<Movie>
+    streaming: Array<Movie>
+  }
+}
 
 const DateBadge = ({
   date,
@@ -33,19 +43,25 @@ const DateBadge = ({
   );
 };
 
-const Home = () => {
+const Home = ({ banner, listMovie }: HomeProps) => {
   const [checked, setChecked] = useState<boolean>(false);
   const [activeDate, setActiveDate] = useState<string | null>(null);
   const [openId, setOpenId] = useState<number | null>(null);
   const { isMobile, isLoading } = useIsMobile();
 
+  // Estados para paginação
+  const [first, setFirst] = useState<number>(0);
+  const [rows, setRows] = useState<number>(10);
+
+  const movies = listMovie.releases.concat(listMovie.streaming)
+
   const moviesByDate = useMemo(() => {
-    return mook.cinema.reduce((acc: any, movie: any) => {
+    return movies.reduce((acc: any, movie: any) => {
       if (!acc[movie.releasedate]) acc[movie.releasedate] = [];
       acc[movie.releasedate].push(movie);
       return acc;
     }, {});
-  }, []);
+  }, [movies]);
 
   const dates = useMemo(
     () =>
@@ -64,6 +80,17 @@ const Home = () => {
     }
   }, [dates]);
 
+  // Função para lidar com a mudança de página
+  const onPageChange = (event: PaginatorPageChangeEvent) => {
+    setFirst(event.first);
+    setRows(event.rows);
+  };
+
+  // Filmes paginados
+  const paginatedMovies = useMemo(() => {
+    return movies.slice(first, first + rows);
+  }, [movies, first, rows]);
+
   if (isLoading) {
     return 'Carregando';
   }
@@ -74,19 +101,19 @@ const Home = () => {
         {/* ===== BANNER ===== */}
         <Slide options={{ loop: true }} plugins={[autoplay(2000)]}>
           <Slide.Track>
-            {mook.banner.map((item) => (
+            {banner.map((item) => (
               <Slide.Item key={item.id}>
                 <div className="relative max-w-490 m-auto">
                   {isMobile ? (
                     <img
-                      src={item.bannerMobile.src}
-                      alt={item.bannerMobile.alt}
+                      src={item.bannerMobile}
+                      alt={item.title}
                       className="w-full h-screen object-cover"
                     />
                   ) : (
                     <img
-                      src={item.bannerDesktop.src}
-                      alt={item.bannerDesktop.alt}
+                      src={item.bannerDesktop}
+                      alt={item.title}
                       className="w-full h-screen 2xl:h-auto object-cover"
                     />
                   )}
@@ -98,7 +125,7 @@ const Home = () => {
                         </h2>
                         <div className="flex flex-col md:flex-row justify-center md:justify-normal gap-4 items-center">
                           <Rating
-                            value={item.star}
+                            value={4.5}
                             cancel={false}
                             cancelIcon={''}
                             onIcon={
@@ -109,10 +136,12 @@ const Home = () => {
                             }
                           />
                           <strong className="block text-center md:text-left font-bold text-lg">
-                            {item.gender}
+                            Drama
                           </strong>
                         </div>
-                        <p>{item.description}</p>
+                        <p>
+                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere quaerat placeat aperiam modi voluptatibus tenetur, ipsum esse ipsa doloremque iste repellendus minus dolorum dolore explicabo? Voluptates veniam necessitatibus nihil incidunt.
+                          </p>
                       </div>
                       <div>
                         <CtaButton href={item.slug}>{text.ctaCompra}</CtaButton>
@@ -123,7 +152,6 @@ const Home = () => {
               </Slide.Item>
             ))}
           </Slide.Track>
-          <Slide.Arrows />
           <Slide.Dots />
         </Slide>
 
@@ -155,9 +183,9 @@ const Home = () => {
               }}
             >
               <Slide.Track style={{ overflow: 'visible' }}>
-                {mook.estreias.map((item) => (
+                {listMovie.releases.map((item, i) => (
                   <Slide.Item key={item.id}>
-                    <CardMovie {...item} ranking={true} />
+                    <CardMovie index={i} {...item} ranking={true} />
                   </Slide.Item>
                 ))}
               </Slide.Track>
@@ -191,9 +219,9 @@ const Home = () => {
               }}
             >
               <Slide.Track style={{ overflow: 'visible' }}>
-                {mook.estreias.map((item) => (
+                {listMovie.streaming.map((item, i) => (
                   <Slide.Item key={item.id}>
-                    <CardMovie {...item} ranking={true} />
+                    <CardMovie index={i} {...item} ranking={false} />
                   </Slide.Item>
                 ))}
               </Slide.Track>
@@ -210,27 +238,6 @@ const Home = () => {
               className="text-2xl md:text-4xl 2xl:text-5xl mb-6 md:mb-12 text-amber-400"
               dangerouslySetInnerHTML={{ __html: text.secao4 }}
             />
-            <div className="mb-5">
-              <Slide
-                options={{
-                  loop: false,
-                  mode: 'free-snap',
-                  slides: { perView: 'auto', spacing: 20 },
-                }}
-              >
-                <Slide.Track style={{ overflow: 'visible' }}>
-                  {dates.map((date) => (
-                    <Slide.Item key={date} className="w-auto!">
-                      <DateBadge
-                        date={date}
-                        active={activeDate === date}
-                        onClick={() => setActiveDate(date)}
-                      />
-                    </Slide.Item>
-                  ))}
-                </Slide.Track>
-              </Slide>
-            </div>
 
             <div className="grid grid-cols-2 grid-rows-3 gap-2 mb-5 xl:grid-cols-6 lg:grid-rows-1">
               <div>
@@ -303,8 +310,7 @@ const Home = () => {
                 }}
               >
                 <Slide.Track style={{ overflow: 'visible' }}>
-                  {activeDate &&
-                    moviesByDate[activeDate]?.map((movie: any) => (
+                  {movies.map((movie: any) => (
                       <Slide.Item key={movie.id}>
                         <CardMovie {...movie} />
                       </Slide.Item>
@@ -312,11 +318,32 @@ const Home = () => {
                 </Slide.Track>
               </Slide>
             </div>
-            <div className="hidden md:flex gap-4 flex-wrap">
-              {activeDate &&
-                moviesByDate[activeDate]?.map((movie: any) => (
-                  <CardMovie key={movie.id} {...movie} />
-                ))}
+
+            {/* Grid com filmes paginados */}
+            <div className="hidden md:grid md:grid-cols-4 lg:grid-cols-5 gap-4 xl:grid-cols-6">
+              {paginatedMovies?.map((movie: any) => (
+                <CardMovie key={movie.id} {...movie} />
+              ))}
+            </div>
+
+            {/* Paginator */}
+            <div className="mt-8 flex justify-center">
+              <Paginator 
+                first={first} 
+                rows={rows} 
+                totalRecords={movies.length} 
+                rowsPerPageOptions={[12, 24, 36]} 
+                onPageChange={onPageChange}
+                unstyled={true}
+                 pt={{
+                 pageButton: (a) => ({
+                  className: `px-3 py-1 border rounded transition ${a?.context.active ? 'bg-amber-400 border-amber-400 text-black' : 'border-neutral-500 text-white'}`,
+                }),
+              
+                 
+                  }}
+                template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+              />
             </div>
           </div>
         </section>

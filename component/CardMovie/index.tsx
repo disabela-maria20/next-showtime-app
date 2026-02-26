@@ -5,7 +5,7 @@ import React from 'react';
 import text from '../../services/localization/pt.json';
 
 type CardMovieProps = {
-  id: number;
+  index: number;
   title: string;
   cover: string;
   slug: string;
@@ -13,7 +13,7 @@ type CardMovieProps = {
 };
 
 const CardMovie = ({
-  id,
+  index,
   title,
   cover,
   slug,
@@ -32,7 +32,7 @@ const CardMovie = ({
             group-active:scale-110
           "
         >
-          {id + 1}
+          {index + 1}
         </div>
       )}
 

@@ -1,5 +1,9 @@
+import { listBanners, listHomeMovies } from '@/services/api';
 import { Home } from '@/view';
 
-export default function PageHome() {
-  return <Home />;
+export default async  function PageHome() {
+  const banner = await listBanners()
+  const listMovies = await listHomeMovies()
+
+  return <Home banner={banner.banners} listMovie={listMovies} />
 }

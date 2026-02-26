@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { getUserLocation } from '../api';
+import { getUserGeoLocation } from '../api';
 
 type LocationState = {
   city: string | null;
@@ -23,7 +23,7 @@ export const useLocationStore = create<LocationState>()(
         if (get().city) return; 
         set({ loading: true });
         try {
-          const data = await getUserLocation();          
+          const data = await getUserGeoLocation();          
           if (data) {
             set({
               city: data.city ?? null,

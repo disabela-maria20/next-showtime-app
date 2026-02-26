@@ -7,8 +7,13 @@ import React, { Suspense } from 'react';
 import text from '../../services/localization/pt.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import mook from './mook.json';
+import {  Movie, Session } from '@/services/models';
 
-const Filmes = () => {
+type MovieProps = {
+  movie: Movie
+  sessions: Session[]
+}
+const Film = ({ movie, sessions }: MovieProps) => {
   const { isMobile, isLoading } = useIsMobile();
   return (
     <Suspense fallback="Carregando">
@@ -124,7 +129,7 @@ const Filmes = () => {
       </section>
       <section>
         <div className="container m-auto">
-          
+
         </div>
       </section>
      
@@ -132,4 +137,4 @@ const Filmes = () => {
   );
 };
 
-export default Filmes;
+export default Film;
