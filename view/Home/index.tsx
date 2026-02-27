@@ -1,6 +1,6 @@
 'use client';
 import useIsMobile from '@/hooks/useIsMobile';
-import React, { Suspense, useEffect, useMemo, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import mook from './mook.json';
 import { autoplay, CardMovie, CtaButton, Divider, Slide } from '@/component';
 import { Rating } from 'primereact/rating';
@@ -11,50 +11,119 @@ import { Banner, Movie } from '@/services/models';
 import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator';
 
 interface HomeProps {
-  banner: Array<Banner>
+  banner: Array<Banner>;
   listMovie: {
-    releases: Array<Movie>
-    streaming: Array<Movie>
-  }
+    releases: Array<Movie>;
+    streaming: Array<Movie>;
+  };
 }
-
-const DateBadge = ({
-  date,
-  active,
-  onClick,
-}: {
-  date: string;
-  active: boolean;
-  onClick: () => void;
-}) => {
-  const { weekDay, numericDate, isToday } = useFormattedDate(date);
-
-  return (
-    <button
-      onClick={onClick}
-      className={`cursor-pointer border-2 rounded-xl px-3 py-2 text-center transition
-      ${active ? 'border-amber-400 text-amber-400' : 'border-b-neutral-400 text-neutral-400'}`}
-    >
-      <p className="text-yellow-400 font-bold text-xs md:text-sm">
-        {isToday ? 'HOJE' : weekDay}
-      </p>
-      <p className="text-xs">{numericDate}</p>
-    </button>
-  );
-};
 
 const Home = ({ banner, listMovie }: HomeProps) => {
   const [checked, setChecked] = useState<boolean>(false);
   const [activeDate, setActiveDate] = useState<string | null>(null);
   const [openId, setOpenId] = useState<number | null>(null);
   const { isMobile, isLoading } = useIsMobile();
+  
+  // Ref para controlar a primeira renderização dos filtros
+  const isFirstRender = useRef(true);
 
   // Estados para paginação
   const [first, setFirst] = useState<number>(0);
-  const [rows, setRows] = useState<number>(10);
+  const [rows, setRows] = useState<number>(12);
 
-  const movies = listMovie.releases.concat(listMovie.streaming)
+  // Estados para os filtros
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedCinema, setSelectedCinema] = useState('');
+  const [selectedAudio, setSelectedAudio] = useState('');
+  const [selectedTechnology, setSelectedTechnology] = useState('');
 
+  // Estado para filmes filtrados - inicializado com todos os filmes
+  const [filteredMovies, setFilteredMovies] = useState<Array<Movie>>([]);
+
+  const movies = useMemo(() => listMovie.releases.concat(listMovie.streaming), [listMovie]);
+
+  // Inicializar filteredMovies apenas uma vez
+  useEffect(() => {
+    if (movies.length > 0 && filteredMovies.length === 0) {
+      setFilteredMovies(movies);
+    }
+  }, [movies, filteredMovies.length]);
+  
+  // Extrair informações únicas dos filmes para preencher os selects
+  const filterOptions = useMemo(() => {
+    const genres = new Set<string>();
+    const cinemas = new Set<string>();
+    const technologies = new Set<string>();
+    const audioOptions = new Set(['Dublado', 'Legendado']);
+
+    movies.forEach(movie => {
+      if (movie.genre) genres.add(movie.genre);
+      if ((movie as any).cinema) cinemas.add((movie as any).cinema);
+      if ((movie as any).technology) technologies.add((movie as any).technology);
+    });
+
+    return {
+      genres: Array.from(genres),
+      cinemas: Array.from(cinemas),
+      technologies: Array.from(technologies),
+      audioOptions: Array.from(audioOptions)
+    };
+  }, [movies]);
+
+  // Função para aplicar todos os filtros - AGORA DISPARADA MANUALMENTE
+  const applyFilters = useCallback(() => {
+    let result = [...movies];
+
+    // Filtro por pesquisa
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter(movie => 
+        movie.title?.toLowerCase().includes(term) ||
+        movie.originalTitle?.toLowerCase().includes(term) ||
+        movie.synopsis?.toLowerCase().includes(term) ||
+        movie.director?.toLowerCase().includes(term) ||
+        movie.cast?.toLowerCase().includes(term)
+      );
+    }
+
+    // Filtro por gênero
+    if (selectedGenre) {
+      result = result.filter(movie => movie.genre === selectedGenre);
+    }
+
+    // Filtro por cinema
+    if (selectedCinema) {
+      result = result.filter(movie => (movie as any).cinema === selectedCinema);
+    }
+
+    // Filtro por áudio
+    if (selectedAudio) {
+      result = result.filter(movie => (movie as any).audio === selectedAudio);
+    }
+
+    // Filtro por tecnologia
+    if (selectedTechnology) {
+      result = result.filter(movie => (movie as any).technology === selectedTechnology);
+    }
+
+    setFilteredMovies(result);
+    setFirst(0); // Resetar paginação ao filtrar
+  }, [movies, searchTerm, selectedGenre, selectedCinema, selectedAudio, selectedTechnology]);
+
+  // Efeito separado para aplicar filtros apenas quando necessário
+  useEffect(() => {
+    // Pular a primeira renderização
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    
+    // Aplicar filtros quando qualquer critério mudar
+    applyFilters();
+  }, [searchTerm, selectedGenre, selectedCinema, selectedAudio, selectedTechnology, applyFilters]);
+
+  // Agrupar filmes por data (para manter a funcionalidade existente)
   const moviesByDate = useMemo(() => {
     return movies.reduce((acc: any, movie: any) => {
       if (!acc[movie.releasedate]) acc[movie.releasedate] = [];
@@ -63,40 +132,52 @@ const Home = ({ banner, listMovie }: HomeProps) => {
     }, {});
   }, [movies]);
 
-  const dates = useMemo(
-    () =>
-      Object.keys(moviesByDate).sort(
-        (a, b) => new Date(a).getTime() - new Date(b).getTime()
-      ),
-    [moviesByDate]
-  );
-
-  useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-    if (dates.includes(today)) {
-      setActiveDate(today);
-    } else if (dates.length) {
-      setActiveDate(dates[0]);
-    }
-  }, [dates]);
-
   // Função para lidar com a mudança de página
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     setFirst(event.first);
     setRows(event.rows);
   };
 
-  // Filmes paginados
-  const paginatedMovies = useMemo(() => {
-    return movies.slice(first, first + rows);
-  }, [movies, first, rows]);
+  // Função para limpar todos os filtros
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedGenre('');
+    setSelectedCinema('');
+    setSelectedAudio('');
+    setSelectedTechnology('');
+  };
+
+  // Função para lidar com mudança nos inputs (evitar loop)
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedGenre(e.target.value);
+  };
+
+  const handleCinemaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCinema(e.target.value);
+  };
+
+  const handleTechnologyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTechnology(e.target.value);
+  };
+
+  const handleAudioClick = (audioType: string) => {
+    setSelectedAudio(selectedAudio === audioType ? '' : audioType);
+  };
 
   if (isLoading) {
-    return 'Carregando';
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-amber-400 text-xl">Carregando...</p>
+      </div>
+    );
   }
 
   return (
-    <Suspense fallback="Carregando">
+    <Suspense fallback={<div className="text-amber-400">Carregando...</div>}>
       <main>
         {/* ===== BANNER ===== */}
         <Slide options={{ loop: true }} plugins={[autoplay(2000)]}>
@@ -140,8 +221,12 @@ const Home = ({ banner, listMovie }: HomeProps) => {
                           </strong>
                         </div>
                         <p>
-                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere quaerat placeat aperiam modi voluptatibus tenetur, ipsum esse ipsa doloremque iste repellendus minus dolorum dolore explicabo? Voluptates veniam necessitatibus nihil incidunt.
-                          </p>
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Facere quaerat placeat aperiam modi voluptatibus
+                          tenetur, ipsum esse ipsa doloremque iste repellendus
+                          minus dolorum dolore explicabo? Voluptates veniam
+                          necessitatibus nihil incidunt.
+                        </p>
                       </div>
                       <div>
                         <CtaButton href={item.slug}>{text.ctaCompra}</CtaButton>
@@ -239,111 +324,168 @@ const Home = ({ banner, listMovie }: HomeProps) => {
               dangerouslySetInnerHTML={{ __html: text.secao4 }}
             />
 
-            <div className="grid grid-cols-2 grid-rows-3 gap-2 mb-5 xl:grid-cols-6 lg:grid-rows-1">
+            <div className="grid grid-cols-2 grid-rows-3 gap-2 mb-5 xl:grid-cols-6 lg:grid-rows-1 items-center">
+              {/* Pesquisa */}
               <div>
                 <input
                   type="text"
                   name="pesquisar"
                   id="pesquisar"
-                  className="w-full p-2 border border-amber-400 placeholder:text-amber-400 bg-black text-amber-400 text-sm rounded"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="w-full p-2 border border-amber-400 placeholder-amber-400! bg-black text-amber-400 text-sm rounded"
                   placeholder="Pesquisar filmes..."
                 />
               </div>
+
+              {/* Gênero */}
               <div>
                 <select
                   name="genero"
                   id="genero"
+                  value={selectedGenre}
+                  onChange={handleGenreChange}
                   className="w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded"
                 >
                   <option value="">Todos os gêneros</option>
-                  <option value="acao">Ação</option>
-                  <option value="comedia">Comédia</option>
-                  <option value="drama">Drama</option>
+                  {filterOptions.genres.map(genre => (
+                    <option key={genre} value={genre}>{genre}</option>
+                  ))}
                 </select>
               </div>
+
+              {/* Cinema */}
               <div>
                 <select
                   name="cinema"
                   id="cinema"
+                  value={selectedCinema}
+                  onChange={handleCinemaChange}
                   className="w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded"
                 >
                   <option value="">Todos os cinemas</option>
-                  <option value="cinema1">Cinema 1</option>
-                  <option value="cinema2">Cinema 2</option>
-                  <option value="cinema3">Cinema 3</option>
+                  {filterOptions.cinemas.map(cinema => (
+                    <option key={cinema} value={cinema}>{cinema}</option>
+                  ))}
                 </select>
               </div>
+
+              {/* Áudio */}
               <div className="grid grid-cols-2 gap-2 items-center">
-                <button className="w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded">
+                <button 
+                  className={`w-full p-2 border rounded transition ${
+                    selectedAudio === 'Dublado' 
+                      ? 'border-amber-400 bg-amber-400 text-black' 
+                      : 'border-amber-400 bg-black text-amber-400'
+                  }`}
+                  onClick={() => handleAudioClick('Dublado')}
+                >
                   Dublado
                 </button>
-                <button className="w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded">
+                <button 
+                  className={`w-full p-2 border rounded transition ${
+                    selectedAudio === 'Legendado' 
+                      ? 'border-amber-400 bg-amber-400 text-black' 
+                      : 'border-amber-400 bg-black text-amber-400'
+                  }`}
+                  onClick={() => handleAudioClick('Legendado')}
+                >
                   Legendado
                 </button>
               </div>
+
+              {/* Tecnologia */}
               <div>
                 <select
-                  name="cinema"
-                  id="cinema"
+                  name="tecnologia"
+                  id="tecnologia"
+                  value={selectedTechnology}
+                  onChange={handleTechnologyChange}
                   className="w-full p-2 border border-amber-400 bg-black text-amber-400 text-sm rounded"
                 >
-                  <option value="">tecnologia</option>
-                  <option value="cinema1">tecnologia 1</option>
-                  <option value="cinema2">tecnologia 2</option>
-                  <option value="cinema3">tecnologia 3</option>
+                  <option value="">Tecnologia</option>
+                  {filterOptions.technologies.map(tech => (
+                    <option key={tech} value={tech}>{tech}</option>
+                  ))}
                 </select>
               </div>
+
+              {/* Botões */}
               <div>
-                <button className="w-full p-2 border border-amber-400 bg-amber-400 text-black text-sm rounded">
-                  buscar filmes
+                <button onClick={clearFilters} className="w-full p-2 border border-amber-400 bg-amber-400 text-black text-sm rounded">
+                  limpar filtros
                 </button>
               </div>
             </div>
 
+            {/* Versão Mobile - Slide com key baseada no timestamp para forçar recriação quando necessário */}
             <div className="mb-5 md:hidden">
-              <Slide
-                key={activeDate}
-                options={{
-                  loop: false,
-                  mode: 'free-snap',
-                  slides: { perView: 2, spacing: 20 },
-                }}
-              >
-                <Slide.Track style={{ overflow: 'visible' }}>
-                  {movies.map((movie: any) => (
+              {filteredMovies.length > 0 ? (
+                <Slide
+                  key={`mobile-slide-${filteredMovies.length}-${Date.now()}`}
+                  options={{
+                    loop: false,
+                    mode: 'free-snap',
+                    slides: { perView: 2, spacing: 20 },
+                  }}
+                >
+                  <Slide.Track style={{ overflow: 'visible' }}>
+                    {filteredMovies.map((movie: any) => (
                       <Slide.Item key={movie.id}>
                         <CardMovie {...movie} />
                       </Slide.Item>
                     ))}
-                </Slide.Track>
-              </Slide>
+                  </Slide.Track>
+                </Slide>
+              ) : (
+                <div className="text-center text-amber-400 py-8">
+                  Nenhum filme encontrado
+                </div>
+              )}
             </div>
 
-            {/* Grid com filmes paginados */}
-            <div className="hidden md:grid md:grid-cols-4 lg:grid-cols-5 gap-4 xl:grid-cols-6">
-              {paginatedMovies?.map((movie: any) => (
-                <CardMovie key={movie.id} {...movie} />
-              ))}
-            </div>
-
-            {/* Paginator */}
-            <div className="mt-8 flex justify-center">
-              <Paginator 
-                first={first} 
-                rows={rows} 
-                totalRecords={movies.length} 
-                rowsPerPageOptions={[12, 24, 36]} 
-                onPageChange={onPageChange}
-                unstyled={true}
-                 pt={{
-                 pageButton: (a) => ({
-                  className: `px-3 py-1 border rounded transition ${a?.context.active ? 'bg-amber-400 border-amber-400 text-black' : 'border-neutral-500 text-white'}`,
-                }),
-              
-                 
-                  }}
-                template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-              />
+            {/* Versão Desktop - Grid com filmes filtrados e paginados */}
+            <div className="hidden md:block">
+              {filteredMovies.length > 0 ? (
+                <>
+                  <div className="hidden md:grid md:grid-cols-4 lg:grid-cols-5 gap-4 xl:grid-cols-6">
+                    {filteredMovies.slice(first, first + rows).map((movie: any) => (
+                      <CardMovie key={movie.id} {...movie} />
+                    ))}
+                  </div>
+                  
+                  {/* Paginator */}
+                  {filteredMovies.length > rows && (
+                    <div className="mt-8 flex justify-center cursor-pointer">
+                      <Paginator
+                        first={first}
+                        rows={rows}
+                        totalRecords={filteredMovies.length}
+                        rowsPerPageOptions={[12, 24, 36]}
+                        onPageChange={onPageChange}
+                        unstyled={true}
+                        pt={{
+                          root: () => ({
+                            className: 'flex items-center cursor-pointer gap-2 text-amber-400',
+                          }),
+                          pageButton: (a) => ({
+                            className: `px-3 py-1 mx-1 cursor-pointer border rounded transition ${
+                              a?.context.active 
+                                ? 'bg-amber-400 border-amber-400 text-black' 
+                                : 'border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-black'
+                            }`,
+                          })
+                        }}
+                        template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+                      />
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="text-center text-amber-400 py-12 text-xl">
+                  Nenhum filme encontrado com os filtros selecionados
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -504,7 +646,7 @@ const Home = ({ banner, listMovie }: HomeProps) => {
                           />
                         </div>
 
-                        {/* CONTENT - mobile: abre no click | desktop: abre no hover */}
+                        {/* CONTENT */}
                         <div
                           className={`
                             flex flex-col justify-center overflow-hidden

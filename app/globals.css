@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-*: initial;
@@ -32,4 +32,9 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+:focus-visible {
+  outline: none;
+  outline-offset: none;
 }

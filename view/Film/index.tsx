@@ -7,13 +7,15 @@ import React, { Suspense } from 'react';
 import text from '../../services/localization/pt.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import mook from './mook.json';
-import {  Movie, Session } from '@/services/models';
+import { Movie, Session } from '@/services/models';
 
 type MovieProps = {
-  movie: Movie
-  sessions: Session[]
-}
+  movie: Movie;
+  sessions: Session[];
+};
 const Film = ({ movie, sessions }: MovieProps) => {
+  console.log(movie);
+
   const { isMobile, isLoading } = useIsMobile();
   return (
     <Suspense fallback="Carregando">
@@ -21,7 +23,7 @@ const Film = ({ movie, sessions }: MovieProps) => {
         className="relative max-w-490 m-auto w-full aspect-video bg-cover bg-center bg-no-repeat pt-44 md:pt-36 xl:h-screen flex items-center"
         style={{
           backgroundImage: `url(${
-            isMobile ? mook.bannerMobile : mook.bannerDesktop
+            isMobile ? movie.bannerMobile : movie.bannerDesktop
           })`,
         }}
       >
@@ -39,8 +41,8 @@ const Film = ({ movie, sessions }: MovieProps) => {
               <i className="pi pi-heart"></i>
             </div>
             <img
-              src={mook.cover}
-              alt={mook.title}
+              src={movie.cover}
+              alt={movie.title}
               className="w-full h-full object-cover "
             />
             <div className="pt-5">
@@ -63,18 +65,18 @@ const Film = ({ movie, sessions }: MovieProps) => {
                   offIcon={<i className="pi pi-star-fill text-white"></i>}
                 />
                 <strong className="block text-center md:text-left font-bold text-lg">
-                  {mook.genre}
+                  {movie.genre}
                 </strong>
               </div>
               <div className="md:text-[18px]">
                 <h3>Direção: </h3>
-                <p className="font-bold">{mook.director}</p>
+                <p className="font-bold">{movie.director}</p>
               </div>
               <div className="md:text-[18px]">
                 <h3>Elenco: </h3>
-                <p className="font-bold ">{mook.cast}</p>
+                <p className="font-bold ">{movie.cast}</p>
               </div>
-              <p className="md:text-[18px]">{mook.synopsis}</p>
+              <p className="md:text-[18px]">{movie.synopsis}</p>
             </div>
             <div className="hidden md:block">
               <CtaButton href="/">{text.ctaCompra}</CtaButton>
@@ -92,7 +94,7 @@ const Film = ({ movie, sessions }: MovieProps) => {
             <div className="w-full">
               <iframe
                 className="w-full aspect-video"
-                src={`${mook.trailer}?enablejsapi=1&origin=diamondfilms.com.br`}
+                src={`${movie.trailer}?enablejsapi=1&origin=diamondfilms.com.br`}
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -116,9 +118,13 @@ const Film = ({ movie, sessions }: MovieProps) => {
               <Slide.Track
                 style={{ overflow: isMobile ? 'visible' : 'hidden' }}
               >
-                {mook.images.map((item) => (
-                  <Slide.Item key={item}>
-                    <Image src={item} className="w-full object-cover" preview />
+                {movie?.images?.map((item, i) => (
+                  <Slide.Item key={i}>
+                    <Image
+                      src={typeof item === 'string' ? item : item.url || ''}
+                      className="w-full object-cover"
+                      preview
+                    />
                   </Slide.Item>
                 ))}
               </Slide.Track>
@@ -128,11 +134,8 @@ const Film = ({ movie, sessions }: MovieProps) => {
         </div>
       </section>
       <section>
-        <div className="container m-auto">
-
-        </div>
+        <div className="container m-auto"></div>
       </section>
-     
     </Suspense>
   );
 };
