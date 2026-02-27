@@ -1,82 +1,81 @@
-import axios from 'axios'
-import { BannerListResponse } from '../models'
-import { log } from 'console'
-
+import axios from 'axios';
+import { BannerListResponse } from '../models';
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
-    token: process.env.NEXT_PUBLIC_API_TOKEN
+    token: process.env.NEXT_PUBLIC_API_TOKEN,
+  },
+});
+
+// 🔹 helper genérico
+async function handleRequest<T>(promise: Promise<{ data: T }>): Promise<T> {
+  try {
+    const { data } = await promise;
+    return data;
+  } catch (error: any) {
+    console.error('API error:', error?.response?.data || error.message);
+    throw error?.response?.data || new Error('Erro na requisição');
   }
-})
-
-export async function getUserGeoLocation() {
-  const { data } = await axios.get('https://ipinfo.io/json')
-  return data
 }
 
-export async function getMockedMovies() {
-  const { data } = await axios.get('/mook.json')
-  return data
+// 🌎 GEO
+export function getUserGeoLocation() {
+  return handleRequest(axios.get('https://ipinfo.io/json'));
 }
 
-export async function getMovieBySlug(slug: string) {
-  const { data } = await api.get(`/movie/get/${slug}`)
-  return data
+// 🎬 MOCK
+export function getMockedMovies() {
+  return handleRequest(axios.get('/mook.json'));
 }
 
-export async function listHomeMovies() {
-  const { data } = await api.get('/movie/list-all')
-  return data
+// 🎬 MOVIE
+export function getMovieBySlug(slug: string) {
+  return handleRequest(api.get(`/movie/get/${slug}`));
 }
 
-export async function listBanners(): Promise<BannerListResponse> {
-  const { data } = await api.get('/banner/list-all')
-  return data
+export function listHomeMovies() {
+  return handleRequest(api.get('/movie/list-all'));
 }
 
-export async function getHomeBanner() {
-  const { data } = await api.get('/banner-home')
-  return data
+// 🎯 BANNERS
+export function listBanners(): Promise<BannerListResponse> {
+  return handleRequest(api.get('/banner/list-all'));
 }
 
-export async function getSessionsByMovieAndCity(
-  slug: string,
-  city: string
-) {
-  const { data } = await api.get(`/session/get/${slug}`, {
-    params: { city }
-  })
-  return data
+export function getHomeBanner() {
+  return handleRequest(api.get('/banner-home'));
 }
 
-export async function getSessionLocationsByMovie(slug: string) {
-  const { data } = await api.get(`/session/location/${slug}`)
-  return data
+// 🍿 SESSIONS
+export function getSessionsByMovieAndCity(slug: string, city: string) {
+  return handleRequest(api.get(`/session/get/${slug}`, { params: { city } }));
 }
 
-export async function createNewsletterSubscription(payload: {
-  name: string
-  email: string
-  phone: string
-  url: string
+export function getSessionLocationsByMovie(slug: string) {
+  return handleRequest(api.get(`/session/location/${slug}`));
+}
+
+// 📩 NEWSLETTER
+export function createNewsletterSubscription(payload: {
+  name: string;
+  email: string;
+  phone: string;
+  url: string;
 }) {
-  return api.post('/save/optin', payload)
+  return handleRequest(api.post('/save/optin', payload));
 }
 
-export async function createContactMessage(payload: {
-  name: string
-  email: string
-  phone: string
-  message: string
+// 📩 CONTACT
+export function createContactMessage(payload: {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
 }) {
-  return axios.post(
-    `/save/optin?name=${payload.name}&email=${payload.email}&phone=${payload.phone}&message=${payload.message}`,
-    {
-      name: payload.name,
-      email: payload.email,
-      phone: payload.phone,
-      message: payload.message
-    }
-  )
+  return handleRequest(
+    axios.post('/save/optin', payload, {
+      params: payload,
+    })
+  );
 }
