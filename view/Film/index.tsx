@@ -54,7 +54,7 @@ const Film = ({ movie, sessions }: MovieProps) => {
           <div className="flex flex-col gap-7 md:flex-row md:items-end justify-between px-11 pb-10 md:px-0">
             <div className="flex flex-col gap-4 md:max-w-2xl mt-11">
               <h2 className="text-4xl text-center md:text-left font-bold md:text-6xl">
-                {mook.title}
+                {movie.title}
               </h2>
               <div className="flex flex-row justify-center md:justify-normal gap-4 items-center">
                 <Rating
@@ -124,6 +124,11 @@ const Film = ({ movie, sessions }: MovieProps) => {
                       src={typeof item === 'string' ? item : item.url || ''}
                       className="w-full object-cover"
                       preview
+                      pt={{
+                        image: () => {
+                          return 'aspect-video object-cover rounded'
+                        },
+                      }}
                     />
                   </Slide.Item>
                 ))}
