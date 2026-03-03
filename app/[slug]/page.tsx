@@ -1,38 +1,36 @@
 // app/filmes/[slug]/page.tsx
 
 import { getMovieBySlug, listHomeMovies } from '@/services/api';
-import { Movie, Session } from '@/services/models';
+import { Movie, Session, SessionsByDate } from '@/services/models';
 import { Film } from '@/view';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 type MovieProps = {
   movie: Movie;
-  sessions: Session[];
+  sessions: SessionsByDate[];
 };
-// export async function generateMetadata(
-//   props: PageProps<'/[slug]'>
-// ): Promise<Metadata> {
-//   const { slug } = await props.params;
-//   const filme = await getMovieBySlug(slug);
-//   if (!filme) {
-//     return {
-//       title: 'Filme não encontrado',
-//     };
-//   }
+export async function generateMetadata(
+  props: PageProps<'/[slug]'>
+): Promise<Metadata> {
+  const { slug } = await props.params;
+  const filme = await getMovieBySlug(slug) as MovieProps;
+  if (!filme) {
+    return {
+      title: 'Filme não encontrado',
+    };
+  }
 
-//   return {
-//     title: `Diamond Films - ${filme.title}`,
-//     description: filme.shortSynopsis,
-//     openGraph: {
-//       title: filme.movie.title,
-//       description: filme.movie.shortSynopsis,
-//       images: [`https://diamondfilms.com.br${filme.movie.bannerDesktop}`],
-//     },
-//   };
-// }
-
-export const dynamic = 'force-dynamic';
+  return {
+    title: `Diamond Films - ${filme.movie.title}`,
+    description: filme.movie.shortSynopsis,
+    openGraph: {
+      title: filme.movie.title,
+      description: filme.movie.shortSynopsis,
+      images: [`https://diamondfilms.com.br${filme.movie.bannerDesktop}`],
+    },
+  };
+}
 
 export default async function Page(props: PageProps<'/[slug]'>) {
   const { slug } = await props.params;
@@ -40,7 +38,7 @@ export default async function Page(props: PageProps<'/[slug]'>) {
   const filme = (await getMovieBySlug(slug)) as MovieProps;
 
   if (!filme) notFound();
-  return <Film movie={filme.movie} sessions={[]} />;
+  return <Film movie={filme.movie} sessions={filme.sessions} />;
 }
 
 export async function generateStaticParams() {

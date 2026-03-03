@@ -3,20 +3,50 @@
 import { Image } from 'primereact/image';
 import { autoplay, CtaButton, Divider, Slide, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import text from '../../services/localization/pt.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import mook from './mook.json';
-import { Movie, Session } from '@/services/models';
+import { Movie, SessionsByDate } from '@/services/models';
+import { useFormattedDate } from '@/hooks/useFormattedDate';
 
 type MovieProps = {
   movie: Movie;
-  sessions: Session[];
+  sessions: SessionsByDate[];
 };
+
+const DateBadge = ({
+  date,
+  active,
+  onClick,
+}: {
+  date: string;
+  active: boolean;
+  onClick: () => void;
+}) => {
+  const { weekDay, numericDate, isToday } = useFormattedDate(date);
+  return (
+    <button
+      onClick={onClick}
+      className={`cursor-pointer border-2 rounded px-3 py-2 text-center transition md:w-28
+      ${active ? 'border-blue-600 text-blue-600' : 'border-b-neutral-400 text-neutral-400'}`}
+    >
+      <p className="font-bold text-xs md:text-sm">
+        {isToday ? 'HOJE' : weekDay}
+      </p>
+      <p className="text-xs">{numericDate}</p>
+    </button>
+  );
+};
+
 const Film = ({ movie, sessions }: MovieProps) => {
-  console.log(movie);
+  const [checked, setChecked] = useState<boolean>(false);
+  const [activeDate, setActiveDate] = useState<string | null>(null);
 
   const { isMobile, isLoading } = useIsMobile();
+
+  console.log(sessions);
+
   return (
     <Suspense fallback="Carregando">
       <section
@@ -126,7 +156,7 @@ const Film = ({ movie, sessions }: MovieProps) => {
                       preview
                       pt={{
                         image: () => {
-                          return 'aspect-video object-cover rounded'
+                          return 'aspect-video object-cover rounded';
                         },
                       }}
                     />
@@ -137,9 +167,74 @@ const Film = ({ movie, sessions }: MovieProps) => {
             </Slide>
           </div>
         </div>
-      </section>
-      <section>
-        <div className="container m-auto"></div>
+        <div className="container m-auto px-9 md:px-0">
+          <h2
+            className="text-2xl md:text-4xl 2xl:text-5xl mb-6 md:mb-12 text-blue-600"
+            dangerouslySetInnerHTML={{ __html: text.secao4 }}
+          />
+          <Slide
+            options={{
+              loop: false,
+              mode: 'free-snap',
+              slides: { perView: 'auto', spacing: 20 },
+            }}
+          >
+            <Slide.Track style={{ overflow: 'visible' }}>
+              {sessions.map((date) => (
+                <Slide.Item key={date.date} className="overflow-visible!">
+                  <DateBadge
+                    date={date.date}
+                    active={activeDate === date.date}
+                    onClick={() => setActiveDate(date.date)}
+                  />
+                </Slide.Item>
+              ))}
+            </Slide.Track>
+          </Slide>
+        </div>
+
+        <div className="container mx-auto px-6 md:px-0 py-12">
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* ================= FILTRO ================= */}
+            <aside className="w-full md:w-72">
+              <div className="flex flex-col gap-4">
+                <input
+                  type="text"
+                  placeholder="Avatar Fogo e Cinzas"
+                  className="w-full p-3 placeholder-blue-600! border border-blue-600 text-blue-600 rounded"
+                />
+
+                <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
+                  <option>Gênero</option>
+                </select>
+
+                <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
+                  <option>Cinema</option>
+                </select>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                    Dublado
+                  </button>
+                  <button className="bg-blue-600 text-white p-2 rounded">
+                    Legendado
+                  </button>
+                </div>
+
+                <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
+                  <option>Tecnologia</option>
+                </select>
+
+                <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold">
+                  Buscar Filmes
+                </button>
+              </div>
+            </aside>
+
+            {/* ================= LISTAGEM ================= */}
+            <div className="flex-1 flex flex-col gap-6">lista</div>
+          </div>
+        </div>
       </section>
     </Suspense>
   );

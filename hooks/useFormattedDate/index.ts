@@ -1,13 +1,14 @@
 import { useMemo } from 'react';
 
 const WEEK_DAYS = [
-  'SÁBADO',
+  
   'DOMINGO',
   'SEGUNDA',
   'TERÇA',
   'QUARTA',
   'QUINTA',
   'SEXTA',
+  'SÁBADO',
 ];
 
 function parseLocalDate(dateString: string) {

@@ -41,7 +41,7 @@ export interface Movie {
 
 export interface MovieDetails {
   movie: Movie
-  sessions: Session[]
+  sessions: SessionsByDate[]
 }
 
 // ==========================
