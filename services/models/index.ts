@@ -71,7 +71,8 @@ export interface Session {
   link?: string
   addressComplement?: string
   number?: string
-
+  link_cinemark?: string
+  link_ingresso?: string
   postalCode: string
   address: string
   city: string

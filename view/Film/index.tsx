@@ -3,7 +3,7 @@
 import { Image } from 'primereact/image';
 import { autoplay, CtaButton, Divider, Slide, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import text from '../../services/localization/pt.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import mook from './mook.json';
@@ -25,6 +25,7 @@ const DateBadge = ({
   onClick: () => void;
 }) => {
   const { weekDay, numericDate, isToday } = useFormattedDate(date);
+
   return (
     <button
       onClick={onClick}
@@ -40,15 +41,49 @@ const DateBadge = ({
 };
 
 const Film = ({ movie, sessions }: MovieProps) => {
-  const [checked, setChecked] = useState<boolean>(false);
-  const [activeDate, setActiveDate] = useState<string | null>(null);
+  const today = new Date().toISOString().split('T')[0];
+  const [activeDate, setActiveDate] = useState<string>(today);
 
-  const { isMobile, isLoading } = useIsMobile();
+  const { isMobile } = useIsMobile();
 
-  console.log(sessions);
+  const filteredSessions = sessions?.find((item) => item.date === activeDate);
+
+  // 🔥 Agrupamento por cinema
+  const groupedSessions = useMemo(() => {
+    if (!filteredSessions?.sessions) return [];
+
+    const map = new Map();
+
+    filteredSessions.sessions.forEach((session) => {
+      const key = session.theaterName;
+
+      if (!map.has(key)) {
+        map.set(key, {
+          ...session,
+          times: [],
+        });
+      }
+
+      map.get(key).times.push({
+        hour: session.hour,
+        link: session.link,
+        link_cinemark: session.link_cinemark,
+        link_ingresso: session.link_ingresso,
+      });
+    });
+
+    // Ordena horários
+    return Array.from(map.values()).map((cinema) => ({
+      ...cinema,
+      times: cinema.times.sort((a: any, b: any) =>
+        a.hour.localeCompare(b.hour)
+      ),
+    }));
+  }, [filteredSessions]);
 
   return (
     <Suspense fallback="Carregando">
+      {/* ================= HERO ================= */}
       <section
         className="relative max-w-490 m-auto w-full aspect-video bg-cover bg-center bg-no-repeat pt-44 md:pt-36 xl:h-screen flex items-center"
         style={{
@@ -114,6 +149,7 @@ const Film = ({ movie, sessions }: MovieProps) => {
           </div>
         </div>
       </section>
+
       <Divider />
       <section className="overflow-hidden">
         <div className="px-9 md:grid md:grid-cols-3 py-12 gap-9">
@@ -192,15 +228,15 @@ const Film = ({ movie, sessions }: MovieProps) => {
             </Slide.Track>
           </Slide>
         </div>
-
+        {/* ================= LISTAGEM ================= */}
         <div className="container mx-auto px-6 md:px-0 py-12">
           <div className="flex flex-col md:flex-row gap-8">
-            {/* ================= FILTRO ================= */}
             <aside className="w-full md:w-72">
               <div className="flex flex-col gap-4">
                 <input
                   type="text"
-                  placeholder="Avatar Fogo e Cinzas"
+                  disabled
+                  placeholder={movie.title}
                   className="w-full p-3 placeholder-blue-600! border border-blue-600 text-blue-600 rounded"
                 />
 
@@ -230,9 +266,104 @@ const Film = ({ movie, sessions }: MovieProps) => {
                 </button>
               </div>
             </aside>
+            <div className="flex-1 flex flex-col gap-6">
+              {groupedSessions.map((session, index) => (
+                <div key={index} className="flex flex-row gap-2.5">
+                  {/* Tecnologia */}
+                  <div className="bg-neutral-800 rounded-br-3xl rounded-tr-3xl px-5 py-8 flex items-center gap-8 flex-col justify-center">
+                    <h3
+                      className={`text-2xl font-bold ${
+                        session.technology === '3D'
+                          ? 'text-blue-600'
+                          : 'text-neutral-400'
+                      }`}
+                    >
+                      {session.technology}
+                    </h3>
 
-            {/* ================= LISTAGEM ================= */}
-            <div className="flex-1 flex flex-col gap-6">lista</div>
+                    <img
+                      src="/img/logos/imax.png"
+                      alt="Imax"
+                      className={`${session.isImax ? '' : 'grayscale'}`}
+                    />
+                    <div>
+                      <span
+                        className={`text-sm w-2 font-bold ${session.isImax ? 'text-blue-600' : 'text-neutral-400'}`}
+                      >
+                        Sala  VIP
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Cinema */}
+                  <div className="flex-1 bg-neutral-800 rounded-bl-3xl rounded-tl-3xl px-5 py-8">
+                    <div className="flex flex-col md:flex-row justify-between ">
+                      <div className="w-full md:w-1/2">
+                        <h2 className="text-xl font-bold">
+                          {session.theaterName}
+                        </h2>
+
+                        <p className="text-sm">
+                          {session.address}, {session.number} | {session.city} -{' '}
+                          {session.state}
+                        </p>
+                        <div className="mt-7">
+                          <span className="bg-blue-600 text-white px-1.5 py-1 rounded">
+                            Dublado
+                          </span>
+                        </div>
+                        {/* Horários */}
+                        <div className="mt-7 flex flex-wrap gap-3">
+                          {session.times.map((time: any, i: number) => (
+                            <a
+                              key={i}
+                              href={
+                                time.link_ingresso ||
+                                time.link ||
+                                time.link_cinemark
+                              }
+                              target="_blank"
+                              className="font-bold border border-blue-600 px-2.5 py-1.5 rounded-md text-blue-600 transition-all hover:bg-blue-600 hover:text-neutral-800"
+                            >
+                              {time.hour.slice(0, 5)}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                       <div className="flex flex-row md:flex-col gap-5 items-center mt-7 justify-center md:justify-normal">
+                          <a href="">
+                            <img
+                              src="/img/icon/plus.png"
+                              alt="plus"
+                              className={`${session.isImax ? 'grayscale-0' : 'grayscale'}`}
+                            />
+                          </a>
+                          <a href="">
+                            <img
+                              src="/img/icon/braco-de-cadeira.png"
+                              alt="braco de cadeira"
+                              className={`${session.isImax ? 'grayscale-0' : 'grayscale'}`}
+                            />
+                          </a>
+                          <a href="">
+                            <img
+                              src="/img/icon/bilhete.png"
+                              alt="bilhete"
+                              className={`${session.isImax ? 'grayscale-0' : 'grayscale'}`}
+                            />
+                          </a>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {!groupedSessions.length && (
+                <p className="text-neutral-400">
+                  Nenhuma sessão disponível para esta data.
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </section>

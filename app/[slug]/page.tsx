@@ -22,12 +22,12 @@ export async function generateMetadata(
   }
 
   return {
-    title: `Diamond Films - ${filme.movie.title}`,
+    title: `Showtime - ${filme.movie.title}`,
     description: filme.movie.shortSynopsis,
     openGraph: {
       title: filme.movie.title,
       description: filme.movie.shortSynopsis,
-      images: [`https://diamondfilms.com.br${filme.movie.bannerDesktop}`],
+      images: [`https://showtime.com.br${filme.movie.bannerDesktop}`],
     },
   };
 }
