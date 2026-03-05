@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BannerListResponse } from '../models';
+import { BannerListResponse, GeoLocationIp } from '../models';
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -20,7 +20,7 @@ async function handleRequest<T>(promise: Promise<{ data: T }>): Promise<T> {
 }
 
 // 🌎 GEO
-export function getUserGeoLocation() {
+export function getUserGeoLocation(): Promise<GeoLocationIp | null> {
   return handleRequest(axios.get('https://ipinfo.io/json'));
 }
 
