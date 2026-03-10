@@ -3,45 +3,45 @@
 // ==========================
 
 export interface Movie {
-  id: number
-  title: string
-  slug: string
-  originalTitle: string
-  countryOrigin: string
-  contentRating: string
-  duration: number
-  synopsis: string
-  shortSynopsis: string
-  cast: string
-  director: string
-  genreId: number
-  genre: string
-  age: string
-  ageExplain: string
-  releaseDate: string
-  premiereDate: string
-  partnerCode: string
-  status: string
-  colorStatus: string
-  color: string
-  trailer: string
-  socialCampaign: string
-  cover: string
-  bannerLogo: string
-  bannerMobile: string
-  bannerDesktop: string
-  hasSession: boolean
-  vibezzMovieId: string
-  createdAt: string
+  id: number;
+  title: string;
+  slug: string;
+  originalTitle: string;
+  countryOrigin: string;
+  contentRating: string;
+  duration: number;
+  synopsis: string;
+  shortSynopsis: string;
+  cast: string;
+  director: string;
+  genreId: number;
+  genre: string;
+  age: string;
+  ageExplain: string;
+  releaseDate: string;
+  premiereDate: string;
+  partnerCode: string;
+  status: string;
+  colorStatus: string;
+  color: string;
+  trailer: string;
+  socialCampaign: string;
+  cover: string;
+  bannerLogo: string;
+  bannerMobile: string;
+  bannerDesktop: string;
+  hasSession: boolean;
+  vibezzMovieId: string;
+  createdAt: string;
 
-  videos: MediaUrl[]
-  images: MediaUrl[]
-  streaming: StreamingPlatform[]
+  videos: MediaUrl[];
+  images: MediaUrl[];
+  streaming: StreamingPlatform[];
 }
 
 export interface MovieDetails {
-  movie: Movie
-  sessions: SessionsByDate[]
+  movie: Movie;
+  sessions: SessionsByDate[];
 }
 
 // ==========================
@@ -49,11 +49,11 @@ export interface MovieDetails {
 // ==========================
 
 export interface MediaUrl {
-  url: string
+  url: string;
 }
 
 export interface StreamingPlatform {
-  platform: string
+  platform: string;
 }
 
 // ==========================
@@ -61,42 +61,42 @@ export interface StreamingPlatform {
 // ==========================
 
 export interface Session {
-  distance: number
-  theaterName: string
-  technology: string
-  isImax: boolean
-  sessionHour: string
-  hour: string
+  distance: number;
+  theaterName: string;
+  technology: string;
+  isImax: boolean;
+  sessionHour: string;
+  hour: string;
 
-  link?: string
-  addressComplement?: string
-  number?: string
-  link_cinemark?: string
-  link_ingresso?: string
-  postalCode: string
-  address: string
-  city: string
-  state: string
-  stateName: string
+  link?: string;
+  addressComplement?: string;
+  number?: string;
+  link_cinemark?: string;
+  link_ingresso?: string;
+  postalCode: string;
+  address: string;
+  city: string;
+  state: string;
+  stateName: string;
 
-  lat: string
-  lng: string
+  lat: string;
+  lng: string;
 
-  hours: SessionHour[]
+  hours: SessionHour[];
 }
 
 export interface SessionHour {
-  hour: string
-  link: string
+  hour: string;
+  link: string;
 }
 
 export interface SessionsByDate {
-  date: string
-  sessions: Session[]
+  date: string;
+  sessions: Session[];
 }
 
 export interface SessionsResponse {
-  sessions: SessionsByDate[]
+  sessions: SessionsByDate[];
 }
 
 // ==========================
@@ -138,15 +138,15 @@ export interface SessionLocationResponse {
 // ==========================
 
 export interface Banner {
-  id: number
-  title: string
-  slug: string
-  bannerDesktop: string
-  bannerMobile: string
+  id: number;
+  title: string;
+  slug: string;
+  bannerDesktop: string;
+  bannerMobile: string;
 }
 
 export interface BannerListResponse {
-  banners: Banner[]
+  banners: Banner[];
 }
 
 // ==========================
@@ -154,9 +154,33 @@ export interface BannerListResponse {
 // ==========================
 
 export type BrazilianStateCode =
-  | 'AC' | 'AL' | 'AP' | 'AM' | 'BA' | 'CE' | 'DF' | 'ES' | 'GO'
-  | 'MA' | 'MT' | 'MS' | 'MG' | 'PA' | 'PB' | 'PR' | 'PE' | 'PI'
-  | 'RJ' | 'RN' | 'RS' | 'RO' | 'RR' | 'SC' | 'SP' | 'SE' | 'TO'
+  | 'AC'
+  | 'AL'
+  | 'AP'
+  | 'AM'
+  | 'BA'
+  | 'CE'
+  | 'DF'
+  | 'ES'
+  | 'GO'
+  | 'MA'
+  | 'MT'
+  | 'MS'
+  | 'MG'
+  | 'PA'
+  | 'PB'
+  | 'PR'
+  | 'PE'
+  | 'PI'
+  | 'RJ'
+  | 'RN'
+  | 'RS'
+  | 'RO'
+  | 'RR'
+  | 'SC'
+  | 'SP'
+  | 'SE'
+  | 'TO';
 
 export const BRAZILIAN_STATES: Record<BrazilianStateCode, string> = {
   AC: 'Acre',
@@ -185,5 +209,11 @@ export const BRAZILIAN_STATES: Record<BrazilianStateCode, string> = {
   SC: 'Santa Catarina',
   SP: 'São Paulo',
   SE: 'Sergipe',
-  TO: 'Tocantins'
-}
+  TO: 'Tocantins',
+};
+
+export type GeoLocationIp = {
+  city?: string;
+  regionName?: string;
+  country?: string;
+};

@@ -26,7 +26,7 @@ export const useLocationStore = create<LocationState>()(
       country: null,
       loading: false,
       fetchLocation: async () => {
-        if (get().city) return; 
+        if (get().city) return;
         set({ loading: true });
         try {
           const data = await getUserGeoLocation() as GeoLocationData;          
