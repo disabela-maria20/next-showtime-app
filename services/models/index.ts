@@ -57,7 +57,7 @@ export interface StreamingPlatform {
 }
 
 // ==========================
-// 🎟 SESSION
+// 🎟 SESSION (para sessões regulares)
 // ==========================
 
 export interface Session {
@@ -100,26 +100,37 @@ export interface SessionsResponse {
 }
 
 // ==========================
-// 📍 LOCATION
+// 🎟 SESSION LOCATION (para getSessionLocationsByMovie)
 // ==========================
 
-export interface GeoLocation {
-  latitude: number
-  longitude: number
+export interface SessionLocation {
+  exhibitor: string;
+  date: string;
+  hour: string;
+  theaterName: string;
+  link: string;
+  alternative_link: string;
+  link_cinemark: string;
+  link_ingresso: string;
+  technology: string;
+  isImax: boolean;
+  postalCode: string;
+  address: string;
+  lat: string;
+  lng: string;
+  addressComplement: string;
+  number: string;
+  city: string;
+  state: string;
 }
 
-export interface StateCities {
-  state: string
-  cities: string[]
+export interface SessionLocationByDate {
+  date: string;
+  sessions: SessionLocation[];
 }
 
-export interface MovieState {
-  city: string
-  state: string
-}
-
-export interface MovieStatesResponse {
-  states: MovieState[]
+export interface SessionLocationResponse {
+  sessions: SessionLocationByDate[];
 }
 
 // ==========================

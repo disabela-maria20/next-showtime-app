@@ -9,6 +9,7 @@ import 'primeicons/primeicons.css';
 import { PrimeReactI18nProvider } from '@/services/config/i18n';
 import { PrimeReactProvider } from 'primereact/api';
 import { Footer, Menu } from '@/component';
+import ClientProvider from '@/services/config/ClientProvider';
 
 const HankenGrotesk = Hanken_Grotesk({
   variable: '--font-hanken-grotesk',
@@ -28,19 +29,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${HankenGrotesk.variable} font-hanken-grotesk`}>
-        <PrimeReactI18nProvider>
-          <PrimeReactProvider
-            value={{
-              unstyled: false,
-              ripple: false,
-              locale: 'pt-BR',
-            }}
-          >
-            <Menu />
-            {children}
-            <Footer />
-          </PrimeReactProvider>
-        </PrimeReactI18nProvider>
+        <ClientProvider>
+          <PrimeReactI18nProvider>
+            <PrimeReactProvider
+              value={{
+                unstyled: false,
+                ripple: false,
+                locale: 'pt-BR',
+              }}
+            >
+              <Menu />
+              {children}
+              <Footer />
+            </PrimeReactProvider>
+          </PrimeReactI18nProvider>
+        </ClientProvider>
       </body>
     </html>
   );

@@ -38,7 +38,7 @@ export default async function Page(props: PageProps<'/[slug]'>) {
   const filme = (await getMovieBySlug(slug)) as MovieProps;
 
   if (!filme) notFound();
-  return <Film movie={filme.movie} sessions={filme.sessions} />;
+  return <Film movie={filme.movie} />;
 }
 
 export async function generateStaticParams() {
