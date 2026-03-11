@@ -7,13 +7,13 @@ import { getUserGeoLocation } from '../api';
 type GeoLocationData = {
   city?: string;
   regionName?: string;
-  country?: string;
+  region?: string;
 };
 
 type LocationState = {
   city: string | null;
   state: string | null;
-  country: string | null;
+  region: string | null;
   loading: boolean;
   fetchLocation: () => Promise<void>;
 };
@@ -23,7 +23,7 @@ export const useLocationStore = create<LocationState>()(
     (set, get) => ({
       city: null,
       state: null,
-      country: null,
+      region: null,
       loading: false,
       fetchLocation: async () => {
         if (get().city) return;
@@ -34,7 +34,7 @@ export const useLocationStore = create<LocationState>()(
             set({
               city: data.city ?? null,
               state: data.regionName ?? null,
-              country: data.country ?? null,
+              region: data.region ?? null,
               loading: false,
             });
           } else {

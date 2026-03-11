@@ -45,11 +45,11 @@ const Menu = () => {
 
           {/* AÇÕES */}
           <div className="row-start-1 col-start-3 md:col-start-4 grid grid-flow-col gap-2 justify-self-end">
-            <StreamButton href="/login" icon="pi pi-user">
+            <StreamButton variant='ghost' size='md'  href="/login" icon="pi pi-user" >
             <span className='hidden md:block'>{text.menu.entrar}</span>  
             </StreamButton>
 
-            <StreamButton href="/sair" icon="pi pi-sign-in">
+            <StreamButton variant='ghost' size='md' href="/sair" icon="pi pi-sign-in">
             <span className='hidden md:block'>{text.menu.sair}</span>  
             </StreamButton>
           </div>

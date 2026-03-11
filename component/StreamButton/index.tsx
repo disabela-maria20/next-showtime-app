@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'blue' | 'warning';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'blue' | 'amber';
 type Size = 'sm' | 'md' | 'lg';
 
 type StreamButtonProps = {
@@ -22,11 +22,11 @@ type StreamButtonProps = {
 const variants = {
   primary: {
     text: 'text-white',
-    border: 'border-white/60',
+    border: 'border-blue-600',
     fill: 'bg-white',
-    baseBg: 'bg-transparent',
-    hoverText: 'group-hover:text-black',
-    hoverBorder: 'group-hover:border-white',
+    baseBg: 'bg-blue-600',
+    hoverText: 'group-hover:text-blue-600',
+    hoverBorder: 'group-hover:border-blue-600',
     hasFillAnimation: true,
   },
 
@@ -42,11 +42,11 @@ const variants = {
 
   ghost: {
     text: 'text-white',
-    border: 'border-transparent',
+    border: 'border-white',
     fill: 'bg-white',
     baseBg: 'bg-transparent',
     hoverText: 'group-hover:text-black',
-    hoverBorder: '',
+    hoverBorder: 'group-hover:border-white',
     hasFillAnimation: true,
   },
 
@@ -60,14 +60,14 @@ const variants = {
     hasFillAnimation: false,
   },
 
-  warning: {
+  amber: {
     text: 'text-black',
     border: 'border-amber-400',
-    fill: 'bg-amber-400',
+    fill: 'bg-black',
     baseBg: 'bg-amber-400',
-    hoverText: 'group-hover:text-black',
-    hoverBorder: 'group-hover:border-amber-400',
-    hasFillAnimation: false,
+    hoverText: 'group-hover:text-amber-400',
+    hoverBorder: 'group-hover:border-black',
+    hasFillAnimation: true,
   },
 };
 
@@ -96,8 +96,8 @@ const StreamButton = ({
     ${fullWidth ? 'flex w-full' : 'inline-flex w-fit'}
     items-center justify-center
     overflow-hidden
-    rounded-md
-    box-border
+    rounded
+    border
     transition-all duration-300 ease-out
     hover:scale-[1.02] active:scale-[0.98]
     ${v.text}
@@ -110,23 +110,24 @@ const StreamButton = ({
 
   const content = (
     <>
-      {/* FUNDO ANIMADO (somente quando necessário) */}
       {v.hasFillAnimation && (
         <span
           className={`
             absolute inset-0
             ${v.fill}
-            translate-y-full
-            group-hover:translate-y-0
+            -translate-x-full
+            group-hover:translate-x-0
+            group-active:translate-x-0
             transition-transform duration-300 ease-out
+            z-0
+            
           `}
         />
       )}
 
-      {/* CONTEÚDO */}
-      <span className="relative z-10 flex items-center justify-center w-full">
+      <span className="cursor-pointer relative z-10 flex items-center justify-center gap-2 w-full transition-colors duration-300">
         {!iconOnly && (
-          <span className={`font-semibold ${v.hoverText}`}>
+          <span className={`font-normal ${v.hoverText}`}>
             {loading ? 'Carregando...' : children}
           </span>
         )}
@@ -138,12 +139,11 @@ const StreamButton = ({
         {loading && <i className="pi pi-spin pi-spinner" />}
       </span>
 
-      {/* BORDA */}
       <span
         className={`
           pointer-events-none
           absolute inset-0
-          rounded-md
+          rounded
           border
           ${v.border}
           ${v.hoverBorder}

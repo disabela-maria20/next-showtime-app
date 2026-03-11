@@ -3,23 +3,26 @@
 import { Image } from 'primereact/image';
 import { autoplay, CtaButton, Divider, Slide, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
-import React, { Suspense, useMemo, useState } from 'react';
+import React, { Suspense, useMemo, useState, useEffect } from 'react';
 import text from '../../services/localization/pt.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import mook from './mook.json';
-import { 
-  BRAZILIAN_STATES, 
-  Movie, 
-  SessionsByDate, 
-  Session, 
+import {
+  BRAZILIAN_STATES,
+  Movie,
+  SessionsByDate,
+  Session,
   SessionsResponse,
   SessionLocationResponse,
   SessionLocationByDate,
-  SessionLocation
+  SessionLocation,
 } from '@/services/models';
 import { useFormattedDate } from '@/hooks/useFormattedDate';
 import { useQuery } from '@tanstack/react-query';
-import { getSessionLocationsByMovie, getSessionsByMovieAndCity } from '@/services/api';
+import {
+  getSessionLocationsByMovie,
+  getSessionsByMovieAndCity,
+} from '@/services/api';
 import { useLocationStore } from '@/services/store/locationStore';
 
 type MovieProps = {
@@ -44,25 +47,32 @@ type GroupedSession = {
 };
 
 function findStateName(sigla: string): string {
-  return BRAZILIAN_STATES[sigla as keyof typeof BRAZILIAN_STATES] ?? "Estado não encontrado";
+  return (
+    BRAZILIAN_STATES[sigla as keyof typeof BRAZILIAN_STATES] ??
+    'Estado não encontrado'
+  );
 }
 
 const DateBadge = ({
   date,
   active,
   onClick,
+  disabled = false,
 }: {
   date: string;
   active: boolean;
   onClick: () => void;
+  disabled?: boolean;
 }) => {
   const { weekDay, numericDate, isToday } = useFormattedDate(date);
 
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
       className={`cursor-pointer border-2 rounded px-3 py-2 text-center transition md:w-28
-      ${active ? 'border-blue-600 text-blue-600' : 'border-b-neutral-400 text-neutral-400'}`}
+      ${active ? 'border-blue-600 text-blue-600' : 'border-b-neutral-400 text-neutral-400'}
+      ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       <p className="font-bold text-xs md:text-sm">
         {isToday ? 'HOJE' : weekDay}
@@ -74,36 +84,75 @@ const DateBadge = ({
 
 const Film = ({ movie }: MovieProps) => {
   const today = new Date().toISOString().split('T')[0];
-  const [activeDate, setActiveDate] = useState<string>(today);
+  const [activeDate, setActiveDate] = useState<string>('');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const { isMobile } = useIsMobile();
   const { city } = useLocationStore();
 
   // Query para buscar localizações das sessões (se necessário)
-  const { data: listSessionLocation, isLoading: isLoadingSessionLocation, isError: isErrorSessionLocation } = useQuery({
+  const {
+    data: listSessionLocation,
+    isLoading: isLoadingSessionLocation,
+    isError: isErrorSessionLocation,
+  } = useQuery({
     queryKey: ['listSessionLocation', movie.slug],
-    queryFn: () => getSessionLocationsByMovie(movie.slug) as Promise<SessionLocationResponse>,
+    queryFn: () =>
+      getSessionLocationsByMovie(
+        movie.slug
+      ) as Promise<SessionLocationResponse>,
     enabled: !!movie.slug,
   });
-
+  console.log(listSessionLocation);
+  
   // Query para buscar sessões por cidade (usada para exibição)
-  const { data: listSessions, isLoading: isLoadingSessions, isError: isErrorSessions } = useQuery({
-    queryKey: ['listSessions', movie.slug, activeDate, city],
-    queryFn: () => city 
-      ? getSessionsByMovieAndCity(movie.slug, city) as unknown as SessionsResponse 
-      : Promise.resolve(null),
+  const {
+    data: listSessions,
+    isLoading: isLoadingSessions,
+    isError: isErrorSessions,
+    isFetching,
+  } = useQuery({
+    queryKey: ['listSessions', movie.slug, city],
+    queryFn: () =>
+      city
+        ? (getSessionsByMovieAndCity(
+            movie.slug,
+            city
+          ) as unknown as SessionsResponse)
+        : Promise.resolve(null),
     enabled: !!city && !!movie.slug,
   });
 
+  // Extrai datas disponíveis para os badges
+  const availableDates = useMemo(() => {
+    return listSessions?.sessions?.map((item) => item.date) || [];
+  }, [listSessions]);
+
+  // Define a data ativa inicial após carregar as sessões
+  useEffect(() => {
+    if (availableDates.length > 0 && isInitialLoad) {
+      // Verifica se hoje está disponível, senão usa a primeira data
+      const todayAvailable = availableDates.includes(today);
+      setActiveDate(todayAvailable ? today : availableDates[0]);
+      setIsInitialLoad(false);
+    }
+  }, [availableDates, today, isInitialLoad]);
+
   // Filtra as sessões pela data ativa
   const filteredSessions = useMemo(() => {
-    if (!listSessions?.sessions || !Array.isArray(listSessions.sessions)) {
+    if (
+      !listSessions?.sessions ||
+      !Array.isArray(listSessions.sessions) ||
+      !activeDate
+    ) {
       return null;
     }
-    
-    return listSessions.sessions.find((item) => item.date === activeDate) || null;
+
+    return (
+      listSessions.sessions.find((item) => item.date === activeDate) || null
+    );
   }, [listSessions, activeDate]);
-  
+
   // Agrupamento por cinema
   const groupedSessions: GroupedSession[] = useMemo(() => {
     if (!filteredSessions?.sessions) return [];
@@ -144,10 +193,10 @@ const Film = ({ movie }: MovieProps) => {
     }));
   }, [filteredSessions]);
 
-  // Extrai datas disponíveis para os badges
-  const availableDates = useMemo(() => {
-    return listSessions?.sessions?.map(item => item.date) || [];
-  }, [listSessions]);
+  // Verifica se a data ativa tem sessões
+  const hasActiveDateSessions = useMemo(() => {
+    return groupedSessions.length > 0;
+  }, [groupedSessions]);
 
   return (
     <Suspense fallback={<div>Carregando...</div>}>
@@ -179,7 +228,7 @@ const Film = ({ movie }: MovieProps) => {
               className="w-full h-full object-cover "
             />
             <div className="pt-5">
-              <StreamButton fullWidth variant="warning">
+              <StreamButton fullWidth variant="amber">
                 Comprar ingresso
               </StreamButton>
             </div>
@@ -271,34 +320,65 @@ const Film = ({ movie }: MovieProps) => {
             </Slide>
           </div>
         </div>
-        
+
         {/* ================= DATES BADGES ================= */}
         <div className="container m-auto px-9 md:px-0">
           <h2
             className="text-2xl md:text-4xl 2xl:text-5xl mb-6 md:mb-12 text-blue-600"
             dangerouslySetInnerHTML={{ __html: text.secao4 }}
           />
-          <Slide
-            options={{
-              loop: false,
-              mode: 'free-snap',
-              slides: { perView: 'auto', spacing: 20 },
-            }}
-          >
-            <Slide.Track style={{ overflow: 'visible' }}>
-              {availableDates.map((date) => (
-                <Slide.Item key={date} className="overflow-visible! md:w-auto!">
-                  <DateBadge
-                    date={date}
-                    active={activeDate === date}
-                    onClick={() => setActiveDate(date)}
-                  />
-                </Slide.Item>
+          <div className="grid gap-4 md:grid-cols-2 mb-6 md:mb-12">
+            <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
+              <option>Estado</option>
+              {/* {listSessionLocation?.sessions
+                    ?.sort((a, b) => a.state.localeCompare(b.state))
+                    ?.map((data) => (
+                      <option key={data.state} value={data.state}>
+                        {obterNomeEstado(data.state)}
+                      </option>
+                    ))} */}
+            </select>
+
+            <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
+              <option>Cidade</option>
+            </select>
+          </div>
+
+          {isLoadingSessions ? (
+            <div className="flex gap-4">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div
+                  key={i}
+                  className="w-28 h-20 bg-neutral-800 animate-pulse rounded"
+                />
               ))}
-            </Slide.Track>
-          </Slide>
+            </div>
+          ) : (
+            <Slide
+              options={{
+                loop: false,
+                mode: 'free-snap',
+                slides: { perView: 'auto', spacing: 20 },
+              }}
+            >
+              <Slide.Track style={{ overflow: 'visible' }}>
+                {availableDates.map((date) => (
+                  <Slide.Item
+                    key={date}
+                    className="overflow-visible! md:w-auto!"
+                  >
+                    <DateBadge
+                      date={date}
+                      active={activeDate === date}
+                      onClick={() => setActiveDate(date)}
+                    />
+                  </Slide.Item>
+                ))}
+              </Slide.Track>
+            </Slide>
+          )}
         </div>
-        
+
         {/* ================= LISTAGEM ================= */}
         <div className="container mx-auto px-6 md:px-0 py-12">
           <div className="flex flex-col md:flex-row gap-8">
@@ -321,6 +401,32 @@ const Film = ({ movie }: MovieProps) => {
 
                 <div className="grid grid-cols-2 gap-3">
                   <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                    Normal
+                  </button>
+                  <button className="bg-blue-600 text-white p-2 rounded">
+                    imax
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                    3D
+                  </button>
+                  <button className="bg-blue-600 text-white p-2 rounded">
+                    D-Box
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                    Vip
+                  </button>
+                  <button className="bg-blue-600 text-white p-2 rounded">
+                    Laser
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <button className="border border-blue-600 text-blue-600 p-2 rounded">
                     Dublado
                   </button>
                   <button className="bg-blue-600 text-white p-2 rounded">
@@ -338,10 +444,36 @@ const Film = ({ movie }: MovieProps) => {
               </div>
             </aside>
             <div className="flex-1 flex flex-col gap-6">
-              {isLoadingSessions ? (
-                <p className="text-neutral-400">Carregando sessões...</p>
+              {isLoadingSessions || isFetching || isInitialLoad ? (
+                <div className="space-y-6">
+                  {[1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className="flex flex-row gap-2.5 animate-pulse"
+                    >
+                      <div className="bg-neutral-800 rounded-br-3xl rounded-tr-3xl px-5 py-8 w-32">
+                        <div className="h-8 bg-neutral-700 rounded mb-4"></div>
+                        <div className="h-6 bg-neutral-700 rounded"></div>
+                      </div>
+                      <div className="flex-1 bg-neutral-800 rounded-bl-3xl rounded-tl-3xl px-5 py-8">
+                        <div className="h-6 bg-neutral-700 rounded w-1/3 mb-4"></div>
+                        <div className="h-4 bg-neutral-700 rounded w-2/3 mb-4"></div>
+                        <div className="flex gap-3">
+                          {[1, 2, 3, 4].map((j) => (
+                            <div
+                              key={j}
+                              className="h-8 w-16 bg-neutral-700 rounded"
+                            ></div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               ) : isErrorSessions ? (
-                <p className="text-red-500">Erro ao carregar sessões. Tente novamente.</p>
+                <p className="text-red-500">
+                  Erro ao carregar sessões. Tente novamente.
+                </p>
               ) : groupedSessions.length > 0 ? (
                 groupedSessions.map((session, index) => (
                   <div key={index} className="flex flex-row gap-2.5">
@@ -380,8 +512,8 @@ const Film = ({ movie }: MovieProps) => {
                           </h2>
 
                           <p className="text-sm">
-                            {session.address}, {session.number} | {session.city} -{' '}
-                            {findStateName(session.state)}
+                            {session.address}, {session.number} | {session.city}{' '}
+                            - {findStateName(session.state)}
                           </p>
                           <div className="mt-7">
                             <span className="bg-blue-600 text-white px-1.5 py-1 rounded">
@@ -391,7 +523,10 @@ const Film = ({ movie }: MovieProps) => {
                           {/* Horários */}
                           <div className="mt-7 flex flex-wrap gap-3">
                             {session.times.map((time, i) => {
-                              const ticketLink = time.link_ingresso || time.link || time.link_cinemark;
+                              const ticketLink =
+                                time.link_ingresso ||
+                                time.link ||
+                                time.link_cinemark;
                               return ticketLink ? (
                                 <a
                                   key={i}
@@ -442,7 +577,11 @@ const Film = ({ movie }: MovieProps) => {
                 ))
               ) : (
                 <p className="text-neutral-400">
-                  Nenhuma sessão disponível para esta data.
+                  Nenhuma sessão disponível para{' '}
+                  {activeDate
+                    ? new Date(activeDate).toLocaleDateString('pt-BR')
+                    : 'esta data'}
+                  .
                 </p>
               )}
             </div>

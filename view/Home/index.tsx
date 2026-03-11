@@ -10,7 +10,7 @@ import React, {
   useRef,
 } from 'react';
 import mook from './mook.json';
-import { autoplay, CardMovie, CtaButton, Divider, Slide } from '@/component';
+import { autoplay, CardMovie, CtaButton, Divider, Slide, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
 import text from '../../services/localization/pt.json';
 import Link from 'next/link';
@@ -32,9 +32,6 @@ const Home = ({ banner, listMovie }: HomeProps) => {
   const [openId, setOpenId] = useState<number | null>(null);
   const { isMobile, isLoading } = useIsMobile();
 
-  // Ref para controlar a primeira renderização dos filtros
-  const isFirstRender = useRef(true);
-
   // Estados para paginação
   const [first, setFirst] = useState<number>(0);
   const [rows, setRows] = useState<number>(12);
@@ -46,20 +43,19 @@ const Home = ({ banner, listMovie }: HomeProps) => {
   const [selectedAudio, setSelectedAudio] = useState('');
   const [selectedTechnology, setSelectedTechnology] = useState('');
 
-  // Estado para filmes filtrados - inicializado com todos os filmes
-  const [filteredMovies, setFilteredMovies] = useState<Array<Movie>>([]);
-
+  // Combinar todos os filmes
   const movies = useMemo(
     () => listMovie.releases.concat(listMovie.streaming),
     [listMovie]
   );
 
-  // Inicializar filteredMovies apenas uma vez
+  // Estado para filmes filtrados
+  const [filteredMovies, setFilteredMovies] = useState<Array<Movie>>(movies);
+
+  // Atualizar filteredMovies quando movies mudar
   useEffect(() => {
-    if (movies.length > 0 && filteredMovies.length === 0) {
-      setFilteredMovies(movies);
-    }
-  }, [movies, filteredMovies.length]);
+    setFilteredMovies(movies);
+  }, [movies]);
 
   // Extrair informações únicas dos filmes para preencher os selects
   const filterOptions = useMemo(() => {
@@ -83,7 +79,7 @@ const Home = ({ banner, listMovie }: HomeProps) => {
     };
   }, [movies]);
 
-  // Função para aplicar todos os filtros - AGORA DISPARADA MANUALMENTE
+  // Função para aplicar todos os filtros
   const applyFilters = useCallback(() => {
     let result = [...movies];
 
@@ -92,11 +88,12 @@ const Home = ({ banner, listMovie }: HomeProps) => {
       const term = searchTerm.toLowerCase();
       result = result.filter(
         (movie) =>
-          movie.title?.toLowerCase().includes(term) ||
-          movie.originalTitle?.toLowerCase().includes(term) ||
-          movie.synopsis?.toLowerCase().includes(term) ||
-          movie.director?.toLowerCase().includes(term) ||
-          movie.cast?.toLowerCase().includes(term)
+          movie.title?.toLowerCase().includes(term) 
+        // ||
+        //   movie.originalTitle?.toLowerCase().includes(term) ||
+        //   movie.synopsis?.toLowerCase().includes(term) ||
+        //   movie.director?.toLowerCase().includes(term) ||
+        //   movie.cast?.toLowerCase().includes(term)
       );
     }
 
@@ -135,15 +132,8 @@ const Home = ({ banner, listMovie }: HomeProps) => {
     selectedTechnology,
   ]);
 
-  // Efeito separado para aplicar filtros apenas quando necessário
+  // Aplicar filtros quando qualquer critério mudar
   useEffect(() => {
-    // Pular a primeira renderização
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-
-    // Aplicar filtros quando qualquer critério mudar
     applyFilters();
   }, [
     searchTerm,
@@ -154,14 +144,7 @@ const Home = ({ banner, listMovie }: HomeProps) => {
     applyFilters,
   ]);
 
-  // Agrupar filmes por data (para manter a funcionalidade existente)
-  const moviesByDate = useMemo(() => {
-    return movies.reduce((acc: any, movie: any) => {
-      if (!acc[movie.releasedate]) acc[movie.releasedate] = [];
-      acc[movie.releasedate].push(movie);
-      return acc;
-    }, {});
-  }, [movies]);
+
 
   // Função para lidar com a mudança de página
   const onPageChange = (event: PaginatorPageChangeEvent) => {
@@ -178,7 +161,7 @@ const Home = ({ banner, listMovie }: HomeProps) => {
     setSelectedTechnology('');
   };
 
-  // Função para lidar com mudança nos inputs (evitar loop)
+  // Função para lidar com mudança nos inputs
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
@@ -449,20 +432,15 @@ const Home = ({ banner, listMovie }: HomeProps) => {
 
               {/* Botões */}
               <div>
-                <button
-                  onClick={clearFilters}
-                  className="w-full p-2 border border-amber-400 bg-amber-400 text-black text-sm rounded"
-                >
-                  limpar filtros
-                </button>
+                <StreamButton onClick={clearFilters} variant='amber' fullWidth> Limpar filtros</StreamButton>
               </div>
             </div>
 
-            {/* Versão Mobile - Slide com key baseada no timestamp para forçar recriação quando necessário */}
+            {/* Versão Mobile - Slide */}
             <div className="mb-5 md:hidden">
               {filteredMovies.length > 0 ? (
                 <Slide
-                  key={`mobile-slide-${filteredMovies.length}-${Date.now()}`}
+                  key={`mobile-slide-${filteredMovies.length}`}
                   options={{
                     loop: false,
                     mode: 'free-snap',
