@@ -217,3 +217,9 @@ export type GeoLocationIp = {
   regionName?: string;
   country?: string;
 };
+export interface StateCities {
+  state: BrazilianStateCode;
+  cities: string[];
+}
+
+export type StateCitiesResponse = StateCities[];

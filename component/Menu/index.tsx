@@ -10,7 +10,7 @@ const Menu = () => {
   const { city } = useLocationStore();
 
   return (
-    <header className="w-full z-50 text-white absolute bg-linear-to-b from-black via-black/70 to-transparent">
+    <header className="w-full z-10 text-white absolute bg-linear-to-b from-black via-black/70 to-transparent">
       <div className="relative w-full md:max-w-360 m-auto ">
         <div
           className="
@@ -34,23 +34,35 @@ const Menu = () => {
           </Link>
 
           {/* SELECT CIDADE */}
-          <div className="row-start-1 col-start-2 md:col-start-2">
-            <select
-              className="bg-gray-800 border border-gray-600 text-sm px-2 py-1 rounded-md w-full lg:w-45.5"
-              aria-label="Selecionar cidade"
-            >
-              <option>{city}</option>
-            </select>
-          </div>
+          {city && (
+            <div className="row-start-1 col-start-2 md:col-start-2">
+              <select
+                className="bg-gray-800 border border-gray-600 text-sm px-2 py-1 rounded-md w-full lg:w-45.5"
+                aria-label="Selecionar cidade"
+              >
+                <option>{city}</option>
+              </select>
+            </div>
+          )}
 
           {/* AÇÕES */}
           <div className="row-start-1 col-start-3 md:col-start-4 grid grid-flow-col gap-2 justify-self-end">
-            <StreamButton variant='ghost' size='md'  href="/login" icon="pi pi-user" >
-            <span className='hidden md:block'>{text.menu.entrar}</span>  
+            <StreamButton
+              variant="ghost"
+              size="md"
+              href="/login"
+              icon="pi pi-user"
+            >
+              <span className="hidden md:block">{text.menu.entrar}</span>
             </StreamButton>
 
-            <StreamButton variant='ghost' size='md' href="/sair" icon="pi pi-sign-in">
-            <span className='hidden md:block'>{text.menu.sair}</span>  
+            <StreamButton
+              variant="ghost"
+              size="md"
+              href="/sair"
+              icon="pi pi-sign-in"
+            >
+              <span className="hidden md:block">{text.menu.sair}</span>
             </StreamButton>
           </div>
 

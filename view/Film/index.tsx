@@ -16,6 +16,7 @@ import {
   SessionLocationResponse,
   SessionLocationByDate,
   SessionLocation,
+  StateCitiesResponse,
 } from '@/services/models';
 import { useFormattedDate } from '@/hooks/useFormattedDate';
 import { useQuery } from '@tanstack/react-query';
@@ -29,7 +30,6 @@ type MovieProps = {
   movie: Movie;
 };
 
-// Tipo para as sessões agrupadas por cinema (usando Session)
 type GroupedSession = {
   theaterName: string;
   address: string;
@@ -86,11 +86,16 @@ const Film = ({ movie }: MovieProps) => {
   const today = new Date().toISOString().split('T')[0];
   const [activeDate, setActiveDate] = useState<string>('');
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-
+  const [selectedState, setSelectedState] = useState<string>('');
   const { isMobile } = useIsMobile();
-  const { city } = useLocationStore();
 
-  // Query para buscar localizações das sessões (se necessário)
+  const { city, state: storedState, setCity } = useLocationStore();
+
+  // Sincroniza selectedState com o estado do store (geolocalização)
+  useEffect(() => {
+    if (storedState) setSelectedState(storedState);
+  }, [storedState]);
+
   const {
     data: listSessionLocation,
     isLoading: isLoadingSessionLocation,
@@ -98,14 +103,20 @@ const Film = ({ movie }: MovieProps) => {
   } = useQuery({
     queryKey: ['listSessionLocation', movie.slug],
     queryFn: () =>
-      getSessionLocationsByMovie(
-        movie.slug
-      ) as Promise<SessionLocationResponse>,
+      getSessionLocationsByMovie(movie.slug) as Promise<StateCitiesResponse>,
     enabled: !!movie.slug,
   });
-  console.log(listSessionLocation);
-  
-  // Query para buscar sessões por cidade (usada para exibição)
+
+  // Quando listSessionLocation carrega, tenta inferir o estado a partir da cidade do store
+  useEffect(() => {
+    if (city && listSessionLocation && !selectedState) {
+      const foundState = listSessionLocation.find((item) =>
+        item.cities.includes(city)
+      );
+      if (foundState) setSelectedState(foundState.state);
+    }
+  }, [city, listSessionLocation, selectedState]);
+
   const {
     data: listSessions,
     isLoading: isLoadingSessions,
@@ -123,22 +134,24 @@ const Film = ({ movie }: MovieProps) => {
     enabled: !!city && !!movie.slug,
   });
 
-  // Extrai datas disponíveis para os badges
   const availableDates = useMemo(() => {
     return listSessions?.sessions?.map((item) => item.date) || [];
   }, [listSessions]);
 
-  // Define a data ativa inicial após carregar as sessões
   useEffect(() => {
     if (availableDates.length > 0 && isInitialLoad) {
-      // Verifica se hoje está disponível, senão usa a primeira data
       const todayAvailable = availableDates.includes(today);
       setActiveDate(todayAvailable ? today : availableDates[0]);
       setIsInitialLoad(false);
     }
   }, [availableDates, today, isInitialLoad]);
 
-  // Filtra as sessões pela data ativa
+  // Reseta isInitialLoad quando cidade muda para reprocessar datas
+  useEffect(() => {
+    setIsInitialLoad(true);
+    setActiveDate('');
+  }, [city]);
+
   const filteredSessions = useMemo(() => {
     if (
       !listSessions?.sessions ||
@@ -153,7 +166,6 @@ const Film = ({ movie }: MovieProps) => {
     );
   }, [listSessions, activeDate]);
 
-  // Agrupamento por cinema
   const groupedSessions: GroupedSession[] = useMemo(() => {
     if (!filteredSessions?.sessions) return [];
 
@@ -186,14 +198,12 @@ const Film = ({ movie }: MovieProps) => {
       }
     });
 
-    // Ordena horários
     return Array.from(map.values()).map((cinema) => ({
       ...cinema,
       times: cinema.times.sort((a, b) => a.hour.localeCompare(b.hour)),
     }));
   }, [filteredSessions]);
 
-  // Verifica se a data ativa tem sessões
   const hasActiveDateSessions = useMemo(() => {
     return groupedSessions.length > 0;
   }, [groupedSessions]);
@@ -225,7 +235,7 @@ const Film = ({ movie }: MovieProps) => {
             <img
               src={movie.cover}
               alt={movie.title}
-              className="w-full h-full object-cover "
+              className="w-full h-full object-cover"
             />
             <div className="pt-5">
               <StreamButton fullWidth variant="amber">
@@ -256,7 +266,7 @@ const Film = ({ movie }: MovieProps) => {
               </div>
               <div className="md:text-[18px]">
                 <h3>Elenco: </h3>
-                <p className="font-bold ">{movie.cast}</p>
+                <p className="font-bold">{movie.cast}</p>
               </div>
               <p className="md:text-[18px]">{movie.synopsis}</p>
             </div>
@@ -327,20 +337,49 @@ const Film = ({ movie }: MovieProps) => {
             className="text-2xl md:text-4xl 2xl:text-5xl mb-6 md:mb-12 text-blue-600"
             dangerouslySetInnerHTML={{ __html: text.secao4 }}
           />
+
+          {/* Selects sempre visíveis para permitir troca de cidade */}
           <div className="grid gap-4 md:grid-cols-2 mb-6 md:mb-12">
-            <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
-              <option>Estado</option>
-              {/* {listSessionLocation?.sessions
-                    ?.sort((a, b) => a.state.localeCompare(b.state))
-                    ?.map((data) => (
-                      <option key={data.state} value={data.state}>
-                        {obterNomeEstado(data.state)}
-                      </option>
-                    ))} */}
+            <select
+              className="w-full p-3 border border-blue-600 text-blue-600 rounded"
+              value={selectedState}
+              onChange={({ target }) => {
+                setSelectedState(target.value);
+                // Limpa cidade ao trocar estado
+                setCity(null);
+              }}
+            >
+              <option value="" disabled>
+                Estado
+              </option>
+              {listSessionLocation
+                ?.sort((a, b) => a.state.localeCompare(b.state))
+                ?.map((data) => (
+                  <option key={data.state} value={data.state}>
+                    {findStateName(data.state)}
+                  </option>
+                ))}
             </select>
 
-            <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
-              <option>Cidade</option>
+            <select
+              className="w-full p-3 border border-blue-600 text-blue-600 rounded"
+              value={city || ''}
+              onChange={({ target }) => {
+                if (target.value) setCity(target.value);
+              }}
+            >
+              <option value="" disabled>
+                Cidade
+              </option>
+              {listSessionLocation
+                ?.find((item) => item.state === selectedState)
+                ?.cities.slice()
+                .sort((a, b) => a.localeCompare(b))
+                .map((c: string) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
             </select>
           </div>
 
@@ -391,11 +430,11 @@ const Film = ({ movie }: MovieProps) => {
                   className="w-full p-3 placeholder-blue-600! border border-blue-600 text-blue-600 rounded"
                 />
 
-                <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
+                <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
                   <option>Gênero</option>
                 </select>
 
-                <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
+                <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
                   <option>Cinema</option>
                 </select>
 
@@ -434,7 +473,7 @@ const Film = ({ movie }: MovieProps) => {
                   </button>
                 </div>
 
-                <select className="w-full p-3  border border-blue-600 text-blue-600 rounded">
+                <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
                   <option>Tecnologia</option>
                 </select>
 
@@ -473,6 +512,10 @@ const Film = ({ movie }: MovieProps) => {
               ) : isErrorSessions ? (
                 <p className="text-red-500">
                   Erro ao carregar sessões. Tente novamente.
+                </p>
+              ) : !city ? (
+                <p className="text-neutral-400">
+                  Selecione um estado e cidade para ver as sessões disponíveis.
                 </p>
               ) : groupedSessions.length > 0 ? (
                 groupedSessions.map((session, index) => (
