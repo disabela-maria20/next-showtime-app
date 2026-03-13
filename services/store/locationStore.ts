@@ -29,6 +29,7 @@ interface LocationState {
   acceptConsent: () => void;
   denyConsent: () => void;
   resetConsent: () => void;
+  checkConsentExpiration: () => boolean;
 }
 
 export const useLocationStore = create<LocationState>()(
@@ -118,29 +119,43 @@ export const useLocationStore = create<LocationState>()(
           error: null,
         });
       },
-    }),
-    {
-      name: 'location-storage',
-      storage: createJSONStorage(() => localStorage),
-      
-      onRehydrateStorage: () => (state) => {
-        if (!state) return;
 
-        const expired = !state.consentExpiresAt || Date.now() > state.consentExpiresAt;
+      checkConsentExpiration: () => {
+        const { consentExpiresAt, consent } = get();
+        
+        // Se não tem consentimento ou já está null, retorna false
+        if (consent === null || !consentExpiresAt) {
+          return false;
+        }
 
+        // Verifica se expirou
+        const expired = Date.now() > consentExpiresAt;
+        
         if (expired) {
-          return {
+          // Reseta o consentimento se expirou
+          set({
             consent: null,
             consentExpiresAt: null,
             city: null,
             state: null,
             region: null,
-            error: null,
-          };
+          });
+          return true;
         }
-
-        // Não chamar fetchLocation aqui - será feito pelo useEffect no componente
-        return state;
+        
+        return false;
+      },
+    }),
+    {
+      name: 'location-storage',
+      storage: createJSONStorage(() => localStorage),
+      
+      // Não retornar nada no onRehydrateStorage para evitar reset indesejado
+      onRehydrateStorage: () => (state) => {
+        // Apenas log para debug, sem modificar o estado
+        if (state) {
+          console.log('Store reidratada com consentimento:', state.consent);
+        }
       },
     }
   )
