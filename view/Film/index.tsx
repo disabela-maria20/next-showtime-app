@@ -89,7 +89,7 @@ const Film = ({ movie }: MovieProps) => {
   const [selectedState, setSelectedState] = useState<string>('');
   const { isMobile } = useIsMobile();
 
-  const { city, state: storedState, setCity } = useLocationStore();
+  const { city, state: storedState, setCity, consent } = useLocationStore();
 
   // Sincroniza selectedState com o estado do store (geolocalização)
   useEffect(() => {
@@ -107,7 +107,14 @@ const Film = ({ movie }: MovieProps) => {
     enabled: !!movie.slug,
   });
 
-  // Quando listSessionLocation carrega, tenta inferir o estado a partir da cidade do store
+  const isCityExists = useMemo(
+    () =>
+      city && listSessionLocation?.some((data) => data.cities.includes(city)),
+    [city, listSessionLocation]
+  );
+  console.log(consent === 'denied' ||
+            !!isCityExists);
+  
   useEffect(() => {
     if (city && listSessionLocation && !selectedState) {
       const foundState = listSessionLocation.find((item) =>
@@ -208,6 +215,10 @@ const Film = ({ movie }: MovieProps) => {
     return groupedSessions.length > 0;
   }, [groupedSessions]);
 
+
+  const shouldShowLocationSelector = consent === 'denied' || !!isCityExists;
+  console.log(listSessions?.sessions === undefined);
+  
   return (
     <Suspense fallback={<div>Carregando...</div>}>
       {/* ================= HERO ================= */}
@@ -338,50 +349,52 @@ const Film = ({ movie }: MovieProps) => {
             dangerouslySetInnerHTML={{ __html: text.secao4 }}
           />
 
-          {/* Selects sempre visíveis para permitir troca de cidade */}
-          <div className="grid gap-4 md:grid-cols-2 mb-6 md:mb-12">
-            <select
-              className="w-full p-3 border border-blue-600 text-blue-600 rounded"
-              value={selectedState}
-              onChange={({ target }) => {
-                setSelectedState(target.value);
-                // Limpa cidade ao trocar estado
-                setCity(null);
-              }}
-            >
-              <option value="" disabled>
-                Estado
-              </option>
-              {listSessionLocation
-                ?.sort((a, b) => a.state.localeCompare(b.state))
-                ?.map((data) => (
-                  <option key={data.state} value={data.state}>
-                    {findStateName(data.state)}
+          {
+            (shouldShowLocationSelector && (
+              <div className="grid gap-4 md:grid-cols-2 mb-6 md:mb-12">
+                <select
+                  className="w-full p-3 border border-blue-600 text-blue-600 rounded"
+                  value={selectedState}
+                  onChange={({ target }) => {
+                    setSelectedState(target.value);
+                    // Limpa cidade ao trocar estado
+                    setCity(null);
+                  }}
+                >
+                  <option value="" disabled>
+                    Estado
                   </option>
-                ))}
-            </select>
+                  {listSessionLocation
+                    ?.sort((a, b) => a.state.localeCompare(b.state))
+                    ?.map((data) => (
+                      <option key={data.state} value={data.state}>
+                        {findStateName(data.state)}
+                      </option>
+                    ))}
+                </select>
 
-            <select
-              className="w-full p-3 border border-blue-600 text-blue-600 rounded"
-              value={city || ''}
-              onChange={({ target }) => {
-                if (target.value) setCity(target.value);
-              }}
-            >
-              <option value="" disabled>
-                Cidade
-              </option>
-              {listSessionLocation
-                ?.find((item) => item.state === selectedState)
-                ?.cities.slice()
-                .sort((a, b) => a.localeCompare(b))
-                .map((c: string) => (
-                  <option key={c} value={c}>
-                    {c}
+                <select
+                  className="w-full p-3 border border-blue-600 text-blue-600 rounded"
+                  value={city || ''}
+                  onChange={({ target }) => {
+                    if (target.value) setCity(target.value);
+                  }}
+                >
+                  <option value="" disabled>
+                    Cidade
                   </option>
-                ))}
-            </select>
-          </div>
+                  {listSessionLocation
+                    ?.find((item) => item.state === selectedState)
+                    ?.cities.slice()
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((c: string) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            ))}
 
           {isLoadingSessions ? (
             <div className="flex gap-4">
@@ -419,7 +432,8 @@ const Film = ({ movie }: MovieProps) => {
         </div>
 
         {/* ================= LISTAGEM ================= */}
-        <div className="container mx-auto px-6 md:px-0 py-12">
+        {listSessions?.sessions && listSessions.sessions.length > 0 && (
+          <div className="container mx-auto px-6 md:px-0 py-12">
           <div className="flex flex-col md:flex-row gap-8">
             <aside className="w-full md:w-72">
               <div className="flex flex-col gap-4">
@@ -630,6 +644,8 @@ const Film = ({ movie }: MovieProps) => {
             </div>
           </div>
         </div>
+        )}
+        
       </section>
     </Suspense>
   );

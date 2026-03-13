@@ -12,9 +12,9 @@ const LocationConsentModal = () => {
   const { consent } = useLocationStore();
   const accept = useLocationStore((s) => s.acceptConsent);
   const deny = useLocationStore((s) => s.denyConsent);
-
+  const loading = useLocationStore((s) => s.loading);
   if (consent !== null) return null;
-
+  if (loading) return null;
   return (
     <>
       {showModal && (

@@ -14,22 +14,22 @@ type GeoLocationData = {
 
 type Consent = 'accepted' | 'denied' | null;
 
-type LocationState = {
+interface LocationState {
   city: string | null;
   state: string | null;
   region: string | null;
-
   consent: Consent;
   consentExpiresAt: number | null;
-
   loading: boolean;
+  error: string | null;
+  
   setCity: (city: string | null) => void;
   setState: (state: string | null) => void;
   fetchLocation: () => Promise<void>;
   acceptConsent: () => void;
   denyConsent: () => void;
   resetConsent: () => void;
-};
+}
 
 export const useLocationStore = create<LocationState>()(
   persist(
@@ -37,42 +37,51 @@ export const useLocationStore = create<LocationState>()(
       city: null,
       state: null,
       region: null,
-
       consent: null,
       consentExpiresAt: null,
-
       loading: false,
+      error: null,
 
-      setCity: (city: string | null) => {
-        set({ city });
-      },
-
-      setState: (state: string | null) => {
-        set({ state });
-      },
+      setCity: (city) => set({ city }),
+      setState: (state) => set({ state }),
 
       fetchLocation: async () => {
         const { consent, city, loading } = get();
 
-        if (consent !== 'accepted') return;
-        if (city) return;
-        if (loading) return;
+        if (consent !== 'accepted') {
+          console.log('Consentimento não aceito');
+          return;
+        }
+        
+        if (city) {
+          console.log('Localização já carregada');
+          return;
+        }
+        
+        if (loading) {
+          console.log('Busca em andamento');
+          return;
+        }
 
-        set({ loading: true });
+        set({ loading: true, error: null });
 
         try {
-          const data = (await getUserGeoLocation()) as GeoLocationData;
-
+          const data = await getUserGeoLocation() as GeoLocationData;
+          
           set({
             city: data?.city ?? null,
             state: data?.regionName ?? null,
             region: data?.region ?? null,
             loading: false,
+            error: null,
           });
 
         } catch (error) {
-          console.error('Erro ao buscar localização', error);
-          set({ loading: false });
+          console.error('Erro ao buscar localização:', error);
+          set({ 
+            loading: false, 
+            error: error instanceof Error ? error.message : 'Erro ao buscar localização' 
+          });
         }
       },
 
@@ -80,15 +89,22 @@ export const useLocationStore = create<LocationState>()(
         set({
           consent: 'accepted',
           consentExpiresAt: Date.now() + SEVEN_DAYS,
+          error: null,
         });
 
-        get().fetchLocation();
+        // Delay para garantir que o estado foi atualizado
+        setTimeout(() => {
+          get().fetchLocation();
+        }, 0);
       },
 
       denyConsent: () => {
         set({
           consent: 'denied',
           consentExpiresAt: Date.now() + SEVEN_DAYS,
+          city: null,
+          state: null,
+          region: null,
         });
       },
 
@@ -99,28 +115,32 @@ export const useLocationStore = create<LocationState>()(
           city: null,
           state: null,
           region: null,
+          error: null,
         });
       },
     }),
     {
       name: 'location-storage',
       storage: createJSONStorage(() => localStorage),
-
+      
       onRehydrateStorage: () => (state) => {
         if (!state) return;
 
-        const expired =
-          !state.consentExpiresAt ||
-          Date.now() > state.consentExpiresAt;
+        const expired = !state.consentExpiresAt || Date.now() > state.consentExpiresAt;
 
         if (expired) {
-          state.resetConsent();
-          return;
+          return {
+            consent: null,
+            consentExpiresAt: null,
+            city: null,
+            state: null,
+            region: null,
+            error: null,
+          };
         }
 
-        if (state.consent === 'accepted') {
-          state.fetchLocation();
-        }
+        // Não chamar fetchLocation aqui - será feito pelo useEffect no componente
+        return state;
       },
     }
   )
