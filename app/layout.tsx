@@ -8,7 +8,7 @@ import 'primeicons/primeicons.css';
 
 import { PrimeReactI18nProvider } from '@/services/config/i18n';
 import { PrimeReactProvider } from 'primereact/api';
-import { Footer, LocationConsentModal, Menu } from '@/component';
+import { LocationConsentModal } from '@/component';
 import ClientProvider from '@/services/config/ClientProvider';
 
 const HankenGrotesk = Hanken_Grotesk({
@@ -39,9 +39,7 @@ export default function RootLayout({
               }}
             >
               <LocationConsentModal />
-              <Menu />
               {children}
-              <Footer />
             </PrimeReactProvider>
           </PrimeReactI18nProvider>
         </ClientProvider>

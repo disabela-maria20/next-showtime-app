@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'blue' | 'amber';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'blue' | 'amber' | 'blue-inverted';
 type Size = 'sm' | 'md' | 'lg';
 
 type StreamButtonProps = {
@@ -53,11 +53,11 @@ const variants = {
   blue: {
     text: 'text-white',
     border: 'border-blue-600',
-    fill: 'bg-blue-600',
+    fill: 'bg-white',
     baseBg: 'bg-blue-600',
-    hoverText: 'group-hover:text-white',
+    hoverText: 'group-hover:text-blue-600',
     hoverBorder: 'group-hover:border-blue-600',
-    hasFillAnimation: false,
+    hasFillAnimation: true,
   },
 
   amber: {
@@ -69,6 +69,17 @@ const variants = {
     hoverBorder: 'group-hover:border-black',
     hasFillAnimation: true,
   },
+
+  'blue-inverted': {
+    text: 'text-blue-600',
+    border: 'border-white',
+    fill: 'bg-blue-600',
+    baseBg: 'bg-white',
+    hoverText: 'group-hover:text-white',
+    hoverBorder: 'group-hover:border-blue-600',
+    hasFillAnimation: true,
+  }
+
 };
 
 const sizes = {

@@ -12,7 +12,7 @@ import React, {
 import mook from './mook.json';
 import { autoplay, CardMovie, CtaButton, Divider, Slide, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
-import text from '../../services/localization/pt.json';
+import text from '../../../services/localization/pt.json';
 import Link from 'next/link';
 import { useFormattedDate } from '@/hooks/useFormattedDate';
 import { Banner, Movie } from '@/services/models';
