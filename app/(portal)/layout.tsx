@@ -6,7 +6,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
     <>
       <Menu />
 
-      <div className="relative w-full h-[calc(100vh-6px)] flex items-end pb-12 md:pb-35">
+      <div className="relative w-full h-[calc(100vh-6px)] flex items-end pb-12 2xl:pb-35">
         {/* Background */}
         <img
           src="/img/banner/hero-portal.png"
@@ -35,9 +35,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
 
             {/* Lado direito (botões / children) */}
             <div className="flex justify-center md:justify-end">
-              <div className=" w-65">
-                {children}
-              </div>
+              {children}
             </div>
 
           </div>
