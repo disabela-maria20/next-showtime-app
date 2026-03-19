@@ -25,7 +25,7 @@ const LoginForm = () => {
     <div className=" md:w-120">
       <form className=" flex flex-col gap-4 p-8 rounded bg-[#bfbfbf1a] opacity-[0.99] drop-shadow-[0px_3px_12px_rgba(0,0,0,0.15)]">
         <label htmlFor="email" className='flex flex-col'>
-          <span>E-mail</span>
+          <span className='font-semibold px-1'>E-mail</span>
           <InputText
             type="text"
             id="email"
@@ -40,7 +40,7 @@ const LoginForm = () => {
           {errors.email && <span>{errors.email.message}</span>}
         </label>
         <label htmlFor="password"  className='flex flex-col'>
-          <span>Senha</span>
+          <span className='font-semibold px-1'>Senha</span>
           <Password
             type="password"
             id="password"
