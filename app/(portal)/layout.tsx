@@ -14,12 +14,9 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
           className="absolute inset-0 w-full h-full object-cover -z-20"
         />
 
-
-
         {/* Conteúdo */}
         <div className="container mx-auto px-6 md:px-12 w-full">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
-
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10">
             {/* Lado esquerdo */}
             <div className="text-center md:text-left">
               <img
@@ -34,10 +31,7 @@ export default function PortalLayout({ children }: { children: ReactNode }) {
             </div>
 
             {/* Lado direito (botões / children) */}
-            <div className="flex justify-center md:justify-end">
-              {children}
-            </div>
-
+            <div className="flex justify-center md:justify-end">{children}</div>
           </div>
         </div>
       </div>

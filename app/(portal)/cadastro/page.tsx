@@ -1,8 +1,5 @@
-import { FormRegister } from '@/component'
-import React from 'react'
+import { FormRegister } from '@/component';
 
 export default function pageCadastro() {
-  return (
-  <FormRegister />
-  )
+  return <FormRegister />;
 }

@@ -3,7 +3,13 @@
 import Link from 'next/link';
 import React from 'react';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'blue' | 'amber' | 'blue-inverted';
+type Variant =
+  | 'primary'
+  | 'secondary'
+  | 'ghost'
+  | 'blue'
+  | 'amber'
+  | 'blue-inverted';
 type Size = 'sm' | 'md' | 'lg';
 
 type StreamButtonProps = {
@@ -17,6 +23,8 @@ type StreamButtonProps = {
   iconOnly?: boolean;
   loading?: boolean;
   fullWidth?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean; // Adicionando a prop disabled
 };
 
 const variants = {
@@ -78,8 +86,7 @@ const variants = {
     hoverText: 'group-hover:text-white',
     hoverBorder: 'group-hover:border-blue-600',
     hasFillAnimation: true,
-  }
-
+  },
 };
 
 const sizes = {
@@ -99,6 +106,9 @@ const StreamButton = ({
   iconOnly = false,
   loading = false,
   fullWidth = false,
+  type = 'button',
+  disabled = false, // Adicionando valor padrão para disabled
+  ...props
 }: StreamButtonProps) => {
   const v = variants[variant];
 
@@ -111,6 +121,7 @@ const StreamButton = ({
     border
     transition-all duration-300 ease-out
     hover:scale-[1.02] active:scale-[0.98]
+    ${disabled || loading ? 'opacity-50 cursor-not-allowed' : ''}
     ${v.text}
     ${v.border}
     ${v.baseBg}
@@ -121,7 +132,7 @@ const StreamButton = ({
 
   const content = (
     <>
-      {v.hasFillAnimation && (
+      {v.hasFillAnimation && !disabled && !loading && (
         <span
           className={`
             absolute inset-0
@@ -136,43 +147,62 @@ const StreamButton = ({
         />
       )}
 
-      <span className="cursor-pointer relative z-10 flex items-center justify-center gap-2 w-full transition-colors duration-300">
+      <span
+        className={`relative z-10 flex items-center justify-center gap-2 w-full transition-colors duration-300 ${disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+      >
         {!iconOnly && (
-          <span className={`font-normal ${v.hoverText}`}>
+          <span
+            className={`font-normal ${!disabled && !loading ? v.hoverText : ''}`}
+          >
             {loading ? 'Carregando...' : children}
           </span>
         )}
 
         {icon && !loading && (
-          <i className={`${icon} ${v.hoverText}`} />
+          <i
+            className={`${icon} ${!disabled && !loading ? v.hoverText : ''}`}
+          />
         )}
 
         {loading && <i className="pi pi-spin pi-spinner" />}
       </span>
 
-      <span
-        className={`
-          pointer-events-none
-          absolute inset-0
-          rounded
-          border
-          ${v.border}
-          ${v.hoverBorder}
-        `}
-      />
+      {!disabled && !loading && (
+        <span
+          className={`
+            pointer-events-none
+            absolute inset-0
+            rounded
+            border
+            ${v.border}
+            ${v.hoverBorder}
+          `}
+        />
+      )}
     </>
   );
 
   if (href) {
     return (
-      <Link href={href} className={baseStyle}>
+      <Link
+        href={href}
+        {...props}
+        className={baseStyle}
+        aria-disabled={disabled}
+      >
         {content}
       </Link>
     );
   }
 
   return (
-    <button onClick={onClick} className={baseStyle} disabled={loading}>
+    <button
+      type={type}
+      {...props}
+      onClick={onClick}
+      className={baseStyle}
+      disabled={disabled || loading}
+    >
       {content}
     </button>
   );
