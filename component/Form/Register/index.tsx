@@ -11,6 +11,7 @@ import {
 import { StreamButton } from '@/component';
 import { InputText } from 'primereact/inputtext';
 import { Checkbox } from 'primereact/checkbox';
+import { Phone } from '@/hooks/useMask';
 
 const FormRegister = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -21,6 +22,7 @@ const FormRegister = () => {
     handleSubmit,
     control,
     trigger,
+    setValue,
     formState: { errors },
   } = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
@@ -57,30 +59,55 @@ const FormRegister = () => {
 
   const inputClasses =
     'w-full bg-transparent! placeholder-white! text-white! border-2! border-white! rounded px-3 py-2 focus:outline-none focus:ring-0 focus:border-transparent';
-
+  
   const renderStep = () => {
     const steps = {
       1: () => (
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-white mb-4">Dados Pessoais</h2>
-          {['name', 'tel'].map((field) => (
-            <label key={field} htmlFor={field} className="flex flex-col">
-              <span className="font-semibold px-1 text-white">
-                {field === 'name' ? 'Nome' : 'Telefone'}
+          
+          {/* Campo Nome */}
+          <label htmlFor="name" className="flex flex-col">
+            <span className="font-semibold px-1 text-white">Nome</span>
+            <InputText
+              type="text"
+              id="name"
+              {...register('name')}
+              pt={{ root: () => ({ className: inputClasses }) }}
+            />
+            {errors.name && (
+              <span className="text-amber-400 text-sm mt-1">
+                {errors.name.message}
               </span>
-              <InputText
-                type="text"
-                id={field}
-                {...register(field as keyof RegisterSchemaType)}
-                pt={{ root: () => ({ className: inputClasses }) }}
-              />
-              {errors[field as keyof RegisterSchemaType] && (
-                <span className="text-red-500 text-sm mt-1">
-                  {errors[field as keyof RegisterSchemaType]?.message}
-                </span>
+            )}
+          </label>
+
+          {/* Campo Telefone com máscara */}
+          <label htmlFor="tel" className="flex flex-col">
+            <span className="font-semibold px-1 text-white">Telefone</span>
+            <Controller
+              name="tel"
+              control={control}
+              render={({ field }) => (
+                <InputText
+                  type="text"
+                  id="tel"
+                  value={field.value}
+                  onChange={(e) => {
+                    const maskedValue = Phone(e.target.value as string);
+                    field.onChange(maskedValue);
+                    setValue('tel', maskedValue, { shouldValidate: true });
+                  }}
+                  pt={{ root: () => ({ className: inputClasses }) }}
+                />
               )}
-            </label>
-          ))}
+            />
+            {errors.tel && (
+              <span className="text-amber-400 text-sm mt-1">
+                {errors.tel.message}
+              </span>
+            )}
+          </label>
         </div>
       ),
 
@@ -97,7 +124,7 @@ const FormRegister = () => {
               pt={{ root: () => ({ className: inputClasses }) }}
             />
             {errors.email && (
-              <span className="text-red-500 text-sm mt-1">
+              <span className="text-amber-400 text-sm mt-1">
                 {errors.email.message}
               </span>
             )}
@@ -138,7 +165,7 @@ const FormRegister = () => {
               ))}
             </div>
             {errors.interests && (
-              <span className="text-red-500 text-sm mt-1">
+              <span className="text-amber-400 text-sm mt-1">
                 {errors.interests.message}
               </span>
             )}
@@ -160,7 +187,7 @@ const FormRegister = () => {
             </label>
           </div>
           {errors.terms && (
-            <span className="text-red-500 text-sm">{errors.terms.message}</span>
+            <span className="text-amber-400 text-sm">{errors.terms.message}</span>
           )}
         </div>
       ),
@@ -232,3 +259,4 @@ const FormRegister = () => {
 };
 
 export default FormRegister;
+

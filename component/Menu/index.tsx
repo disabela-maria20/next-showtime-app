@@ -50,7 +50,7 @@ const Menu = () => {
             <StreamButton
               variant="ghost"
               size="md"
-              href="/login"
+              href="/portal"
               icon="pi pi-user"
             >
               <span className="hidden md:block">{text.menu.entrar}</span>
