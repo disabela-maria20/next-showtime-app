@@ -3,8 +3,8 @@ import ReactNode from 'react';
 
 export default function pagePortal() {
   return (
-    <div className="w-65">
-      <div className="flex flex-col gap-3">
+    <div className="w-65 m-auto">
+      <div className="flex flex-col justify-center items-centerd gap-3">
         <StreamButton href="/cadastro" fullWidth variant="blue-inverted">
           Cadastrar
         </StreamButton>
