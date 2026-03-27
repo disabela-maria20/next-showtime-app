@@ -1,5 +1,5 @@
 import { listBanners, listHomeMovies } from '@/services/api';
-import { Home } from '@/component/';
+import { Home } from '@/ui';
 
 export default async function PageHome() {
   const banner = await listBanners();

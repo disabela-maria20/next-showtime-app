@@ -9,8 +9,5 @@ export { default as LocationConsentModal } from './LocationConsentModal';
 export { Slide } from './Slide';
 export { Modal } from './Modal';
 
-export { default as Home } from './view/Home';
-export { default as Film} from './view/Film';
-
 export { default as LoginForm } from './Form/Login';
 export { default as FormRegister } from './Form/Register';

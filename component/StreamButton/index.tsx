@@ -9,6 +9,7 @@ type Variant =
   | 'ghost'
   | 'blue'
   | 'amber'
+  | 'white'
   | 'blue-inverted';
 type Size = 'sm' | 'md' | 'lg';
 
@@ -87,8 +88,18 @@ const variants = {
     hoverBorder: 'group-hover:border-blue-600',
     hasFillAnimation: true,
   },
-};
 
+  white: {
+    text: 'text-neutral-400',
+    border: 'border-neutral-400',
+    fill: 'bg-blue-600',
+    baseBg: 'bg-transparent',
+    hoverText: 'group-hover:text-white',
+    hoverBorder: 'group-hover:border-blue-600',
+    hasFillAnimation: true,
+  },
+};
+// text-neutral-400
 const sizes = {
   sm: 'px-3 py-1 text-sm',
   md: 'px-4 py-2 text-base',
@@ -142,6 +153,7 @@ const StreamButton = ({
             group-active:translate-x-0
             transition-transform duration-300 ease-out
             z-0
+           
             
           `}
         />

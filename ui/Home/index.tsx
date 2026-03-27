@@ -12,9 +12,7 @@ import React, {
 import mook from './mook.json';
 import { autoplay, CardMovie, CtaButton, Divider, Slide, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
-import text from '../../../services/localization/pt.json';
-import Link from 'next/link';
-import { useFormattedDate } from '@/hooks/useFormattedDate';
+import text from '../../services/localization/pt.json';
 import { Banner, Movie } from '@/services/models';
 import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator';
 
@@ -28,7 +26,6 @@ interface HomeProps {
 
 const Home = ({ banner, listMovie }: HomeProps) => {
   const [checked, setChecked] = useState<boolean>(false);
-  const [activeDate, setActiveDate] = useState<string | null>(null);
   const [openId, setOpenId] = useState<number | null>(null);
   const { isMobile, isLoading } = useIsMobile();
 

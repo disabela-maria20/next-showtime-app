@@ -11,6 +11,7 @@ type CardMovieProps = {
   cover: string;
   slug: string;
   ranking?: boolean;
+  favorites?: boolean;
 };
 
 const CardMovie = ({
@@ -19,6 +20,7 @@ const CardMovie = ({
   cover,
   slug,
   ranking = false,
+  favorites = false,
 }: CardMovieProps) => {
   const { containerRef, textRef } = useAutoFontSize();
   return (
@@ -41,6 +43,19 @@ const CardMovie = ({
         </div>
       )}
 
+      {favorites && (
+        <div
+          className="
+            absolute top-0 left-0 bg-amber-400 text-black font-bold text-2xl
+            w-8 h-8 flex items-center justify-center rounded-br-lg z-10
+            transition-all duration-500
+            group-hover:scale-110
+            group-active:scale-110
+          "
+        >
+          <i className='pi pi-heart-fill'></i>
+        </div>
+      )}
       {/* IMAGE */}
       <img
         src={cover}
@@ -58,11 +73,11 @@ const CardMovie = ({
         <h3
           ref={textRef}
           className="
-        text-white pt-3 pb-3.5 font-bold text-lg md:text-xl xl:text-2xl truncate
-        transition-colors duration-500
-        group-hover:text-neutral-400
-        group-active:text-neutral-400
-      "
+            text-white pt-3 pb-3.5 font-bold text-lg md:text-xl xl:text-2xl truncate
+            transition-colors duration-500
+            group-hover:text-neutral-400
+            group-active:text-neutral-400
+          "
         >
           {title}
         </h3>
@@ -70,7 +85,7 @@ const CardMovie = ({
 
       {/* STREAM BUTTON */}
       <Link
-        href={slug}
+        href={'/' + slug}
         className="
           relative overflow-hidden block w-full py-2 sm:px-3
           rounded text-[12px] md:text-sm font-semibold

@@ -1,8 +1,6 @@
-// app/filmes/[slug]/page.tsx
-
-import { Film } from '@/component';
 import { getMovieBySlug, listHomeMovies } from '@/services/api';
-import { Movie, Session, SessionsByDate } from '@/services/models';
+import { Movie, SessionsByDate } from '@/services/models';
+import { Film } from '@/ui';
 
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';

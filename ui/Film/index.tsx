@@ -4,18 +4,14 @@ import { Image } from 'primereact/image';
 import { autoplay, CtaButton, Divider, Slide, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
 import React, { Suspense, useMemo, useState, useEffect } from 'react';
-import text from '../../../services/localization/pt.json';
+import text from '../../services/localization/pt.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import mook from './mook.json';
 import {
   BRAZILIAN_STATES,
   Movie,
-  SessionsByDate,
   Session,
   SessionsResponse,
-  SessionLocationResponse,
-  SessionLocationByDate,
-  SessionLocation,
   StateCitiesResponse,
 } from '@/services/models';
 import { useFormattedDate } from '@/hooks/useFormattedDate';

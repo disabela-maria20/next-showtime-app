@@ -13,16 +13,16 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
             </h1>
             <div className="px-14 pb-32 flex flex-col gap-4 md:hidden">
               <img src="/img/foto.png" alt="Foto de perfil" />
-              <StreamButton variant="ghost" fullWidth>
+              <StreamButton variant="white" fullWidth>
                 Alterar Avatar
               </StreamButton>
-              <StreamButton variant="ghost" fullWidth>
+              <StreamButton variant="white" fullWidth>
                 Favoritos
               </StreamButton>
-              <StreamButton variant="ghost" fullWidth>
+              <StreamButton variant="white" fullWidth>
                 Dados
               </StreamButton>
-              <StreamButton variant="ghost" fullWidth>
+              <StreamButton variant="white" fullWidth>
                 Termos
               </StreamButton>
             </div>
@@ -30,10 +30,34 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
         </div>
       </section>
       <Divider />
-      <section>
-        <div className="container mx-auto px-6">{children}</div>
+      <section className="bg-[#1C1C1C] py-14 md:py-24">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="hidden md:flex flex-col gap-8">
+              <div className="bg-neutral-700 p-6 rounded">
+                <div className="flex flex-col gap-4">
+                  <img src="/img/foto.png" alt="Foto de perfil" />
+                  <StreamButton variant="white" fullWidth>
+                    Alterar Avatar
+                  </StreamButton>
+                  <div className="flex gap-2 items-center">
+                    <StreamButton href='/favoritos' variant="white" fullWidth>
+                      Favoritos
+                    </StreamButton>
+                    <StreamButton href='/dados' variant="white" fullWidth>
+                      Dados
+                    </StreamButton>
+                    <StreamButton href='/termos' variant="white" fullWidth>
+                      Termos
+                    </StreamButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='col-span-2'>{children}</div>
+          </div>
+        </div>
       </section>
-
       <Footer />
     </>
   );
