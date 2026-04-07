@@ -61,6 +61,7 @@ export interface StreamingPlatform {
 // ==========================
 
 export interface Session {
+  date(date: any): unknown;
   distance: number;
   theaterName: string;
   technology: string;
