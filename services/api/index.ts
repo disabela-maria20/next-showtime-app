@@ -61,9 +61,9 @@ export function createNewsletterSubscription(payload: {
   name: string;
   email: string;
   phone: string;
-  url: string;
+  message: string;
 }) {
-  return handleRequest(api.post('/save/optin', payload));
+  return handleRequest(api.post('', payload));
 }
 
 // 📩 CONTACT

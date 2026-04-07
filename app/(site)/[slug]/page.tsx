@@ -1,6 +1,6 @@
 import { getMovieBySlug, listHomeMovies } from '@/services/api';
 import { Movie, SessionsByDate } from '@/services/models';
-import { Film } from '@/ui';
+import { Film } from '@/screens';
 
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';

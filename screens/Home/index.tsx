@@ -10,7 +10,7 @@ import React, {
   useRef,
 } from 'react';
 import mook from './mook.json';
-import { autoplay, CardMovie, CtaButton, Divider, Slide, StreamButton } from '@/component';
+import { autoplay, CardMovie, CtaButton, Divider, Newsletter, Slide, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
 import text from '../../services/localization/pt.json';
 import { Banner, Movie } from '@/services/models';
@@ -540,78 +540,7 @@ const Home = ({ banner, listMovie }: HomeProps) => {
                   <p className="text-white/80">{text.secao5.description}</p>
                 </div>
 
-                <form action="" className="space-y-4">
-                  <div>
-                    <label htmlFor="nome" className="block mb-1">
-                      <span className="text-blue-600 font-medium">Nome:</span>
-                    </label>
-                    <input
-                      id="nome"
-                      type="text"
-                      className="w-full px-4 py-2.5 bg-black border border-blue-600 rounded-lg text-white focus:border-b-blue-600 focus:outline-none transition"
-                      placeholder="Seu nome completo"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="tel" className="block mb-1">
-                        <span className="text-blue-600 font-medium">
-                          Telefone:
-                        </span>
-                      </label>
-                      <input
-                        id="tel"
-                        type="tel"
-                        className="w-full px-4 py-2.5 bg-black border border-blue-600 rounded-lg text-white focus:border-blue-600 focus:outline-none transition"
-                        placeholder="(11) 99999-9999"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block mb-1">
-                        <span className="text-blue-600 font-medium">
-                          Email:
-                        </span>
-                      </label>
-                      <input
-                        id="email"
-                        type="email"
-                        className="w-full px-4 py-2.5 bg-black border border-blue-600 rounded-lg text-white focus:border-amber-400 focus:outline-none transition"
-                        placeholder="seu@email.com"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pb-14 md:0">
-                    <label className="flex items-start gap-3 cursor-pointer select-none max-w-xl group">
-                      <input
-                        type="checkbox"
-                        className="peer sr-only"
-                        checked={checked}
-                        onChange={(e) => setChecked(e.target.checked)}
-                      />
-                      <div
-                        className={`shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200
-                          ${checked ? 'border-blue-600' : 'border-white/30'}`}
-                      >
-                        <div
-                          className={`w-3 h-3 rounded-full bg-blue-600 transition-all duration-200
-                            ${checked ? 'scale-100' : 'scale-0'}`}
-                        />
-                      </div>
-                      <div className="leading-tight">
-                        <p className="text-sm text-white peer-checked:text-blue-400 transition-colors">
-                          Eu aceito receber newsletters
-                        </p>
-                        <p className="text-xs text-white/60">
-                          Lorem ipsum dolor sit amet, consectetur incididunt ut
-                          labore et dolore magna.
-                        </p>
-                      </div>
-                    </label>
-                    <CtaButton disabled={!checked}>cadastrar</CtaButton>
-                  </div>
-                </form>
+                <Newsletter />
               </div>
             </div>
           </div>

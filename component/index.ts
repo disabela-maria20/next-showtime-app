@@ -11,3 +11,4 @@ export { Modal } from './Modal';
 
 export { default as LoginForm } from './Form/Login';
 export { default as FormRegister } from './Form/Register';
+export { default as Newsletter } from './Form/Newsletter';

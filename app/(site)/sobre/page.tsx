@@ -1,6 +1,6 @@
 import { listHomeMovies } from '@/services/api';
 import { Movie } from '@/services/models';
-import { About } from '@/ui';
+import { About } from '@/screens';
 
 export default async function pageSobre() {
   const listMovies = (await listHomeMovies()) as {
