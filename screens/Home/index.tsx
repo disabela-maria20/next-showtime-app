@@ -10,7 +10,15 @@ import React, {
   useRef,
 } from 'react';
 import mook from './mook.json';
-import { autoplay, CardMovie, CtaButton, Divider, Newsletter, Slide, StreamButton } from '@/component';
+import {
+  autoplay,
+  CardMovie,
+  CtaButton,
+  Divider,
+  Newsletter,
+  Slide,
+  StreamButton,
+} from '@/component';
 import { Rating } from 'primereact/rating';
 import text from '../../services/localization/pt.json';
 import { Banner, Movie } from '@/services/models';
@@ -84,8 +92,7 @@ const Home = ({ banner, listMovie }: HomeProps) => {
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       result = result.filter(
-        (movie) =>
-          movie.title?.toLowerCase().includes(term) 
+        (movie) => movie.title?.toLowerCase().includes(term)
         // ||
         //   movie.originalTitle?.toLowerCase().includes(term) ||
         //   movie.synopsis?.toLowerCase().includes(term) ||
@@ -140,8 +147,6 @@ const Home = ({ banner, listMovie }: HomeProps) => {
     selectedTechnology,
     applyFilters,
   ]);
-
-
 
   // Função para lidar com a mudança de página
   const onPageChange = (event: PaginatorPageChangeEvent) => {
@@ -253,7 +258,7 @@ const Home = ({ banner, listMovie }: HomeProps) => {
 
         {isMobile && <Divider />}
 
-        {/* ===== SEÇÃO 2 ===== */}
+        {/* ===== TOP 10 ===== */}
         <section
           className="py-14 md:py-32 overflow-hidden relative
           before:content-[''] before:absolute before:top-0 before:right-0
@@ -288,8 +293,12 @@ const Home = ({ banner, listMovie }: HomeProps) => {
             </Slide>
           </div>
         </section>
-
-        {/* ===== SEÇÃO 3 ===== */}
+        {/* Noticia  */}
+        <section>
+          <div className="container max-w-490 m-auto px-12">
+            
+          </div>
+        </section>
         <section
           className="py-14 md:py-32 bg-neutral-700 overflow-hidden relative
           before:content-[''] before:absolute before:top-0 before:right-0
@@ -429,7 +438,10 @@ const Home = ({ banner, listMovie }: HomeProps) => {
 
               {/* Botões */}
               <div>
-                <StreamButton onClick={clearFilters} variant='amber' fullWidth> Limpar filtros</StreamButton>
+                <StreamButton onClick={clearFilters} variant="amber" fullWidth>
+                  {' '}
+                  Limpar filtros
+                </StreamButton>
               </div>
             </div>
 

@@ -1,0 +1,83 @@
+{
+  "noticias": [
+    {
+      "id": 1,
+      "publishedAt": "2026-04-08T19:00:00Z",
+      "category": {
+        "label": "Estreias",
+        "slug": "estreias"
+      },
+      "content": {
+        "title": "Os lançamentos mais aguardados do mês",
+        "description": "Confira os filmes que chegam às telonas com histórias envolventes e grandes produções.",
+        "slug": "os-lançamentos-mais-aguardados-do-mes"
+      },
+      "media": {
+        "type": "image",
+        "src": "/images/estreias.jpg",
+        "alt": "Tela de cinema exibindo trailer"
+      },
+      "highlight": {
+        "id": 100,
+        "title": "O Diabo Veste Prada 2",
+        "slug": "o-diabo-veste-prada-2",
+        "publishedAt": "2026-04-08T18:00:00Z",
+        "releaseDate": "2026-04-30",
+        "label": "30 de Abril nos cinemas",
+        "media": {
+          "type": "image",
+          "src": "/images/prada-2-banner.jpg",
+          "alt": "Personagens em um escritório sofisticado"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "publishedAt": "2026-04-07T16:30:00Z",
+      "category": {
+        "label": "Ação",
+        "slug": "acao"
+      },
+      "content": {
+        "title": "Filme de ação domina bilheterias na estreia",
+        "description": "Com cenas intensas e efeitos impressionantes, o longa já é destaque nos cinemas.",
+        "slug": "/noticias/filme-acao"
+      },
+      "media": {
+        "type": "image",
+        "src": "/images/acao.jpg",
+        "alt": "Cena de ação com explosão"
+      },
+      "ticket": {
+        "available": true,
+        "price": 35.0,
+        "currency": "BRL",
+        "purchaseUrl": "/comprar/filme-acao"
+      }
+    },
+    {
+      "id": 3,
+      "publishedAt": "2026-04-06T14:00:00Z",
+      "category": {
+        "label": "Animação",
+        "slug": "animacao"
+      },
+      "content": {
+        "title": "Animação emociona público de todas as idades",
+        "description": "Uma jornada divertida e emocionante que conquista crianças e adultos.",
+        "slug": "/noticias/animacao"
+      },
+      "media": {
+        "type": "image",
+        "src": "/images/animacao.jpg",
+        "alt": "Personagens animados coloridos"
+      },
+      "ticket": {
+        "available": true,
+        "price": 28.0,
+        "currency": "BRL",
+        "purchaseUrl": "/comprar/animacao"
+      }
+    }
+  ]
+}

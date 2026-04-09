@@ -83,7 +83,6 @@ const Film = ({ movie }: MovieProps) => {
   const [activeDate, setActiveDate] = useState<string>('');
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [selectedState, setSelectedState] = useState<string>('');
-  const [isValid, setIsValid] = useState<boolean | null>(null);
 
   const { isMobile } = useIsMobile();
 
@@ -103,7 +102,8 @@ const Film = ({ movie }: MovieProps) => {
       getSessionLocationsByMovie(movie.slug) as Promise<StateCitiesResponse>,
     enabled: !!movie.slug,
   });
-
+  console.log(listSessionLocation);
+  
   const isCityExists = useMemo(
     () =>
       city && listSessionLocation?.some((data) => data.cities.includes(city)),
@@ -135,7 +135,7 @@ const Film = ({ movie }: MovieProps) => {
         : Promise.resolve(null),
     enabled: !!city && !!movie.slug,
   });
-
+  
   const availableDates = useMemo(() => {
     return listSessions?.sessions?.map((item) => item.date) || [];
   }, [listSessions]);
