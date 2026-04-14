@@ -35,7 +35,7 @@ const variants = {
     fill: 'bg-white',
     baseBg: 'bg-blue-600',
     hoverText: 'group-hover:text-blue-600',
-    hoverBorder: 'group-hover:border-blue-600',
+    hoverBorder: 'group-hover:border-white',
     hasFillAnimation: true,
   },
 
@@ -102,8 +102,8 @@ const variants = {
 // text-neutral-400
 const sizes = {
   sm: 'px-3 py-1 text-sm',
-  md: 'px-4 py-2 text-base',
-  lg: 'px-5 py-3 text-lg',
+  md: 'px-6 py-2 text-base',
+  lg: 'px-8 py-3 text-lg',
 };
 
 const StreamButton = ({
@@ -125,6 +125,7 @@ const StreamButton = ({
 
   const baseStyle = `
     group relative
+    font-bold
     ${fullWidth ? 'flex w-full' : 'inline-flex w-fit'}
     items-center justify-center
     overflow-hidden
@@ -164,7 +165,7 @@ const StreamButton = ({
       >
         {!iconOnly && (
           <span
-            className={`font-normal ${!disabled && !loading ? v.hoverText : ''}`}
+            className={`font-bold ${!disabled && !loading ? v.hoverText : ''}`}
           >
             {loading ? 'Carregando...' : children}
           </span>
@@ -186,6 +187,7 @@ const StreamButton = ({
             absolute inset-0
             rounded
             border
+            font-bold
             ${v.border}
             ${v.hoverBorder}
           `}

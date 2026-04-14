@@ -9,12 +9,13 @@ import React, {
   useCallback,
   useRef,
 } from 'react';
-import mook from './mook.json';
+
 import {
   autoplay,
   CardMovie,
   CtaButton,
   Divider,
+  News,
   Newsletter,
   Slide,
   StreamButton,
@@ -23,7 +24,8 @@ import { Rating } from 'primereact/rating';
 import text from '../../services/localization/pt.json';
 import { Banner, Movie } from '@/services/models';
 import { Paginator, PaginatorPageChangeEvent } from 'primereact/paginator';
-
+import mook from '../../services/mook/index.json';
+import mooks from './mook.json';
 interface HomeProps {
   banner: Array<Banner>;
   listMovie: {
@@ -293,10 +295,43 @@ const Home = ({ banner, listMovie }: HomeProps) => {
             </Slide>
           </div>
         </section>
-        {/* Noticia  */}
-        <section>
+
+        {/* ===== Noticia =====  */}
+        <section className='pb-14 md:pb-32'>
           <div className="container max-w-490 m-auto px-12">
-            
+            <Slide
+              options={{
+                loop: false,
+                slides: { perView: 1, spacing: 12 },
+              }}
+            >
+              <Slide.Track>
+                {mook.noticias.map((item, i) => (
+                  <Slide.Item key={item.id}>
+                    <News.Grid className="grid-cols-1 md:grid-cols-2 gap-4 items-start md:items-center md:gap-16 xl:gap-36">
+                      <div className='flex flex-col gap-7 '>
+                        <News.Tag href={item.category.slug}>
+                          {item.category.label}
+                        </News.Tag>
+                        <News.Title>{item.content.title}</News.Title>
+                        <News.Description>
+                          {item.content.description}
+                        </News.Description>
+                        <div className="flex flex-col items-center gap-3.5 md:flex-row md:items-center md:justify-between">
+                          <StreamButton href={item.content.slug} size='lg'>
+                           Ver mais notícias
+                          </StreamButton>
+                          <Slide.Dots center={false} />
+                        </div>
+                      </div>
+                      <div>
+                        <News.Img src={item.media.src} alt={item.media.alt} className='md:h-131' />
+                      </div>
+                    </News.Grid>
+                  </Slide.Item>
+                ))}
+              </Slide.Track>
+            </Slide>
           </div>
         </section>
         <section
@@ -580,7 +615,7 @@ const Home = ({ banner, listMovie }: HomeProps) => {
               }}
             >
               <Slide.Track style={{ overflow: 'visible' }}>
-                {mook.lancamentos.map((item) => (
+                {mooks.lancamentos.map((item) => (
                   <Slide.Item key={item.id} className="md:w-auto!">
                     <div className="bg-black rounded-lg overflow-hidden bg-radial-[ellipse_at_360%_360%] from-blue-600 to-black to-100% h-full">
                       <div

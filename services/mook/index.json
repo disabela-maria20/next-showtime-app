@@ -9,12 +9,12 @@
       },
       "content": {
         "title": "Os lançamentos mais aguardados do mês",
-        "description": "Confira os filmes que chegam às telonas com histórias envolventes e grandes produções.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
         "slug": "os-lançamentos-mais-aguardados-do-mes"
       },
       "media": {
         "type": "image",
-        "src": "/images/estreias.jpg",
+        "src": "/img/banner/noticias01.png",
         "alt": "Tela de cinema exibindo trailer"
       },
       "highlight": {
@@ -33,50 +33,126 @@
     },
     {
       "id": 2,
-      "publishedAt": "2026-04-07T16:30:00Z",
+      "publishedAt": "2026-04-07T15:30:00Z",
       "category": {
         "label": "Ação",
         "slug": "acao"
       },
       "content": {
-        "title": "Filme de ação domina bilheterias na estreia",
-        "description": "Com cenas intensas e efeitos impressionantes, o longa já é destaque nos cinemas.",
-        "slug": "/noticias/filme-acao"
+        "title": "Explosões e adrenalina dominam as estreias de ação",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
+        "slug": "explosoes-e-adrenalina-dominam-as-estreias-de-acao"
       },
       "media": {
         "type": "image",
-        "src": "/images/acao.jpg",
-        "alt": "Cena de ação com explosão"
+        "src": "/img/banner/noticias01.png",
+        "alt": "Cena de perseguição de carro"
       },
-      "ticket": {
-        "available": true,
-        "price": 35.0,
-        "currency": "BRL",
-        "purchaseUrl": "/comprar/filme-acao"
+      "highlight": {
+        "id": 101,
+        "title": "Velocidade Final 5",
+        "slug": "velocidade-final-5",
+        "publishedAt": "2026-04-07T14:00:00Z",
+        "releaseDate": "2026-05-10",
+        "label": "Em breve nos cinemas",
+        "media": {
+          "type": "image",
+          "src": "/img/banner/noticias01.png",
+          "alt": "Carros em alta velocidade na estrada"
+        }
       }
     },
     {
       "id": 3,
-      "publishedAt": "2026-04-06T14:00:00Z",
+      "publishedAt": "2026-04-06T12:00:00Z",
       "category": {
-        "label": "Animação",
-        "slug": "animacao"
+        "label": "Drama",
+        "slug": "drama"
       },
       "content": {
-        "title": "Animação emociona público de todas as idades",
-        "description": "Uma jornada divertida e emocionante que conquista crianças e adultos.",
-        "slug": "/noticias/animacao"
+        "title": "Histórias emocionantes que prometem tocar o público",
+        "description": "Filmes dramáticos com narrativas profundas e atuações marcantes.",
+        "slug": "historias-emocionantes-que-prometem-tocar-o-publico"
       },
       "media": {
         "type": "image",
-        "src": "/images/animacao.jpg",
-        "alt": "Personagens animados coloridos"
+        "src": "/img/banner/noticias01.png",
+        "alt": "Cena emocional entre dois personagens"
       },
-      "ticket": {
-        "available": true,
-        "price": 28.0,
-        "currency": "BRL",
-        "purchaseUrl": "/comprar/animacao"
+      "highlight": {
+        "id": 102,
+        "title": "Última Carta",
+        "slug": "ultima-carta",
+        "publishedAt": "2026-04-06T11:00:00Z",
+        "releaseDate": "2026-05-20",
+        "label": "História baseada em fatos reais",
+        "media": {
+          "type": "image",
+          "src": "/images/ultima-carta.jpg",
+          "alt": "Pessoa escrevendo uma carta antiga"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "publishedAt": "2026-04-05T10:00:00Z",
+      "category": {
+        "label": "Ficção Científica",
+        "slug": "ficcao-cientifica"
+      },
+      "content": {
+        "title": "O futuro do cinema chega com grandes produções sci-fi",
+        "description": "Viagens espaciais, inteligência artificial e mundos paralelos dominam as telas.",
+        "slug": "o-futuro-do-cinema-chega-com-grandes-producoes-sci-fi"
+      },
+      "media": {
+        "type": "image",
+        "src": "/img/banner/noticias01.png",
+        "alt": "Nave espacial em um planeta desconhecido"
+      },
+      "highlight": {
+        "id": 103,
+        "title": "Horizonte Zero",
+        "slug": "horizonte-zero",
+        "publishedAt": "2026-04-05T09:00:00Z",
+        "releaseDate": "2026-06-01",
+        "label": "Estreia futurista",
+        "media": {
+          "type": "image",
+          "src": "/images/horizonte-zero.jpg",
+          "alt": "Cidade futurista iluminada"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "publishedAt": "2026-04-04T08:00:00Z",
+      "category": {
+        "label": "Comédia",
+        "slug": "comedia"
+      },
+      "content": {
+        "title": "As comédias mais divertidas do ano estão chegando",
+        "description": "Prepare-se para rir com histórias leves e personagens inusitados.",
+        "slug": "as-comedias-mais-divertidas-do-ano-estao-chegando"
+      },
+      "media": {
+        "type": "image",
+        "src": "/img/banner/noticias01.png",
+        "alt": "Cena divertida com personagens rindo"
+      },
+      "highlight": {
+        "id": 104,
+        "title": "Confusão no Casamento",
+        "slug": "confusao-no-casamento",
+        "publishedAt": "2026-04-04T07:00:00Z",
+        "releaseDate": "2026-05-05",
+        "label": "Comédia romântica",
+        "media": {
+          "type": "image",
+          "src": "/images/confusao-casamento.jpg",
+          "alt": "Noivos em situação caótica"
+        }
       }
     }
   ]

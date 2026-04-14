@@ -18,6 +18,11 @@
       },
       {
         "id": 4,
+        "label": "Em-breve",
+        "href": "/em-breve"
+      },
+      {
+        "id": 5,
         "label": "Ajuda",
         "href": "/ajuda"
       }

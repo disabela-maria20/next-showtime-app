@@ -8,6 +8,7 @@ export { autoplay } from './Slide/plugins';
 export { default as LocationConsentModal } from './LocationConsentModal';
 export { Slide } from './Slide';
 export { Modal } from './Modal';
+export { News } from './News';
 
 export { default as LoginForm } from './Form/Login';
 export { default as FormRegister } from './Form/Register';

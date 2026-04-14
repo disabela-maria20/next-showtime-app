@@ -1,12 +1,12 @@
 'use client';
 
 import { Image } from 'primereact/image';
-import { CtaButton, Divider, Slide, StreamButton } from '@/component';
+import { CtaButton, Divider, News, Slide, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
 import React, { Suspense, useMemo, useState, useEffect } from 'react';
 import text from '../../services/localization/pt.json';
 import useIsMobile from '@/hooks/useIsMobile';
-import mook from './mook.json';
+import mooks from './mook.json';
 import {
   BRAZILIAN_STATES,
   Movie,
@@ -21,7 +21,7 @@ import {
   getSessionsByMovieAndCity,
 } from '@/services/api';
 import { useLocationStore } from '@/services/store/locationStore';
-
+import mook from '../../services/mook/index.json';
 type MovieProps = {
   movie: Movie;
 };
@@ -47,6 +47,12 @@ function findStateName(sigla: string): string {
     BRAZILIAN_STATES[sigla as keyof typeof BRAZILIAN_STATES] ??
     'Estado não encontrado'
   );
+}
+
+function truncate(text: string, maxLength: number) {
+  if (text.length <= maxLength) return text;
+
+  return text.slice(0, maxLength).trimEnd() + '...';
 }
 
 const DateBadge = ({
@@ -103,7 +109,7 @@ const Film = ({ movie }: MovieProps) => {
     enabled: !!movie.slug,
   });
   console.log(listSessionLocation);
-  
+
   const isCityExists = useMemo(
     () =>
       city && listSessionLocation?.some((data) => data.cities.includes(city)),
@@ -135,7 +141,7 @@ const Film = ({ movie }: MovieProps) => {
         : Promise.resolve(null),
     enabled: !!city && !!movie.slug,
   });
-  
+
   const availableDates = useMemo(() => {
     return listSessions?.sessions?.map((item) => item.date) || [];
   }, [listSessions]);
@@ -258,7 +264,7 @@ const Film = ({ movie }: MovieProps) => {
               </h2>
               <div className="flex flex-row justify-center md:justify-normal gap-4 items-center">
                 <Rating
-                  value={mook.star}
+                  value={mooks.star}
                   cancel={false}
                   cancelIcon={''}
                   onIcon={<i className="pi pi-star-fill text-amber-400"></i>}
@@ -286,7 +292,7 @@ const Film = ({ movie }: MovieProps) => {
       </section>
 
       <Divider />
-      <section className="overflow-hidden">
+      <section className="overflow-hidden bg-neutral-800">
         <div className="px-9 md:grid md:grid-cols-3 py-12 gap-9">
           <div>
             <h2 className="font-extrabold pb-3.5 text-[18px] md:text-3xl">
@@ -645,6 +651,44 @@ const Film = ({ movie }: MovieProps) => {
             </div>
           </div>
         )}
+
+        <section className="pb-8 md:pb-16">
+          <div className="container max-w-490 m-auto px-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch h-full">
+              {mook.noticias.slice(0, 2).map((item) => (
+                <News.Grid
+                  className="grid grid-cols-1 md:grid-cols-2 gap-9 items-stretch h-full"
+                  key={item.id}
+                >
+                  {/* TEXTO */}
+                  <div className="flex flex-col gap-2 justify-center">
+                    <News.Tag href={item.category.slug}>
+                      {item.category.label}
+                    </News.Tag>
+
+                    <News.Title size="md">{item.content.title}</News.Title>
+
+                    <News.Description>
+                      {truncate(item.content.description, 80)}
+                    </News.Description>
+                  </div>
+
+                  {/* IMAGEM */}
+                  <div className="h-full">
+                    <News.Img
+                      src={item.media.src}
+                      alt={item.media.alt}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                </News.Grid>
+              ))}
+            </div>
+            <div className='flex justify-center md:justify-end pt-6 md:pt-16'>
+              <StreamButton size='lg'>Ver mais notícias</StreamButton>
+            </div>
+          </div>
+        </section>
       </section>
     </Suspense>
   );

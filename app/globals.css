@@ -16,14 +16,19 @@
   --color-blue-700: #105bb7;
 
   --font-hanken-grotesk: var(--font-hanken-grotesk);
+
+  
 }
 
-* {
-  font-family: var(--font-hanken-grotesk), sans-serif;
-}
-body {
-  background: var(--color-black);
-  color: var(--color-white);
+@layer base {
+  * {
+    font-family: var(--font-hanken-grotesk), sans-serif;
+  }
+  body {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
 }
 
 .no-scrollbar::-webkit-scrollbar {
