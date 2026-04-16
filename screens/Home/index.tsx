@@ -474,7 +474,6 @@ const Home = ({ banner, listMovie }: HomeProps) => {
               {/* Botões */}
               <div>
                 <StreamButton onClick={clearFilters} variant="amber" fullWidth>
-                  {' '}
                   Limpar filtros
                 </StreamButton>
               </div>
