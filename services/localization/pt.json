@@ -23,6 +23,11 @@
       },
       {
         "id": 5,
+        "label": "Noticias",
+        "href": "/noticias"
+      },
+      {
+        "id": 6,
         "label": "Ajuda",
         "href": "/ajuda"
       }

@@ -224,3 +224,43 @@ export interface StateCities {
 }
 
 export type StateCitiesResponse = StateCities[];
+
+export interface NoticiasResponse {
+  noticias: Noticia[];
+}
+
+export interface Noticia {
+  id: number;
+  publishedAt: string; // ISO date
+  category: Category;
+  content: Content;
+  media: Media;
+  highlight: Highlight;
+}
+
+export interface Category {
+  label: string;
+  slug: string;
+}
+
+export interface Content {
+  title: string;
+  description: string;
+  slug: string;
+}
+
+export interface Media {
+  type:string;
+  src: string;
+  alt: string;
+}
+
+export interface Highlight {
+  id: number;
+  title: string;
+  slug: string;
+  publishedAt: string; // ISO date
+  releaseDate: string; // YYYY-MM-DD
+  label: string;
+  media: Media;
+}
