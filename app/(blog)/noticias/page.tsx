@@ -1,7 +1,7 @@
-import { News, NewsPost } from '@/screens';
+import { NewsPage } from '@/screens';
 import mook from '@/services/mook/index.json';
 
 export default async function pageNoticias() {
   const news = mook.noticias;
-  return <News noticias={news} />;
+  return <NewsPage noticias={news} />;
 }

@@ -22,10 +22,6 @@ export default async function PageNewsPost({ params }: PageProps) {
     (n) => n.content.slug === slug
   );
 
-  console.log('====================================');
-  console.log(slug, mook.noticias.filter((n) => n.content.slug === slug));
-  console.log('====================================');
-  // 🔥 evita erro 500
   if (!noticia) {
     return <div>Notícia não encontrada</div>;
   }

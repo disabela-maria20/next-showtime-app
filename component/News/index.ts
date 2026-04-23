@@ -6,10 +6,12 @@ import Title from './Title';
 import Img from './Img';
 import Grid from './Grid';
 
+console.log({ Description, Tag, Title, Img, Grid });
+
 export const News = {
-  Description: Description,
-  Tag: Tag,
-  Title: Title,
-  Img: Img,
-  Grid: Grid,
+  Description,
+  Tag,
+  Title,
+  Img,
+  Grid,
 }

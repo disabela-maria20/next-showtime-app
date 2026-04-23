@@ -4,7 +4,7 @@ interface NewsDescriptionProps {
 
 const Description = ({ children }: NewsDescriptionProps) => {
   return (
-    <div>
+    <div className="flex flex-col gap-2 md:gap-4">
       {children}
     </div>
   )
