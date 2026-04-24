@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Modal } from '../Modal';
-import StreamButton from '../StreamButton';
+import { Modal } from '../../ui/Modal';
+import StreamButton from '../../shared/StreamButton';
 import { useLocationStore } from '@/store/locationStore';
 
 const LocationConsentModal = () => {

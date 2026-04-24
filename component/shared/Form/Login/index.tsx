@@ -2,7 +2,7 @@
 import { LoginSchema, LoginSchemaType } from './login.schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import StreamButton from '@/component/StreamButton';
+import StreamButton from '@/component/shared/StreamButton';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 

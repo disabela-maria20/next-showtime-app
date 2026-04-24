@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import React from 'react';
-import text from '../../services/localization/pt.json';
+import text from '../../../services/localization/pt.json';
 import { useAutoFontSize } from '@/hooks/useAutoFontSize';
 
 type CardMovieProps = {
@@ -24,10 +24,7 @@ const CardMovie = ({
 }: CardMovieProps) => {
   const { containerRef, textRef } = useAutoFontSize();
   return (
-    <div
-      
-      className="group relative bg-neutral-800 rounded p-2.5 text-center"
-    >
+    <div className="group relative bg-neutral-800 rounded p-2.5 text-center">
       {/* NUMBER */}
       {ranking && (
         <div
@@ -53,7 +50,7 @@ const CardMovie = ({
             group-active:scale-110
           "
         >
-          <i className='pi pi-heart-fill'></i>
+          <i className="pi pi-heart-fill"></i>
         </div>
       )}
       {/* IMAGE */}
@@ -69,7 +66,10 @@ const CardMovie = ({
       />
 
       {/* TITLE */}
-      <div ref={containerRef} className='flex justify-center items-center py-1.5'>
+      <div
+        ref={containerRef}
+        className="flex justify-center items-center py-1.5"
+      >
         <h3
           ref={textRef}
           className="

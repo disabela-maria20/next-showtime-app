@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import text from '../../services/localization/pt.json';
+import text from '../../../services/localization/pt.json';
 
 import Link from 'next/link';
-import StreamButton from '../StreamButton';
+import StreamButton from '../../shared/StreamButton';
 import { useLocationStore } from '@/store/locationStore';
 
 const Menu = () => {
