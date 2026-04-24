@@ -1,3 +1,5 @@
+'use client';
+
 import { useSlide } from '../Slide.context';
 
 type Props = {
@@ -9,7 +11,10 @@ const Dots = ({ center = true }: Props) => {
 
   if (!loaded || !instanceRef.current) return null;
 
-  const slides = instanceRef.current.track.details.slides.length;
+  // Verificação de segurança - garantir que track e details existam
+  const slidesCount = instanceRef.current.track?.details?.slides?.length ?? 0;
+
+  if (slidesCount === 0) return null;
 
   const containerClass = center
     ? 'absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20'
@@ -17,7 +22,7 @@ const Dots = ({ center = true }: Props) => {
 
   return (
     <div className={containerClass}>
-      {Array.from({ length: slides }).map((_, idx) => (
+      {Array.from({ length: slidesCount }).map((_, idx) => (
         <button
           key={idx}
           onClick={() => instanceRef.current?.moveToIdx(idx)}

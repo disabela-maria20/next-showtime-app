@@ -1,4 +1,4 @@
-import { NewsPage } from '@/screens';
+import { NewsPage } from '@/features';
 import mook from '@/services/mook/index.json';
 
 export default async function pageNoticias() {

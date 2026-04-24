@@ -1,15 +1,11 @@
-import { Noticia } from '@/services/models';
+import { Noticia } from '@/models';
 interface NewsProps {
   noticias: Noticia;
 }
-const NewsPost = ({noticias}: NewsProps) => {
-    console.log(noticias);
-    
-  return (
-    <div>
-      {noticias.content.title}
-    </div>
-  )
-}
+const NewsPost = ({ noticias }: NewsProps) => {
+  console.log(noticias);
 
-export default NewsPost
+  return <div>{noticias.content.title}</div>;
+};
+
+export default NewsPost;

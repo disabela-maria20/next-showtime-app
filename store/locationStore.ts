@@ -1,8 +1,8 @@
 'use client';
 
+import { getUserGeoLocation } from '@/services/api';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { getUserGeoLocation } from '../api';
 
 const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
 
@@ -22,7 +22,7 @@ interface LocationState {
   consentExpiresAt: number | null;
   loading: boolean;
   error: string | null;
-  
+
   setCity: (city: string | null) => void;
   setState: (state: string | null) => void;
   fetchLocation: () => Promise<void>;
@@ -53,12 +53,12 @@ export const useLocationStore = create<LocationState>()(
           console.log('Consentimento não aceito');
           return;
         }
-        
+
         if (city) {
           console.log('Localização já carregada');
           return;
         }
-        
+
         if (loading) {
           console.log('Busca em andamento');
           return;
@@ -67,8 +67,8 @@ export const useLocationStore = create<LocationState>()(
         set({ loading: true, error: null });
 
         try {
-          const data = await getUserGeoLocation() as GeoLocationData;
-          
+          const data = (await getUserGeoLocation()) as GeoLocationData;
+
           set({
             city: data?.city ?? null,
             state: data?.regionName ?? null,
@@ -76,12 +76,14 @@ export const useLocationStore = create<LocationState>()(
             loading: false,
             error: null,
           });
-
         } catch (error) {
           console.error('Erro ao buscar localização:', error);
-          set({ 
-            loading: false, 
-            error: error instanceof Error ? error.message : 'Erro ao buscar localização' 
+          set({
+            loading: false,
+            error:
+              error instanceof Error
+                ? error.message
+                : 'Erro ao buscar localização',
           });
         }
       },
@@ -122,7 +124,7 @@ export const useLocationStore = create<LocationState>()(
 
       checkConsentExpiration: () => {
         const { consentExpiresAt, consent } = get();
-        
+
         // Se não tem consentimento ou já está null, retorna false
         if (consent === null || !consentExpiresAt) {
           return false;
@@ -130,7 +132,7 @@ export const useLocationStore = create<LocationState>()(
 
         // Verifica se expirou
         const expired = Date.now() > consentExpiresAt;
-        
+
         if (expired) {
           // Reseta o consentimento se expirou
           set({
@@ -142,14 +144,14 @@ export const useLocationStore = create<LocationState>()(
           });
           return true;
         }
-        
+
         return false;
       },
     }),
     {
       name: 'location-storage',
       storage: createJSONStorage(() => localStorage),
-      
+
       // Não retornar nada no onRehydrateStorage para evitar reset indesejado
       onRehydrateStorage: () => (state) => {
         // Apenas log para debug, sem modificar o estado

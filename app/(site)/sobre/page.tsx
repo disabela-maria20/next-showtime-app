@@ -1,8 +1,7 @@
-
 'use client';
 
 import { listHomeMovies } from '@/services/api';
-import { Movie } from '@/services/models';
+import { Movie } from '@/models';
 import { CardMovie, CtaButton, Divider, Slide } from '@/component';
 
 export default async function pageSobre() {
@@ -141,7 +140,7 @@ export default async function pageSobre() {
             }}
           >
             <Slide.Track style={{ overflow: 'visible' }}>
-              {listMovies.releases.map((item, i) => (
+              {listMovies.streaming.map((item, i) => (
                 <Slide.Item key={item.id}>
                   <CardMovie index={i} {...item} ranking={true} />
                 </Slide.Item>

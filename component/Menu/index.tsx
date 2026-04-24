@@ -2,9 +2,10 @@
 
 import React from 'react';
 import text from '../../services/localization/pt.json';
-import { useLocationStore } from '@/services/store/locationStore';
+
 import Link from 'next/link';
 import StreamButton from '../StreamButton';
+import { useLocationStore } from '@/store/locationStore';
 
 const Menu = () => {
   const { city } = useLocationStore();

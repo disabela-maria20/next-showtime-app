@@ -2,6 +2,12 @@
 // 🎬 MOVIE
 // ==========================
 
+import { JSX } from 'react/jsx-runtime';
+export interface FullMovieProps {
+  releases: Array<Movie>;
+  streaming: Array<Movie>;
+}
+
 export interface Movie {
   id: number;
   title: string;
@@ -147,6 +153,7 @@ export interface Banner {
 }
 
 export interface BannerListResponse {
+  map(arg0: (item: any) => JSX.Element): import('react').ReactNode;
   banners: Banner[];
 }
 
@@ -250,7 +257,7 @@ export interface Content {
 }
 
 export interface Media {
-  type:string;
+  type: string;
   src: string;
   alt: string;
 }

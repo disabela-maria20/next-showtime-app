@@ -13,3 +13,7 @@ export { News } from './News';
 export { default as LoginForm } from './Form/Login';
 export { default as FormRegister } from './Form/Register';
 export { default as Newsletter } from './Form/Newsletter';
+
+export { default as Film } from './feature/movie/Film';
+export { default as Home } from './feature/home/Home';
+export { default as Shortly } from './feature/Shortly/Shortly';

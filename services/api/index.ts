@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BannerListResponse, GeoLocationIp } from '../models';
+import { BannerListResponse, GeoLocationIp } from '../../models';
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,

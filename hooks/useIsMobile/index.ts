@@ -1,30 +1,39 @@
+'use client';
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState, useTransition } from 'react';
+
+const MOBILE_BREAKPOINT = 768;
 
 const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
-    const checkIsMobile = () => {
-      const userAgent: string =
-        typeof window.navigator === 'undefined' ? '' : navigator.userAgent
-      const isMobileDevice: boolean =
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(
-          userAgent
-        )
-      setIsMobile(isMobileDevice)
-      setIsLoading(false)
-    }
+    if (typeof window === 'undefined') return;
 
-    checkIsMobile()
+    const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
 
-    window.addEventListener('resize', checkIsMobile)
+    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      const matches = event.matches;
 
-    return () => window.removeEventListener('resize', checkIsMobile)
-  }, [])
+      startTransition(() => {
+        setIsMobile(matches);
+      });
+    };
 
-  return { isMobile, isLoading }
-}
+    handleChange(mediaQuery);
 
-export default useIsMobile
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
+  return {
+    isMobile: !!isMobile,
+    isReady: isMobile !== null,
+  };
+};
+
+export default useIsMobile;

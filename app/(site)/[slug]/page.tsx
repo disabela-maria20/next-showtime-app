@@ -1,9 +1,9 @@
 import { getMovieBySlug, listHomeMovies } from '@/services/api';
-import { Movie, SessionsByDate } from '@/services/models';
-import { Film } from '@/screens';
+import { Movie, SessionsByDate } from '@/models';
 
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Film } from '@/component';
 
 type MovieProps = {
   movie: Movie;
@@ -13,7 +13,7 @@ export async function generateMetadata(
   props: PageProps<'/[slug]'>
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  const filme = await getMovieBySlug(slug) as MovieProps;
+  const filme = (await getMovieBySlug(slug)) as MovieProps;
   if (!filme) {
     return {
       title: 'Filme não encontrado',

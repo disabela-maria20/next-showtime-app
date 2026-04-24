@@ -2,11 +2,6 @@
   "menu": {
     "nav": [
       {
-        "id": 1,
-        "label": "Calendário",
-        "href": "/calendario"
-      },
-      {
         "id": 2,
         "label": "Filmes",
         "href": "/filmes"
@@ -25,11 +20,6 @@
         "id": 5,
         "label": "Noticias",
         "href": "/noticias"
-      },
-      {
-        "id": 6,
-        "label": "Ajuda",
-        "href": "/ajuda"
       }
     ],
     "logo": {
@@ -44,7 +34,7 @@
   "secao3": "ESTREIAS DA SEMANA",
   "secao4": "<strong>puro suco</strong> do <u>cinema</u>",
   "ctaCompra": "comprar ingressos",
-  "secao5":{
+  "secao5": {
     "title": "entre nessa comunidade.",
     "description": "cadastre-se no portal que te ajuda a encontrar o melhor lugar para você viver o puro suco do cinema.",
     "terms": "Eu aceito receber newsletters",
@@ -52,5 +42,5 @@
       "alt": "Imagem de um grupo de pessoas assistindo a um filme no cinema",
       "src": "/img/section5.png"
     }
-  } 
+  }
 }

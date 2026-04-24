@@ -1,6 +1,6 @@
-import { NewsPost } from '@/screens';
 import mook from '@/services/mook/index.json';
-import { Noticia } from '@/services/models';
+import { Noticia } from '@/models';
+import { NewsPost } from '@/features';
 
 type PageProps = {
   params: {

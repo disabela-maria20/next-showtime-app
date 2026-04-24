@@ -1,7 +1,7 @@
 'use client';
 import { Divider, News, Slide, StreamButton } from '@/component';
 import { useTruncate } from '@/services/hook/useTruncate';
-import { Noticia } from '@/services/models';
+import { Noticia } from '@/models';
 import mook from '../../services/mook/index.json';
 
 interface NewsPageProps {
@@ -64,7 +64,10 @@ const NewsPage = ({ noticias }: NewsPageProps) => {
             <div className="lg:col-span-4">
               {noticias.slice(0, 3).map((noticia) => (
                 <div key={noticia.id} className="mb-6">
-                  <News.Tag variant="amber" href={`/noticias/${noticia.category.slug}`}>
+                  <News.Tag
+                    variant="amber"
+                    href={`/noticias/${noticia.category.slug}`}
+                  >
                     {noticia.category.label}
                   </News.Tag>
                   <News.Title size="sm">{noticia.content.title}</News.Title>

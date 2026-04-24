@@ -1,17 +1,23 @@
-
 'use client';
 
 import { listHomeMovies } from '@/services/api';
-import { Movie } from '@/services/models';
+import { Movie } from '@/models';
 
 import { CardMovie } from '@/component';
 import { useMemo } from 'react';
 
 export default async function pageFavorites() {
-  const listMovies = await listHomeMovies() as { releases: Movie[]; streaming: Movie[] };
-    const movies = useMemo(() => listMovies.releases.concat(listMovies.streaming), [listMovies]);
+  const listMovies = (await listHomeMovies()) as {
+    releases: Movie[];
+    streaming: Movie[];
+  };
+  const movies = useMemo(
+    () => listMovies.releases.concat(listMovies.streaming),
+    [listMovies]
+  );
 
-  return  <section>
+  return (
+    <section>
       <h1 className="text-white text-4xl text-center md:text-left font-bold mb-8">
         Seus Favoritos
       </h1>
@@ -21,4 +27,5 @@ export default async function pageFavorites() {
         ))}
       </div>
     </section>
+  );
 }
