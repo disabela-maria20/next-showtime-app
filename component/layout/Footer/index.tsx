@@ -1,5 +1,5 @@
 import React from 'react';
-import text from '../../services/localization/pt.json';
+import text from '../../../services/localization/pt.json';
 const Footer = () => {
   return (
     <footer className="bg-black text-white py-14">
