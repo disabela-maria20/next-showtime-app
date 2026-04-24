@@ -1,8 +1,9 @@
 'use client';
 import { Divider, News, Slide, StreamButton } from '@/component';
-import { useTruncate } from '@/hook/useTruncate';
+
 import { Noticia } from '@/models';
 import mook from '../../services/mook/index.json';
+import { useTruncate } from '@/hooks/useTruncate';
 
 interface NewsPageProps {
   noticias: Noticia[];
