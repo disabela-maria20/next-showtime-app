@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import text from '../../../services/localization/pt.json';
 
 import Link from 'next/link';
@@ -8,7 +8,20 @@ import StreamButton from '../../shared/StreamButton';
 import { useLocationStore } from '@/store/locationStore';
 
 const Menu = () => {
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { city } = useLocationStore();
+
+  const handleEnter = (href: string) => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setOpenMenu(href);
+  };
+
+  const handleLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setOpenMenu(null);
+    }, 120); // 👈 evita fechar ao mover mouse
+  };
 
   return (
     <header className="w-full z-10 text-white absolute bg-linear-to-b from-black via-black/70 to-transparent">
@@ -37,10 +50,7 @@ const Menu = () => {
           {/* SELECT CIDADE */}
           {city && (
             <div className="row-start-1 col-start-2 md:col-start-2">
-              <select
-                className="bg-gray-800 border border-gray-600 text-sm px-2 py-1 rounded-md w-full lg:w-45.5"
-                aria-label="Selecionar cidade"
-              >
+              <select className="bg-gray-800 border border-gray-600 text-sm px-2 py-1 rounded-md w-full lg:w-45.5">
                 <option>{city}</option>
               </select>
             </div>
@@ -77,13 +87,58 @@ const Menu = () => {
           >
             <ul className="grid grid-flow-col gap-6 md:gap-7 lg:gap-16 text-sm">
               {text.menu.nav.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="hover:text-amber-400 transition-colors duration-300 whitespace-nowrap"
-                  >
-                    {link.label}
-                  </Link>
+                <li
+                  key={link.href}
+                  className="relative pt-2" // 👈 área segura
+                  onMouseEnter={() => handleEnter(link.href)}
+                  onMouseLeave={handleLeave}
+                >
+                  {link.sub ? (
+                    <button
+                      onClick={() =>
+                        setOpenMenu(openMenu === link.href ? null : link.href)
+                      }
+                      className="hover:text-amber-400 transition-colors duration-300 whitespace-nowrap"
+                    >
+                      {link.label}
+                    </button>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="hover:text-amber-400 transition-colors duration-300 whitespace-nowrap"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
+
+                  {link.sub && openMenu === link.href && (
+                    <ul
+                      className="
+                        absolute left-0 top-full
+                        translate-y-1
+                        bg-black/95 backdrop-blur-md
+                        rounded-md shadow-lg
+                        min-w-[180px]
+                        p-2
+                        z-50
+                      "
+                    >
+                      {link.sub.map((data) => (
+                        <li key={data.id}>
+                          <Link
+                            href={`${link.href}${data.href}`}
+                            className="
+                              block px-3 py-2 text-sm
+                              hover:bg-amber-400 hover:text-black
+                              rounded-md transition
+                            "
+                          >
+                            {data.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>
