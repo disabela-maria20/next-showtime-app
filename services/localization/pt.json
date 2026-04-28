@@ -2,22 +2,17 @@
   "menu": {
     "nav": [
       {
-        "id": 2,
-        "label": "Filmes",
-        "href": "/filmes"
-      },
-      {
-        "id": 3,
-        "label": "Sobre",
-        "href": "/sobre"
-      },
-      {
-        "id": 4,
+        "id": 1,
         "label": "Em-breve",
         "href": "/em-breve"
       },
       {
-        "id": 5,
+        "id": 2,
+        "label": "Sobre",
+        "href": "/sobre"
+      },
+      {
+        "id": 3,
         "label": "Noticias",
         "href": "/noticias"
       }

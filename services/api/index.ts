@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { BannerListResponse, GeoLocationIp } from '../../models';
+import {
+  BannerListResponse,
+  FullMovieProps,
+  GeoLocationIp,
+} from '../../models';
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -34,7 +38,7 @@ export function getMovieBySlug(slug: string) {
   return handleRequest(api.get(`/movie/get/${slug}`));
 }
 
-export function listHomeMovies() {
+export function listHomeMovies(): Promise<FullMovieProps> {
   return handleRequest(api.get('/movie/list-all'));
 }
 

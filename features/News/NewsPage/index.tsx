@@ -2,8 +2,9 @@
 import { Divider, News, Slide, StreamButton } from '@/component';
 
 import { Noticia } from '@/models';
-import mook from '../../services/mook/index.json';
+import mook from '../services/index.json';
 import { useTruncate } from '@/hooks/useTruncate';
+import Link from 'next/link';
 
 interface NewsPageProps {
   noticias: Noticia[];
@@ -137,7 +138,9 @@ const NewsPage = ({ noticias }: NewsPageProps) => {
                     {item.category.label}
                   </News.Tag>
 
-                  <News.Title size="md">{item.content.title}</News.Title>
+                  <Link href={`noticias/${item.content.slug}`}>
+                    <News.Title size="md">{item.content.title}</News.Title>
+                  </Link>
 
                   <News.Description>
                     {truncate(item.content.description, 80)}

@@ -18,6 +18,7 @@ export async function generateStaticParams() {
 
 export default async function PageNewsPost({ params }: PageProps) {
   const { slug } = await params;
+  const posts = mook.noticias;
   const noticia: Noticia | undefined = mook.noticias.find(
     (n) => n.content.slug === slug
   );
@@ -26,5 +27,5 @@ export default async function PageNewsPost({ params }: PageProps) {
     return <div>Notícia não encontrada</div>;
   }
 
-  return <NewsPost noticias={noticia} />;
+  return <NewsPost noticias={noticia} all={posts} />;
 }

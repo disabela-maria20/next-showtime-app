@@ -254,6 +254,7 @@ export interface Content {
   title: string;
   description: string;
   slug: string;
+  text: string;
 }
 
 export interface Media {

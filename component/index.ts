@@ -17,3 +17,4 @@ export { default as Newsletter } from './shared/Form/Newsletter';
 export { default as Film } from './feature/movie/Film';
 export { default as Home } from './feature/home/Home';
 export { default as Shortly } from './feature/Shortly/Shortly';
+export { default as Favorites } from './feature/favorites/favorites';
