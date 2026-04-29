@@ -14,16 +14,9 @@ type Props = {
   children: React.ReactNode;
   options?: KeenSliderOptions;
   plugins?: KeenSliderPlugin[];
-<<<<<<< HEAD
 };
 
 const Root = ({ children, options = {}, plugins = [] }: Props) => {
-=======
-  className?: string;
-};
-
-const Root = ({ children, options = {}, plugins = [], className }: Props) => {
->>>>>>> 574814ae7a2c85053049a50464e7574a316becb9
   const [current, setCurrent] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -32,10 +25,6 @@ const Root = ({ children, options = {}, plugins = [], className }: Props) => {
     {
       ...options,
 
-<<<<<<< HEAD
-=======
-      // 👇 mantém suas funções internas + permite sobrescrever
->>>>>>> 574814ae7a2c85053049a50464e7574a316becb9
       created: (slider) => {
         setLoaded(true);
         options?.created?.(slider);
@@ -61,13 +50,7 @@ const Root = ({ children, options = {}, plugins = [], className }: Props) => {
         isPending,
       }}
     >
-<<<<<<< HEAD
       <div className="relative">{children}</div>
-=======
-      <div className={`relative keen-slider ${className || ''}`}>
-        {children}
-      </div>
->>>>>>> 574814ae7a2c85053049a50464e7574a316becb9
     </SlideContext.Provider>
   );
 };
