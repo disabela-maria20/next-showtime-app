@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -11,13 +11,23 @@ import {
 import { StreamButton } from '@/component';
 import { InputText } from 'primereact/inputtext';
 import { Phone } from '@/hooks/useMask';
-import { createUser } from './services';
+import { createUser } from '../services';
 import { Password } from 'primereact/password';
+import { useRouter } from 'next/navigation';
+import { translateError } from '@/lib/errors/error-map';
+import { Messages } from 'primereact/messages';
+import { useAuthStore } from '@/store/authStore';
+import { AuthResponse } from '../types';
 
 const Form = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [termsAccepted, setTermsAccepted] = useState(false);
+
   const totalSteps = 4;
+  const router = useRouter();
+  const msgs = useRef<Messages | null>(null);
+
+  const login = useAuthStore((state) => state.login);
 
   const {
     register,
@@ -25,36 +35,47 @@ const Form = () => {
     control,
     trigger,
     setValue,
-    getValues,
-    watch,
     formState: { errors },
   } = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      favoriteGenres: [],
-      password: '',
-      'repeat-password': '',
+      name: 'Isabela Maria',
+      email: 'isabela@testedev5.com',
+      phone: '51454545151',
+      favoriteGenres: ['comedia', 'romance'],
+      password: 'Senha@123',
+      'repeat-password': 'Senha@123',
     },
     mode: 'onChange',
   });
 
-  // Debug: Monitorar mudanças nos dados
-  const formData = watch();
-  useEffect(() => {
-    console.log('Dados atuais do formulário:', formData);
-  }, [formData]);
-
   const mutation = useMutation({
     mutationFn: async (data: RegisterSchemaType) => {
-      console.log(data);
-
-      await createUser(data);
+      return await createUser(data);
     },
-    onSuccess: () => console.log('Cadastro realizado com sucesso!'),
-    onError: (error) => console.error('Erro no cadastro:', error),
+    onSuccess: (data: AuthResponse) => {
+      login(data.user, data.token);
+      router.push('/favoritos');
+    },
+    onError: (error: any) => {
+      const message = translateError(
+        error?.response?.data?.error || error?.error,
+        error?.message
+      );
+
+      if (msgs.current) {
+        msgs.current.clear();
+        msgs.current?.show([
+          {
+            severity: 'error',
+            summary: 'Error',
+            detail: message,
+            closable: true,
+            life: 5000,
+          },
+        ]);
+      }
+    },
   });
 
   const nextStep = async () => {
@@ -75,17 +96,11 @@ const Form = () => {
     }
 
     if (isValidStep) {
-      // Salvar dados atuais antes de avançar
-      const currentData = getValues();
-      console.log('Salvando dados do step', currentStep, currentData);
       setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
     }
   };
 
   const goBack = () => {
-    // Salvar dados atuais antes de voltar
-    const currentData = getValues();
-    console.log('Salvando dados antes de voltar', currentData);
     setCurrentStep((prev) => prev - 1);
   };
 
@@ -100,7 +115,6 @@ const Form = () => {
             <h2 className="text-xl font-bold text-white mb-4">
               Dados Pessoais
             </h2>
-
             <label htmlFor="name" className="flex flex-col">
               <span className="font-semibold px-1 text-white">Nome</span>
               <InputText
@@ -115,7 +129,6 @@ const Form = () => {
                 </span>
               )}
             </label>
-
             <label htmlFor="tel" className="flex flex-col">
               <span className="font-semibold px-1 text-white">Telefone</span>
               <Controller
@@ -151,7 +164,6 @@ const Form = () => {
         return (
           <div className="space-y-4" key="step2">
             <h2 className="text-xl font-bold text-white mb-4">E-mail</h2>
-
             <label htmlFor="email" className="flex flex-col">
               <span className="font-semibold px-1 text-white">E-mail</span>
               <InputText
@@ -175,7 +187,6 @@ const Form = () => {
             <h2 className="text-xl font-bold text-white mb-4">
               Crie sua Senha
             </h2>
-
             <label htmlFor="password" className="flex flex-col">
               <span className="font-semibold px-1 text-white">Senha</span>
               <Controller
@@ -206,7 +217,6 @@ const Form = () => {
                 </span>
               )}
             </label>
-
             <label htmlFor="'repeat-password'" className="flex flex-col">
               <span className="font-semibold px-1 text-white">
                 Confirmar Senha
@@ -246,7 +256,6 @@ const Form = () => {
         return (
           <div className="space-y-4" key="step4">
             <h2 className="text-xl font-bold text-white mb-4">Interesses</h2>
-
             <label className="flex flex-col">
               <span className="font-semibold px-1 mb-2 text-white">
                 Selecione seus gêneros favoritos
@@ -341,9 +350,7 @@ const Form = () => {
                 </span>
               )}
             </label>
-
-            {/* Checkbox de Termos */}
-            <div className="flex items-center gap-2 mt-4">
+            <div className="flex items-center gap-2">
               <label className="flex items-start gap-3 cursor-pointer select-none max-w-xl group">
                 <input
                   type="checkbox"
@@ -371,6 +378,7 @@ const Form = () => {
                 </div>
               </label>
             </div>
+            <Messages ref={msgs} />
           </div>
         );
 
@@ -395,8 +403,7 @@ const Form = () => {
         className="flex flex-col gap-4 p-8 rounded bg-[#bfbfbf1a] opacity-[0.99] drop-shadow-[0px_3px_12px_rgba(0,0,0,0.15)]"
       >
         {renderStep()}
-
-        <div className="flex items-center gap-2 mt-4">
+        <div className="flex items-center gap-2">
           {currentStep > 1 && (
             <StreamButton
               type="button"
@@ -407,7 +414,6 @@ const Form = () => {
               Voltar
             </StreamButton>
           )}
-
           {currentStep < totalSteps ? (
             <StreamButton
               type="button"
@@ -423,6 +429,7 @@ const Form = () => {
               fullWidth
               variant="blue"
               disabled={mutation.isPending || !termsAccepted}
+              loading={mutation.isPending || mutation.isSuccess}
             >
               {mutation.isPending ? 'Cadastrando...' : 'Finalizar Cadastro'}
             </StreamButton>

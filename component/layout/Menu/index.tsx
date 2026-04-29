@@ -1,16 +1,24 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import text from '../../../services/localization/pt.json';
+import text from '../../../lib/localization/pt.json';
 
 import Link from 'next/link';
 import StreamButton from '../../shared/StreamButton';
 import { useLocationStore } from '@/store/locationStore';
+import { useAuthStore } from '@/store/authStore';
+import { useRouter } from 'next/navigation';
 
 const Menu = () => {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { city } = useLocationStore();
+  const logout = useAuthStore((state) => state.logout);
+  const user = useAuthStore((state) => state.user);
+
+  const router = useRouter();
+
+  console.log(user?.name);
 
   const handleEnter = (href: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -58,23 +66,41 @@ const Menu = () => {
 
           {/* AÇÕES */}
           <div className="row-start-1 col-start-3 md:col-start-4 grid grid-flow-col gap-2 justify-self-end">
-            <StreamButton
-              variant="ghost"
-              size="md"
-              href="/portal"
-              icon="pi pi-user"
-            >
-              <span className="hidden md:block">{text.menu.entrar}</span>
-            </StreamButton>
-
-            <StreamButton
-              variant="ghost"
-              size="md"
-              href="/sair"
-              icon="pi pi-sign-in"
-            >
-              <span className="hidden md:block">{text.menu.sair}</span>
-            </StreamButton>
+            {!user?.name && (
+              <>
+                <StreamButton
+                  variant="ghost"
+                  size="md"
+                  href="/portal"
+                  icon="pi pi-user"
+                >
+                  <span className="hidden md:block">{text.menu.entrar}</span>
+                </StreamButton>
+              </>
+            )}
+            {user?.name && (
+              <>
+                <StreamButton
+                  variant="ghost"
+                  size="md"
+                  href="/favoritos"
+                  icon="pi pi-user"
+                >
+                  <span className="hidden md:block">Perfil</span>
+                </StreamButton>
+                <StreamButton
+                  variant="ghost"
+                  size="md"
+                  icon="pi pi-sign-in"
+                  onClick={() => {
+                    logout();
+                    router.push('/');
+                  }}
+                >
+                  <span className="hidden md:block">{text.menu.sair}</span>
+                </StreamButton>
+              </>
+            )}
           </div>
 
           {/* MENU */}

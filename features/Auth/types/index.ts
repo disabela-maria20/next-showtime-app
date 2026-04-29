@@ -17,3 +17,19 @@ export interface SignUpRequest {
   phone: string;
   favoriteGenres: FavoriteGenre[];
 }
+
+export type AuthUser = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  avatar: string;
+  favoriteGenre: string[];
+  created_at: string;
+};
+
+export type AuthResponse = {
+  token: string;
+  token_type: 'Bearer';
+  user: AuthUser;
+};

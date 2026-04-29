@@ -1,7 +1,22 @@
+'use client';
 import { Divider, Footer, Menu, StreamButton } from '@/component';
-import React, { ReactNode } from 'react';
+import { useAuthStore } from '@/store/authStore';
+import { useRouter } from 'next/navigation';
+
+import React, { ReactNode, useEffect } from 'react';
 
 export default function ProfileLayout({ children }: { children: ReactNode }) {
+  const router = useRouter();
+  const token = useAuthStore((state) => state.token);
+
+  useEffect(() => {
+    if (!token) {
+      router.replace('/ ');
+    }
+  }, [token, router]);
+
+  if (!token) return null;
+
   return (
     <>
       <Menu />
@@ -41,20 +56,20 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
                     Alterar Avatar
                   </StreamButton>
                   <div className="flex gap-2 items-center">
-                    <StreamButton href='/favoritos' variant="white" fullWidth>
+                    <StreamButton href="/favoritos" variant="white" fullWidth>
                       Favoritos
                     </StreamButton>
-                    <StreamButton href='/dados' variant="white" fullWidth>
+                    <StreamButton href="/dados" variant="white" fullWidth>
                       Dados
                     </StreamButton>
-                    <StreamButton href='/termos' variant="white" fullWidth>
+                    <StreamButton href="/termos" variant="white" fullWidth>
                       Termos
                     </StreamButton>
                   </div>
                 </div>
               </div>
             </div>
-            <div className='col-span-2'>{children}</div>
+            <div className="col-span-2">{children}</div>
           </div>
         </div>
       </section>

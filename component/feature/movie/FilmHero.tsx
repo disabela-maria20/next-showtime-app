@@ -3,7 +3,6 @@
 
 import { CtaButton, StreamButton } from '@/component';
 import { Rating } from 'primereact/rating';
-import text from '@/services/localization/pt.json';
 import { Movie } from '@/models';
 
 type FilmHeroProps = {
@@ -68,7 +67,7 @@ export function FilmHero({ movie, isMobile }: FilmHeroProps) {
             <p className="md:text-[18px]">{movie.synopsis}</p>
           </div>
           <div className="hidden md:block">
-            <CtaButton href="/">{text.ctaCompra}</CtaButton>
+            <CtaButton href="/">comprar ingressos</CtaButton>
           </div>
         </div>
       </div>

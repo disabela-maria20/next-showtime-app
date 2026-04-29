@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
-import text from '../../../services/localization/pt.json';
+
 import { useAutoFontSize } from '@/hooks/useAutoFontSize';
 
 type CardMovieProps = {
@@ -115,7 +114,7 @@ const CardMovie = ({
             group-active:text-black
           "
         >
-          {text.ctaCompra}
+          comprar ingressos
         </span>
       </Link>
     </div>
