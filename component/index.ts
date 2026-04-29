@@ -5,13 +5,14 @@ export { default as Divider } from './ui/Divider';
 export { default as CardMovie } from './shared/CardMovie';
 export { default as Footer } from './layout/Footer';
 export { autoplay } from './shared/Slide/plugins';
+export { default as Loading } from './ui/Loading';
 export { default as LocationConsentModal } from './layout/LocationConsentModal';
+
 export { Slide } from './shared/Slide';
 export { Modal } from './ui/Modal';
 export { News } from './ui/News';
 
 export { default as LoginForm } from './shared/Form/Login';
-export { default as FormRegister } from './shared/Form/Register';
 export { default as Newsletter } from './shared/Form/Newsletter';
 
 export { default as Film } from './feature/movie/Film';

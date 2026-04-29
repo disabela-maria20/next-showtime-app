@@ -1,7 +1,11 @@
 'use client';
 
-import { useKeenSlider, KeenSliderOptions } from 'keen-slider/react';
-import { useState } from 'react';
+import {
+  useKeenSlider,
+  KeenSliderOptions,
+  KeenSliderPlugin,
+} from 'keen-slider/react';
+import { useState, useTransition } from 'react';
 
 import 'keen-slider/keen-slider.min.css';
 import { SlideContext } from '../Slide.context';
@@ -9,28 +13,43 @@ import { SlideContext } from '../Slide.context';
 type Props = {
   children: React.ReactNode;
   options?: KeenSliderOptions;
-  plugins?: any[];
+  plugins?: KeenSliderPlugin[];
 };
 
-const Root = ({ children, options, plugins = [] }: Props) => {
+const Root = ({ children, options = {}, plugins = [] }: Props) => {
   const [current, setCurrent] = useState(0);
   const [loaded, setLoaded] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const [sliderRef, instanceRef] = useKeenSlider(
     {
-      slideChanged(slider) {
-        setCurrent(slider.track.details.rel);
-      },
-      created() {
-        setLoaded(true);
-      },
       ...options,
+
+      created: (slider) => {
+        setLoaded(true);
+        options?.created?.(slider);
+      },
+
+      slideChanged: (slider) => {
+        startTransition(() => {
+          setCurrent(slider.track.details.rel);
+        });
+        options?.slideChanged?.(slider);
+      },
     },
     plugins
   );
 
   return (
-    <SlideContext.Provider value={{ sliderRef, instanceRef, current, loaded }}>
+    <SlideContext.Provider
+      value={{
+        sliderRef,
+        instanceRef,
+        current,
+        loaded,
+        isPending,
+      }}
+    >
       <div className="relative">{children}</div>
     </SlideContext.Provider>
   );

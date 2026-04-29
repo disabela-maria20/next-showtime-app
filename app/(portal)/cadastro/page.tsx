@@ -1,5 +1,5 @@
-import { FormRegister } from '@/component';
+import { Register } from '@/features';
 
 export default function pageCadastro() {
-  return <FormRegister />;
+  return <Register />;
 }

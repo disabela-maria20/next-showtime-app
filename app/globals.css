@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --color-*: initial;
@@ -16,8 +16,6 @@
   --color-blue-700: #105bb7;
 
   --font-hanken-grotesk: var(--font-hanken-grotesk);
-
-  
 }
 
 @layer base {
@@ -28,7 +26,6 @@
     background: var(--color-black);
     color: var(--color-white);
   }
-
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -42,4 +39,19 @@
 :focus-visible {
   outline: none;
   outline-offset: none;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
