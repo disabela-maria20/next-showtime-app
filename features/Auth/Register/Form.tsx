@@ -388,11 +388,6 @@ const Form = () => {
   };
 
   const validateTermsBeforeSubmit = (data: RegisterSchemaType) => {
-    if (!termsAccepted) {
-      alert('Você precisa aceitar os termos e condições para continuar');
-      return;
-    }
-    console.log('Dados finais para submit:', data);
     mutation.mutate(data);
   };
 

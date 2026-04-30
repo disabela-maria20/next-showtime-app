@@ -18,8 +18,6 @@ const Menu = () => {
 
   const router = useRouter();
 
-  console.log(user?.name);
-
   const handleEnter = (href: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setOpenMenu(href);
