@@ -39,12 +39,12 @@ const Form = () => {
   } = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      name: 'Isabela Maria',
-      email: 'isabela@testedev5.com',
-      phone: '51454545151',
-      favoriteGenres: ['comedia', 'romance'],
-      password: 'Senha@123',
-      'repeat-password': 'Senha@123',
+      name: '',
+      email: '',
+      phone: '',
+      favoriteGenres: [],
+      password: '',
+      'repeat-password': '',
     },
     mode: 'onChange',
   });
@@ -260,7 +260,7 @@ const Form = () => {
               <span className="font-semibold px-1 mb-2 text-white">
                 Selecione seus gêneros favoritos
               </span>
-              <div className="grid grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
                 {interestOptions.map((category) => (
                   <Controller
                     key={category}
@@ -398,7 +398,7 @@ const Form = () => {
         className="flex flex-col gap-4 p-8 rounded bg-[#bfbfbf1a] opacity-[0.99] drop-shadow-[0px_3px_12px_rgba(0,0,0,0.15)]"
       >
         {renderStep()}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-center gap-2">
           {currentStep > 1 && (
             <StreamButton
               type="button"

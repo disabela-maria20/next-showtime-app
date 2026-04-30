@@ -127,7 +127,7 @@ export default function Form() {
             disabled={mutation.isPending}
             loading={mutation.isPending || mutation.isSuccess}
           >
-            {mutation.isPending ? 'Cadastrando...' : 'Finalizar Cadastro'}
+            {!mutation.isPending || !mutation.isSuccess ? 'Entrar' : 'Entrando'}
           </StreamButton>
 
           <StreamButton href="/cadastro" fullWidth variant="blue-inverted">

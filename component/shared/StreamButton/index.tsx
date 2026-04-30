@@ -11,6 +11,7 @@ type Variant =
   | 'amber'
   | 'white'
   | 'blue-inverted';
+
 type Size = 'sm' | 'md' | 'lg';
 
 type StreamButtonProps = {
@@ -25,7 +26,7 @@ type StreamButtonProps = {
   loading?: boolean;
   fullWidth?: boolean;
   type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean; // Adicionando a prop disabled
+  disabled?: boolean;
 };
 
 const variants = {
@@ -34,8 +35,8 @@ const variants = {
     border: 'border-blue-600',
     fill: 'bg-white',
     baseBg: 'bg-blue-600',
-    hoverText: 'group-hover:text-blue-600',
-    hoverBorder: 'group-hover:border-white',
+    hoverText: 'group-hover:text-blue-600 group-active:text-blue-600',
+    hoverBorder: 'group-hover:border-white group-active:border-white',
     hasFillAnimation: true,
   },
 
@@ -44,8 +45,8 @@ const variants = {
     border: 'border-black/40',
     fill: 'bg-black',
     baseBg: 'bg-transparent',
-    hoverText: 'group-hover:text-white',
-    hoverBorder: 'group-hover:border-black',
+    hoverText: 'group-hover:text-white group-active:text-white',
+    hoverBorder: 'group-hover:border-black group-active:border-black',
     hasFillAnimation: true,
   },
 
@@ -54,8 +55,8 @@ const variants = {
     border: 'border-white',
     fill: 'bg-white',
     baseBg: 'bg-transparent',
-    hoverText: 'group-hover:text-black',
-    hoverBorder: 'group-hover:border-white',
+    hoverText: 'group-hover:text-black group-active:text-black',
+    hoverBorder: 'group-hover:border-white group-active:border-white',
     hasFillAnimation: true,
   },
 
@@ -64,8 +65,8 @@ const variants = {
     border: 'border-blue-600',
     fill: 'bg-white',
     baseBg: 'bg-blue-600',
-    hoverText: 'group-hover:text-blue-600',
-    hoverBorder: 'group-hover:border-blue-600',
+    hoverText: 'group-hover:text-blue-600 group-active:text-blue-600',
+    hoverBorder: 'group-hover:border-blue-600 group-active:border-blue-600',
     hasFillAnimation: true,
   },
 
@@ -74,8 +75,8 @@ const variants = {
     border: 'border-amber-400',
     fill: 'bg-black',
     baseBg: 'bg-amber-400',
-    hoverText: 'group-hover:text-amber-400',
-    hoverBorder: 'group-hover:border-black',
+    hoverText: 'group-hover:text-amber-400 group-active:text-amber-400',
+    hoverBorder: 'group-hover:border-black group-active:border-black',
     hasFillAnimation: true,
   },
 
@@ -84,8 +85,8 @@ const variants = {
     border: 'border-white',
     fill: 'bg-blue-600',
     baseBg: 'bg-white',
-    hoverText: 'group-hover:text-white',
-    hoverBorder: 'group-hover:border-blue-600',
+    hoverText: 'group-hover:text-white group-active:text-white',
+    hoverBorder: 'group-hover:border-blue-600 group-active:border-blue-600',
     hasFillAnimation: true,
   },
 
@@ -94,12 +95,12 @@ const variants = {
     border: 'border-neutral-400',
     fill: 'bg-blue-600',
     baseBg: 'bg-transparent',
-    hoverText: 'group-hover:text-white',
-    hoverBorder: 'group-hover:border-blue-600',
+    hoverText: 'group-hover:text-white group-active:text-white',
+    hoverBorder: 'group-hover:border-blue-600 group-active:border-blue-600',
     hasFillAnimation: true,
   },
 };
-// text-neutral-400
+
 const sizes = {
   sm: 'px-3 py-1 text-sm',
   md: 'px-6 py-2 text-base',
@@ -118,7 +119,7 @@ const StreamButton = ({
   loading = false,
   fullWidth = false,
   type = 'button',
-  disabled = false, // Adicionando valor padrão para disabled
+  disabled = false,
   ...props
 }: StreamButtonProps) => {
   const v = variants[variant];
@@ -154,14 +155,14 @@ const StreamButton = ({
             group-active:translate-x-0
             transition-transform duration-300 ease-out
             z-0
-           
-            
           `}
         />
       )}
 
       <span
-        className={`relative z-10 flex items-center justify-center gap-2 w-full transition-colors duration-300 ${disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+        className={`relative z-10 flex items-center justify-center gap-2 w-full transition-colors duration-300 ${
+          disabled || loading ? 'cursor-not-allowed' : 'cursor-pointer'
+        }`}
       >
         {!iconOnly && (
           <span
@@ -187,7 +188,6 @@ const StreamButton = ({
             absolute inset-0
             rounded
             border
-            font-bold
             ${v.border}
             ${v.hoverBorder}
           `}

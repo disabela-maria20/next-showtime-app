@@ -9,7 +9,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const token = useAuthStore((state) => state.token);
   const hasHydrated = useAuthStore((state) => state.hasHydrated);
-
+  const name = useAuthStore((state) => state.user?.name);
   useEffect(() => {
     if (!hasHydrated) return;
 
@@ -21,6 +21,16 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
   if (!hasHydrated) return null;
   if (!token) return null;
 
+  function getDisplayName(fullName: string) {
+    if (typeof fullName !== 'string') return '';
+
+    const names = fullName.trim().split(/\s+/).filter(Boolean);
+
+    if (names.length === 0) return '';
+    if (names.length === 1) return names[0];
+
+    return names.slice(0, 2).join(' ');
+  }
   return (
     <>
       <Menu />
@@ -28,7 +38,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-center md:justify-normal md:items-end h-auto md:h-100 2xl:h-154 text-center md:text-left text-white pt-40 md:pb-7 ">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              Olá, Giovanna
+              {name && <> Olá, {getDisplayName(name)}</>}
             </h1>
             <div className="px-14 pb-32 flex flex-col gap-4 md:hidden">
               <img src="/img/foto.png" alt="Foto de perfil" />

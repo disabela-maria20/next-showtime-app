@@ -147,7 +147,7 @@ const CardMovie = ({
           </span>
         </Link>
       </div>
-      <Messages ref={msgs} />
+      {/* <Messages ref={msgs} /> */}
     </>
   );
 };
