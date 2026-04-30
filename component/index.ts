@@ -12,7 +12,6 @@ export { Slide } from './shared/Slide';
 export { Modal } from './ui/Modal';
 export { News } from './ui/News';
 
-export { default as LoginForm } from './shared/Form/Login';
 export { default as Newsletter } from './shared/Form/Newsletter';
 
 export { default as Film } from './feature/movie/Film';

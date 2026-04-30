@@ -18,7 +18,7 @@ export interface SignUpRequest {
   favoriteGenres: FavoriteGenre[];
 }
 
-export type AuthUser = {
+export type User = {
   id: string;
   name: string;
   email: string;
@@ -31,5 +31,12 @@ export type AuthUser = {
 export type AuthResponse = {
   token: string;
   token_type: 'Bearer';
-  user: AuthUser;
+  user: User;
 };
+
+type TokenType = 'Bearer';
+export interface SignResponse {
+  token: string;
+  token_type: TokenType;
+  user: User;
+}

@@ -3,6 +3,7 @@ import {
   BannerListResponse,
   FullMovieProps,
   GeoLocationIp,
+  Movie,
 } from '../../models';
 import { api, handleRequest } from '../http';
 
@@ -65,4 +66,12 @@ export function createContactMessage(payload: {
       params: payload,
     })
   );
+}
+
+export function postfavoritesMovieId(id: number) {
+  return handleRequest(api.post(`/partner/user/favorites/${id}`));
+}
+
+export function getfavoritesMovie(): Promise<Movie[]> {
+  return handleRequest(api.get(`/partner/user/favorites`));
 }

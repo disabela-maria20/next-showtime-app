@@ -8,13 +8,17 @@ import React, { ReactNode, useEffect } from 'react';
 export default function ProfileLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const token = useAuthStore((state) => state.token);
+  const hasHydrated = useAuthStore((state) => state.hasHydrated);
 
   useEffect(() => {
-    if (!token) {
-      router.replace('/ ');
-    }
-  }, [token, router]);
+    if (!hasHydrated) return;
 
+    if (!token) {
+      router.replace('/');
+    }
+  }, [token, hasHydrated, router]);
+
+  if (!hasHydrated) return null;
   if (!token) return null;
 
   return (

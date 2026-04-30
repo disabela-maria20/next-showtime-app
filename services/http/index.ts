@@ -1,4 +1,3 @@
-import { refreshSession } from '@/features/Auth/services';
 import { useAuthStore } from '@/store/authStore';
 import axios from 'axios';
 
@@ -10,31 +9,16 @@ export const api = axios.create({
   // withCredentials: true,
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+api.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      try {
-        const { data } = await refreshSession();
-        useAuthStore.getState().login(data.user, data.token);
-        originalRequest.headers.Authorization = `Bearer ${data.token}`;
-
-        return api(originalRequest);
-      } catch (err) {
-        useAuthStore.getState().logout();
-        return Promise.reject(err);
-      }
-    }
-
-    return Promise.reject(error);
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-);
 
-// 🔹 helper genérico
+  return config;
+});
+
 export async function handleRequest<T>(
   promise: Promise<{ data: T }>
 ): Promise<T> {
