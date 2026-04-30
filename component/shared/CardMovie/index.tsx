@@ -40,7 +40,6 @@ const CardMovie = ({
     queryFn: getfavoritesMovie,
   });
 
-  // 🔹 sincroniza coração com API
   useEffect(() => {
     if (!idMovie || !listMovies.length) return;
 
