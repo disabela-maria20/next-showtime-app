@@ -17,9 +17,9 @@ export const FilterControls = ({
   };
 
   return (
-    <div className="grid grid-cols-2 grid-rows-3 gap-2 mb-5 xl:grid-cols-6 lg:grid-rows-1 items-center">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-12 gap-2 mb-5 items-center">
       {/* Pesquisa */}
-      <div>
+      <div className="xl:col-span-3 min-w-0">
         <input
           type="text"
           name="pesquisar"
@@ -32,7 +32,7 @@ export const FilterControls = ({
       </div>
 
       {/* Gênero */}
-      <div>
+      <div className="xl:col-span-2 min-w-0">
         <select
           name="genero"
           id="genero"
@@ -50,7 +50,7 @@ export const FilterControls = ({
       </div>
 
       {/* Cinema */}
-      <div>
+      <div className="xl:col-span-2 min-w-0">
         <select
           name="cinema"
           id="cinema"
@@ -67,10 +67,10 @@ export const FilterControls = ({
         </select>
       </div>
 
-      {/* Áudio */}
-      <div className="grid grid-cols-2 gap-2 items-center">
+      {/* Dublado */}
+      <div className="xl:col-span-1 min-w-0">
         <button
-          className={`w-full p-2 border rounded transition ${
+          className={`w-full p-2 border rounded transition truncate ${
             filters.selectedAudio === 'Dublado'
               ? 'border-amber-400 bg-amber-400 text-black'
               : 'border-amber-400 bg-black text-amber-400'
@@ -79,8 +79,12 @@ export const FilterControls = ({
         >
           Dublado
         </button>
+      </div>
+
+      {/* Legendado */}
+      <div className="xl:col-span-1 min-w-0">
         <button
-          className={`w-full p-2 border rounded transition ${
+          className={`w-full p-2 border rounded transition truncate ${
             filters.selectedAudio === 'Legendado'
               ? 'border-amber-400 bg-amber-400 text-black'
               : 'border-amber-400 bg-black text-amber-400'
@@ -92,7 +96,7 @@ export const FilterControls = ({
       </div>
 
       {/* Tecnologia */}
-      <div>
+      <div className="xl:col-span-1 min-w-0">
         <select
           name="tecnologia"
           id="tecnologia"
@@ -109,8 +113,8 @@ export const FilterControls = ({
         </select>
       </div>
 
-      {/* Botões */}
-      <div>
+      {/* Botão */}
+      <div className="xl:col-span-2 min-w-0">
         <StreamButton onClick={onClearFilters} variant="amber" fullWidth>
           Limpar filtros
         </StreamButton>

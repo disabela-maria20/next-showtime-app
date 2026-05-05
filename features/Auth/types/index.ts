@@ -24,7 +24,7 @@ export type User = {
   email: string;
   phone: string;
   avatar: string;
-  favoriteGenre: string[];
+  favoriteGenre: FavoriteGenre[];
   created_at: string;
 };
 

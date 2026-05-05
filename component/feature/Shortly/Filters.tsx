@@ -31,7 +31,7 @@ export function ShortlyFilters({
             <Slide.Item key={genre} className="overflow-visible! md:w-auto!">
               <button
                 className={`
-                  py-5 px-6 rounded transition-color cursor-pointer
+                  py-2.5 px-6 rounded transition-color cursor-pointer
                   ${
                     selectedGenre === genre
                       ? 'bg-blue-600 text-white hover:bg-blue-700 border-blue-600'
@@ -40,7 +40,7 @@ export function ShortlyFilters({
                 `}
                 onClick={() => onGenreChange(genre)}
               >
-                <span className="w-56 block">{genre}</span>
+                <span className="block whitespace-nowrap">{genre}</span>
               </button>
             </Slide.Item>
           ))}

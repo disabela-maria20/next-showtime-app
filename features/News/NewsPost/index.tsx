@@ -78,27 +78,29 @@ const NewsPost = ({ noticias, all }: NewsProps) => {
             <div className="bg-neutral-800 px-7 py-6 flex flex-col gap-4 md:gap-6">
               {all.slice(0, 3).map((item) => (
                 <News.Grid
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch h-full"
+                  className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch h-full"
                   key={item.id}
                 >
                   {/* TEXTO */}
-                  <div className="flex flex-col gap-2 justify-center">
-                    <News.Tag
-                      variant="amber"
-                      href={`/noticias/${item.category.slug}`}
-                    >
-                      {item.category.label}
-                    </News.Tag>
+                  <div className="col-span-2">
+                    <div className="flex flex-col gap-2 justify-center">
+                      <News.Tag
+                        variant="amber"
+                        href={`/noticias/${item.category.slug}`}
+                      >
+                        {item.category.label}
+                      </News.Tag>
 
-                    <Link href={`noticias/${item.content.slug}`}>
-                      <News.Title lineclamp={false} size="xsm">
-                        {item.content.title}
-                      </News.Title>
-                    </Link>
+                      <Link href={`noticias/${item.content.slug}`}>
+                        <News.Title lineclamp={false} size="xsm">
+                          {item.content.title}
+                        </News.Title>
+                      </Link>
 
-                    <News.Description>
-                      {truncate(item.content.description, 40)}
-                    </News.Description>
+                      <News.Description>
+                        {truncate(item.content.description, 40)}
+                      </News.Description>
+                    </div>
                   </div>
 
                   {/* IMAGEM */}
