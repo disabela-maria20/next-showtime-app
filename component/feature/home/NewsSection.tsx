@@ -4,7 +4,7 @@ import { Slide, News, StreamButton } from '@/component';
 import { NewsSectionProps } from '../types';
 
 export const NewsSection = ({ noticias }: NewsSectionProps) => (
-  <section className="pb-14 md:pb-32">
+  <section className="py-14 md:py-32 bg-neutral-800">
     <div className="container max-w-490 m-auto px-12">
       <Slide options={{ loop: false, slides: { perView: 1, spacing: 12 } }}>
         <Slide.Track>

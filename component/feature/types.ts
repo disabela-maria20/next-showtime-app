@@ -29,12 +29,20 @@ export interface Top10SectionProps {
   listMovie: FullMovieProps;
 }
 
+export interface SuccessSectionProps {
+  listMovie: FullMovieProps;
+}
+
 export interface DebutHomeProps {
   listMovie: FullMovieProps;
 }
 
 export interface NewsSectionProps {
   noticias: Noticia[];
+}
+
+export interface ComeHereProps {
+  listMovie: FullMovieProps;
 }
 
 export interface StreamingSectionProps {

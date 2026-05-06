@@ -138,8 +138,8 @@ export default function Film({ movie }: MovieProps) {
       <Divider />
 
       {/* Trailer & Gallery */}
-      <section className="overflow-hidden bg-neutral-800">
-        <div className="px-9 md:grid md:grid-cols-3 py-12 gap-9">
+      <section className="overflow-hidden ">
+        <div className="px-9 md:grid md:grid-cols-3 py-12 gap-9 bg-[#808080]">
           {/* Trailer */}
           <div>
             <h2 className="font-extrabold pb-3.5 text-[18px] md:text-3xl">
@@ -181,7 +181,7 @@ export default function Film({ movie }: MovieProps) {
         />
 
         {/* News Section */}
-        <section className="pb-8 md:pb-16">
+        <section className="py-8 md:py-16">
           <div className="container max-w-490 m-auto px-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch h-full">
               {mook.noticias.slice(0, 2).map((item) => (

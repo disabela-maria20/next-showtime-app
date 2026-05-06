@@ -156,77 +156,82 @@ const DistribuidoraPage = ({
       </section>
 
       <Divider />
-      <section
-        className="py-14 md:py-32 overflow-hidden relative
+      <div className="bg-[#333333]">
+        <section
+          className="py-14 md:py-32 overflow-hidden relative
           before:content-[''] before:absolute before:top-0 before:right-0
           before:h-full before:w-24 md:before:w-40
-          before:bg-linear-to-l before:from-black/95 before:to-transparent
+          before:bg-linear-to-l before:from-neutral-700 before:to-transparent
           before:pointer-events-none before:z-10"
-      >
-        <div className="container max-w-490 m-auto px-12">
-          <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-bold mb-6 md:mb-12">
-            VEM AÍ
-          </h2>
-          <Slide
-            options={{
-              loop: false,
-              slides: { perView: 2, spacing: 12 },
-              breakpoints: {
-                '(min-width: 640px)': { slides: { perView: 2, spacing: 16 } },
-                '(min-width: 768px)': { slides: { perView: 3, spacing: 16 } },
-                '(min-width: 1024px)': {
-                  slides: { perView: 5, spacing: 20 },
+        >
+          <div className="container max-w-490 m-auto px-12">
+            <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-bold mb-6 md:mb-12">
+              VEM AÍ
+            </h2>
+            <Slide
+              options={{
+                loop: false,
+                slides: { perView: 2, spacing: 12 },
+                breakpoints: {
+                  '(min-width: 640px)': { slides: { perView: 2, spacing: 16 } },
+                  '(min-width: 768px)': { slides: { perView: 3, spacing: 16 } },
+                  '(min-width: 1024px)': {
+                    slides: { perView: 5, spacing: 20 },
+                  },
                 },
-              },
-            }}
-          >
-            <Slide.Track style={{ overflow: 'visible' }}>
-              {comehere.releases.map((item, i) => (
-                <Slide.Item key={item.id}>
-                  <CardMovie index={i} {...item} ranking={true} />
-                </Slide.Item>
-              ))}
-            </Slide.Track>
-          </Slide>
-        </div>
-      </section>
-      <section className="pb-14 md:pb-32">
-        <div className="container max-w-490 m-auto px-12">
-          <Slide options={{ loop: false, slides: { perView: 1, spacing: 12 } }}>
-            <Slide.Track>
-              {noticias.map((item) => (
-                <Slide.Item key={item.id}>
-                  <News.Grid className="grid-cols-1 md:grid-cols-2 gap-4 items-start md:items-center md:gap-16 xl:gap-36">
-                    <div className="flex flex-col gap-7">
-                      <News.Tag href={item.category.slug}>
-                        {item.category.label}
-                      </News.Tag>
-                      <News.Title>{item.content.title}</News.Title>
-                      <News.Description>
-                        {item.content.description}
-                      </News.Description>
-                      <div className="flex flex-col items-center gap-3.5 md:flex-row md:items-center md:justify-between">
-                        <StreamButton href={item.content.slug} size="lg">
-                          Ver mais notícias
-                        </StreamButton>
-                        <Slide.Dots center={false} />
+              }}
+            >
+              <Slide.Track style={{ overflow: 'visible' }}>
+                {comehere.releases.map((item, i) => (
+                  <Slide.Item key={item.id}>
+                    <CardMovie index={i} {...item} ranking={true} />
+                  </Slide.Item>
+                ))}
+              </Slide.Track>
+            </Slide>
+          </div>
+        </section>
+        <section className="pb-14 md:pb-32">
+          <div className="container max-w-490 m-auto px-12">
+            <Slide
+              options={{ loop: false, slides: { perView: 1, spacing: 12 } }}
+            >
+              <Slide.Track>
+                {noticias.map((item) => (
+                  <Slide.Item key={item.id}>
+                    <News.Grid className="grid-cols-1 md:grid-cols-2 gap-4 items-start md:items-center md:gap-16 xl:gap-36">
+                      <div className="flex flex-col gap-7">
+                        <News.Tag href={item.category.slug}>
+                          {item.category.label}
+                        </News.Tag>
+                        <News.Title>{item.content.title}</News.Title>
+                        <News.Description>
+                          {item.content.description}
+                        </News.Description>
+                        <div className="flex flex-col items-center gap-3.5 md:flex-row md:items-center md:justify-between">
+                          <StreamButton href={item.content.slug} size="lg">
+                            Ver mais notícias
+                          </StreamButton>
+                          <Slide.Dots center={false} />
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <News.Img
-                        src={item.media.src}
-                        alt={item.media.alt}
-                        className="md:h-131"
-                      />
-                    </div>
-                  </News.Grid>
-                </Slide.Item>
-              ))}
-            </Slide.Track>
-          </Slide>
-        </div>
-      </section>
-      <section className="py-8 md:py-16 bg-neutral-800">
+                      <div>
+                        <News.Img
+                          src={item.media.src}
+                          alt={item.media.alt}
+                          className="md:h-131"
+                        />
+                      </div>
+                    </News.Grid>
+                  </Slide.Item>
+                ))}
+              </Slide.Track>
+            </Slide>
+          </div>
+        </section>
+      </div>
+
+      {/* <section className="py-8 md:py-16 bg-neutral-800">
         <div className="container max-w-490 m-auto px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch h-full">
             {noticias.slice(0, 2).map((item) => (
@@ -260,7 +265,7 @@ const DistribuidoraPage = ({
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 };

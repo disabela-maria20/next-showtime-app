@@ -14,72 +14,15 @@ const NewsPage = ({ noticias }: NewsPageProps) => {
 
   return (
     <main>
-      <section className="pt-14 md:pt-32 pb-10 md:pb-24  bg-[url(/img/banner/banner-noticias.png)] bg-no-repeat bg-center bg-cover">
+      <section className="pt-14 md:pt-32 pb-8 md:pb-12  bg-[url(/img/banner/banner-noticias.png)] bg-no-repeat bg-center bg-cover">
         <div className="container max-w-490 m-auto px-12">
-          <h1 className="text-4xl font-bold mt-16 md:mt-0">
-            <span className="underline underline-offset-4 font-bold">
+          <h1 className="text-4xl text-center font-bold mt-16 md:mt-0">
+            <span className="underline  underline-offset-4 font-bold">
               notícias quentinhas
             </span>
             &nbsp;
             <span className="font-light block sm:inline">pra você</span>
           </h1>
-          <div className="grid gap-8 lg:grid-cols-10 md:gap-16 mt-5 md:mt-10 lg:mt-16">
-            <div className="lg:col-span-2">
-              <div className="flex flex-col gap-3.5">
-                <News.Tag variant="amber" href="/">
-                  Nome do portal de noticias
-                </News.Tag>
-
-                <News.Title size="md">
-                  Lorem ipsum dolor sit lormet adent ament.
-                </News.Title>
-                <News.Description>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec venenatis, dolor in finibus malesuada, lectus ipsum
-                    porta nunc, at iaculis arcu nisi sed mauris.
-                  </p>
-                  <p>
-                    Nulla fermentum vestibulum ex, eget tristique tortor pretium
-                    ut. Curabitur elit justo, consequat id condimentum ac,
-                    volutpat ornare
-                  </p>
-                </News.Description>
-              </div>
-            </div>
-            <div className="lg:col-span-4">
-              <img
-                src="/img/banner/banner-noticias home.png"
-                alt="Banner de notícias"
-                className="w-full"
-              />
-              <div className="flex flex-col gap-4 md:flex-row items-center md:justify-between mt-3.5 md:mt-8">
-                <div>
-                  <h3>30 de Abril nos cinemas</h3>
-                  <h2 className="text-xl md:text-2xl font-bold">
-                    O Diabo Veste Prada 2
-                  </h2>
-                </div>
-                <StreamButton variant="amber">comprar ingressos</StreamButton>
-              </div>
-            </div>
-            <div className="lg:col-span-4">
-              {noticias.slice(0, 3).map((noticia) => (
-                <div key={noticia.id} className="mb-6">
-                  <News.Tag
-                    variant="amber"
-                    href={`/noticias/${noticia.category.slug}`}
-                  >
-                    {noticia.category.label}
-                  </News.Tag>
-                  <News.Title size="sm">{noticia.content.title}</News.Title>
-                  <News.Description>
-                    <p>{truncate(noticia.content.description, 100)}</p>
-                  </News.Description>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
       <Divider />

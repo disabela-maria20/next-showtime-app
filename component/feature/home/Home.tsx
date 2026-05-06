@@ -11,6 +11,8 @@ import DebutSection from './DebutSection';
 import { CinemaSection } from './CinemaSection';
 import { useMovieFilters } from '../hook/useMovieFilters';
 import { ReleasesSection } from './ReleasesSection';
+import { Success } from './Success';
+import { ComeHere } from './ComeHere';
 
 const Home = ({ banner, listMovie }: HomeProps) => {
   const { isMobile } = useIsMobile();
@@ -29,8 +31,9 @@ const Home = ({ banner, listMovie }: HomeProps) => {
       <HomeHero banner={banner} isMobile={isMobile} />
       {isMobile && <Divider />}
       <Top10Section listMovie={listMovie} />
-      <NewsSection noticias={mook.noticias} />
       <DebutSection listMovie={listMovie} />
+      <NewsSection noticias={mook.noticias} />
+
       {!isMobile && <Divider />}
 
       <CinemaSection
@@ -43,6 +46,8 @@ const Home = ({ banner, listMovie }: HomeProps) => {
         onUpdateFilter={updateFilter}
         onClearFilters={clearFilters}
       />
+      <Success listMovie={listMovie} />
+      <ComeHere listMovie={listMovie} />
       <section>
         <div className="">
           <div className="md:grid grid-cols-2 gap-8 items-center">

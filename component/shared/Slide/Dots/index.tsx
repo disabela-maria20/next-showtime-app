@@ -17,7 +17,7 @@ const Dots = ({ center = true }: Props) => {
   if (slidesCount === 0) return null;
 
   const containerClass = center
-    ? 'absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20'
+    ? 'absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-2 z-20'
     : 'flex gap-2 z-20';
 
   return (

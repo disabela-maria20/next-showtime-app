@@ -5,10 +5,10 @@ import { DebutHomeProps } from '../types';
 const DebutSection = ({ listMovie }: DebutHomeProps) => {
   return (
     <section
-      className="py-14 md:py-32 bg-neutral-700 overflow-hidden relative
+      className="pb-14 md:pb-32 overflow-hidden relative
           before:content-[''] before:absolute before:top-0 before:right-0
           before:h-full before:w-24 md:before:w-40
-          before:bg-linear-to-l before:from-neutral-700/95 before:to-transparent
+          before:bg-linear-to-l before:from-black/95 before:to-transparent
           before:pointer-events-none before:z-10"
     >
       <div className="container max-w-490 m-auto px-12">

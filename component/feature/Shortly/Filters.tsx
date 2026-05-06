@@ -22,11 +22,11 @@ export function ShortlyFilters({
       <Slide
         options={{
           loop: false,
-          mode: 'free-snap',
+          // mode: 'free-snap',
           slides: { perView: 'auto', spacing: 20 },
         }}
       >
-        <Slide.Track style={{ overflow: 'visible' }}>
+        <Slide.Track>
           {genres.map((genre) => (
             <Slide.Item key={genre} className="overflow-visible! md:w-auto!">
               <button
