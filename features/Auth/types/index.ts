@@ -40,3 +40,13 @@ export interface SignResponse {
   token_type: TokenType;
   user: User;
 }
+
+export interface RecoverPasswordResponse {
+  success: boolean;
+}
+
+export type NewPasswordResponse = {
+  token: string;
+  token_type: 'Bearer';
+  user: User;
+};
