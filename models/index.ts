@@ -152,11 +152,6 @@ export interface Banner {
   bannerMobile: string;
 }
 
-export interface BannerListResponse {
-  map(arg0: (item: any) => JSX.Element): import('react').ReactNode;
-  banners: Banner[];
-}
-
 // ==========================
 // 🇧🇷 ESTADOS
 // ==========================

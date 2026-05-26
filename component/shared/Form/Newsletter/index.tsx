@@ -39,7 +39,7 @@ const Newsletter = () => {
         name: data.name,
         email: data.email,
         phone: data.telephone,
-        message: '',
+        message: 'envio',
       };
       const response = await createNewsletterSubscription(payload);
       return response;
@@ -63,7 +63,8 @@ const Newsletter = () => {
         severity: 'error',
         summary: 'Erro',
         detail:
-          (error?.response?.data as { message?: string })?.message || error.message,
+          (error?.response?.data as { message?: string })?.message ||
+          error.message,
         sticky: true,
       });
     },
@@ -83,7 +84,7 @@ const Newsletter = () => {
           id="nome"
           type="text"
           className="w-full px-4 py-2.5 bg-black border border-blue-600 rounded-lg text-white focus:border-blue-600 focus:outline-none transition"
-        //   placeholder="Seu nome completo"
+          //   placeholder="Seu nome completo"
           {...register('name')}
         />
         {errors.name && (

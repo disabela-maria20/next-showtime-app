@@ -165,13 +165,16 @@ export function FilmHero({ movie, isMobile }: FilmHeroProps) {
             <h2 className="text-4xl font-bold md:text-6xl">{movie.title}</h2>
 
             <div className="flex gap-4 items-center">
-              <Rating
-                value={4}
-                cancel={false}
-                cancelIcon={''}
-                onIcon={<i className="pi pi-star-fill text-amber-400"></i>}
-                offIcon={<i className="pi pi-star-fill text-white"></i>}
-              />
+              {!!movie.contentRating && (
+                <Rating
+                  value={Number(movie.contentRating)}
+                  cancel={false}
+                  cancelIcon={''}
+                  onIcon={<i className="pi pi-star-fill text-amber-400"></i>}
+                  offIcon={<i className="pi pi-star-fill text-white"></i>}
+                />
+              )}
+
               <strong className="font-bold text-lg">{movie.genre}</strong>
             </div>
 

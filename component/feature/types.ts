@@ -74,13 +74,22 @@ export interface FilterControlsProps {
   onClearFilters: () => void;
 }
 
+export interface BannerResponse {
+  banner: Banner;
+}
+
 // Tipos de dados
 export interface Banner {
   id: number;
-  title: string;
-  bannerMobile: string;
-  bannerDesktop: string;
   slug: string;
+  title: string;
+  description: string;
+  partnerCode: string;
+  bannerDesktop: string;
+  bannerMobile: string;
+  color: string;
+  movieId: number;
+  rating: number | null;
 }
 
 export interface Movie {

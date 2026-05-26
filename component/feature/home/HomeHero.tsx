@@ -31,26 +31,25 @@ export const HomeHero = ({ banner, isMobile }: HomeBannerProps) => {
                       {item.title}
                     </h2>
                     <div className="flex flex-col md:flex-row justify-center md:justify-normal gap-4 items-center">
-                      <Rating
-                        value={4.5}
-                        cancel={false}
-                        cancelIcon={''}
-                        onIcon={
-                          <i className="pi pi-star-fill text-amber-400"></i>
-                        }
-                        offIcon={<i className="pi pi-star-fill text-white"></i>}
-                      />
+                      {item.rating && (
+                        <Rating
+                          value={item.rating}
+                          cancel={false}
+                          cancelIcon={''}
+                          onIcon={
+                            <i className="pi pi-star-fill text-amber-400"></i>
+                          }
+                          offIcon={
+                            <i className="pi pi-star-fill text-white"></i>
+                          }
+                        />
+                      )}
+
                       <strong className="block text-center md:text-left font-bold text-lg">
                         Drama
                       </strong>
                     </div>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Facere quaerat placeat aperiam modi voluptatibus tenetur,
-                      ipsum esse ipsa doloremque iste repellendus minus dolorum
-                      dolore explicabo? Voluptates veniam necessitatibus nihil
-                      incidunt.
-                    </p>
+                    {item && <p>{item.description}</p>}
                   </div>
                   <div>
                     <CtaButton href={item.slug}>comprar ingressos</CtaButton>

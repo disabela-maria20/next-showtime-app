@@ -1,11 +1,7 @@
 import axios from 'axios';
-import {
-  BannerListResponse,
-  FullMovieProps,
-  GeoLocationIp,
-  Movie,
-} from '../../models';
+import { FullMovieProps, GeoLocationIp, Movie } from '../../models';
 import { api, handleRequest } from '../http';
+import { BannerResponse } from '@/component/feature/types';
 
 // 🌎 GEO
 export function getUserGeoLocation(): Promise<GeoLocationIp | null> {
@@ -27,7 +23,7 @@ export function listHomeMovies(): Promise<FullMovieProps> {
 }
 
 // 🎯 BANNERS
-export function listBanners(): Promise<BannerListResponse> {
+export function listBanners(): Promise<BannerResponse> {
   return handleRequest(api.get('/banner/list-all'));
 }
 
