@@ -75,7 +75,7 @@ export interface FilterControlsProps {
 }
 
 export interface BannerResponse {
-  banner: Banner;
+  banners: Banner[];
 }
 
 // Tipos de dados
