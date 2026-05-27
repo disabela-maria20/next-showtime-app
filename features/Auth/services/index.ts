@@ -1,6 +1,7 @@
 import { api, handleRequest } from '@/services/http';
 import {
   AuthResponse,
+  ChangePasswordResponse,
   NewPasswordResponse,
   RecoverPasswordResponse,
   User,
@@ -10,6 +11,7 @@ import { LoginSchemaType } from '../Login/login.schema';
 import { UpdateSchemaType } from '../Update/Update.schema';
 import { RecoverPasswordSchemaType } from '../RecoverPassword/recoverPassword.schema';
 import { NewPasswordSchemaType } from '../NewPassword/newPassword.schema';
+import { ChangePasswordSchemaType } from '../ChangePassword/changePassword.schema';
 
 export const createUser = (
   payload: RegisterSchemaType
@@ -34,3 +36,8 @@ export const updateNewPassword = (
   payload: NewPasswordSchemaType
 ): Promise<NewPasswordResponse> =>
   handleRequest(api.post('/partner/user/password-recovery-confirm', payload));
+
+export const updateChangePassword = (
+  payload: ChangePasswordSchemaType
+): Promise<ChangePasswordResponse> =>
+  handleRequest(api.post('/partner/user/change-password', payload));

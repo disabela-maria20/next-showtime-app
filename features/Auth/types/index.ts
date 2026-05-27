@@ -50,3 +50,7 @@ export type NewPasswordResponse = {
   token_type: 'Bearer';
   user: User;
 };
+
+export type ChangePasswordResponse = {
+  success: boolean;
+};

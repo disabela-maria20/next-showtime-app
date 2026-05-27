@@ -134,7 +134,12 @@ const FormUpdate = () => {
         className="flex flex-col gap-4 p-8 rounded bg-neutral-700 drop-shadow-[0px_3px_12px_rgba(0,0,0,0.15)]"
       >
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-white mb-4">Ajuste de dados</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-white ">Ajuste de dados</h2>
+            <StreamButton variant="blue-inverted" href="/alterar-senha">
+              Alterar Senha
+            </StreamButton>
+          </div>
 
           <label htmlFor="name" className="flex flex-col">
             <span className="font-semibold px-1 text-white">Nome</span>
