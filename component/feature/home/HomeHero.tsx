@@ -36,6 +36,7 @@ export const HomeHero = ({ banner, isMobile }: HomeBannerProps) => {
                           value={item.rating}
                           cancel={false}
                           cancelIcon={''}
+                          stars={10}
                           onIcon={
                             <i className="pi pi-star-fill text-amber-400"></i>
                           }

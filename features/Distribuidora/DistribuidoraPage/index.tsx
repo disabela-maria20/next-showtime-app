@@ -83,6 +83,7 @@ const DistribuidoraPage = ({
                                     value={4}
                                     cancel={false}
                                     cancelIcon={''}
+                                    stars={10}
                                     onIcon={
                                       <i className="pi pi-star-fill text-amber-400"></i>
                                     }
