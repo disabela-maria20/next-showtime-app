@@ -37,8 +37,6 @@ const Form = () => {
     mutationFn: async (
       data: ChangePasswordSchemaType
     ): Promise<ChangePasswordResponse> => {
-      console.log(data);
-
       return updateChangePassword(data);
     },
 
