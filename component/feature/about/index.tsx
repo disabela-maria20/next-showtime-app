@@ -140,7 +140,7 @@ const About = ({ listMovies }: AboutProps) => {
             }}
           >
             <Slide.Track style={{ overflow: 'visible' }}>
-              {listMovies.streaming.map((item, i) => (
+              {listMovies.releases.map((item, i) => (
                 <Slide.Item key={item.id}>
                   <CardMovie index={i} {...item} ranking={true} />
                 </Slide.Item>
