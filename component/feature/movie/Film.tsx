@@ -290,21 +290,24 @@ const Film = ({ movie }: MovieProps) => {
       <Divider />
       <section className="overflow-hidden">
         <div className="px-9 md:grid md:grid-cols-3 py-12 gap-9">
-          <div>
-            <h2 className="font-extrabold pb-3.5 text-[18px] md:text-3xl">
-              assista ao trailer
-            </h2>
-            <div className="w-full">
-              <iframe
-                className="w-full aspect-video"
-                src={`${movie.trailer}?enablejsapi=1&origin=diamondfilms.com.br`}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
+          {!!movie.trailer && (
+            <div>
+              <h2 className="font-extrabold pb-3.5 text-[18px] md:text-3xl">
+                assista ao trailer
+              </h2>
+              <div className="w-full">
+                <iframe
+                  className="w-full aspect-video"
+                  src={`${movie.trailer}?enablejsapi=1&origin=diamondfilms.com.br`}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
-          </div>
+          )}
+
           {movie?.images?.length !== 0 && (
             <div className="md:col-span-2">
               <h2 className="font-extrabold pb-3.5 text-[18px] md:text-3xl">
