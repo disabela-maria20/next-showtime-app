@@ -24,16 +24,18 @@ export const CinemaSection = ({
   return (
     <section className="py-14 md:py-32 overflow-hidden">
       <div className="container max-w-490 m-auto p-3.5 md:px-12">
-        <h2 className="text-2xl md:text-4xl 2xl:text-5xl mb-6 md:mb-12 text-amber-400">
-          <strong>puro suco</strong> do <u>cinema</u>
-        </h2>
+        <div className=" md:flex items-center md:justify-between">
+          <h2 className="font-bold text-2xl md:text-4xl 2xl:text-5xl mb-6 md:mb-12 text-amber-400">
+            SUCESSOS
+          </h2>
 
-        <FilterControls
-          filterOptions={filterOptions}
-          filters={filters}
-          onUpdateFilter={onUpdateFilter}
-          onClearFilters={onClearFilters}
-        />
+          <FilterControls
+            filterOptions={filterOptions}
+            filters={filters}
+            onUpdateFilter={onUpdateFilter}
+            onClearFilters={onClearFilters}
+          />
+        </div>
 
         {isPending && 'Carregando'}
         {!isPending && (

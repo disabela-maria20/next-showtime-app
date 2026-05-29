@@ -17,13 +17,13 @@ export default function ShortlyClient({ movies }: ShortlyClientProps) {
 
   // Extrair gêneros únicos
   const genres = useMemo(() => {
-    const streaming = movies?.streaming || [];
+    const streaming = movies?.coming_soon || [];
     return [...new Set(streaming.map((data) => data.genre))];
   }, [movies]);
 
   // Filtrar por gênero
   const filteredMovies = useMemo(() => {
-    const streaming = movies?.streaming || [];
+    const streaming = movies?.coming_soon || [];
     return selectedGenre
       ? streaming.filter((f) => f.genre === selectedGenre)
       : streaming;

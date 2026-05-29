@@ -214,17 +214,6 @@ const Film = ({ movie }: MovieProps) => {
     }));
   }, [filteredSessions]);
 
-  const hasActiveDateSessions = useMemo(() => {
-    return groupedSessions.length > 0;
-  }, [groupedSessions]);
-
-  const shouldShowLocationSelector = consent === 'denied';
-
-  const checkVideoExists = async (id: string) => {
-    const res = await fetch(`https://img.youtube.com/vi/${id}/mqdefault.jpg`);
-    return res.ok;
-  };
-
   return (
     <Suspense fallback={<div>Carregando...</div>}>
       {/* ================= HERO ================= */}

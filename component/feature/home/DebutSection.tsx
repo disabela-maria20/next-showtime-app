@@ -3,6 +3,8 @@ import React from 'react';
 import { DebutHomeProps } from '../types';
 
 const DebutSection = ({ listMovie }: DebutHomeProps) => {
+  console.log(listMovie);
+
   return (
     <section
       className="pb-14 md:pb-32 overflow-hidden relative
@@ -29,7 +31,7 @@ const DebutSection = ({ listMovie }: DebutHomeProps) => {
           }}
         >
           <Slide.Track style={{ overflow: 'visible' }}>
-            {listMovie.streaming.map((item, i) => (
+            {listMovie.map((item, i) => (
               <Slide.Item key={item.id}>
                 <CardMovie index={i} {...item} ranking={false} />
               </Slide.Item>

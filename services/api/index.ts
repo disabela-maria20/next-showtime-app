@@ -71,3 +71,7 @@ export function postfavoritesMovieId(id: number) {
 export function getfavoritesMovie(): Promise<Movie[]> {
   return handleRequest(api.get(`/partner/user/favorites`));
 }
+
+export function getMovieTop(): Promise<FullMovieProps> {
+  return handleRequest(api.get(`/movie/top`));
+}

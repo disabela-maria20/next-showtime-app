@@ -14,7 +14,7 @@ import { ReleasesSection } from './ReleasesSection';
 import { Success } from './Success';
 import { ComeHere } from './ComeHere';
 
-const Home = ({ banner, listMovie }: HomeProps) => {
+const Home = ({ banner, listMovie, top }: HomeProps) => {
   const { isMobile } = useIsMobile();
   const {
     filters,
@@ -25,13 +25,14 @@ const Home = ({ banner, listMovie }: HomeProps) => {
     updateFilter,
     clearFilters,
     onPageChange,
-  } = useMovieFilters(listMovie.streaming);
+  } = useMovieFilters(top.box_office_hits);
+
   return (
     <main>
       <HomeHero banner={banner} isMobile={isMobile} />
       {isMobile && <Divider />}
       <Top10Section listMovie={listMovie} />
-      <DebutSection listMovie={listMovie} />
+      <DebutSection listMovie={top.release_week} />
       <NewsSection noticias={mook.noticias} />
 
       {!isMobile && <Divider />}

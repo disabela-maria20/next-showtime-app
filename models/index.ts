@@ -6,6 +6,9 @@ import { JSX } from 'react/jsx-runtime';
 export interface FullMovieProps {
   releases: Array<Movie>;
   streaming: Array<Movie>;
+  box_office_hits: Array<Movie>;
+  coming_soon: Array<Movie>;
+  release_week: Array<Movie>;
 }
 
 export interface Movie {

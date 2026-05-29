@@ -11,9 +11,9 @@ import { Movie } from '@/models';
 
 type CardMovieProps = {
   index: number;
-  title: string;
-  cover: string;
-  slug: string;
+  title?: string;
+  cover?: string;
+  slug?: string;
   ranking?: boolean;
   favorites?: boolean;
   idMovie?: number;
@@ -33,7 +33,7 @@ const CardMovie = ({
   const queryClient = useQueryClient();
 
   const [heart, setHeart] = useState(false);
-
+  const [imageError, setImageError] = useState(false);
   // 🔹 GET favoritos
   const { data: listMovies = [] } = useQuery<Movie[]>({
     queryKey: ['listMovies'],
@@ -116,11 +116,21 @@ const CardMovie = ({
         )}
 
         {/* IMAGE */}
-        <img
-          src={cover}
-          alt={title}
-          className="min-h-45.5 md:max-h-80 2xl:max-h-85 w-full object-cover rounded transition-all duration-500 group-hover:shadow-xl group-active:shadow-xl"
-        />
+        {/* IMAGE */}
+        <div className="min-h-45.5 md:max-h-80 2xl:max-h-85 w-full flex items-center justify-center rounded bg-neutral-900">
+          {!cover || imageError ? (
+            <div className="bg-black min-h-65 md:max-h-75 w-full flex items-center justify-center text-white underline font-bold text-xl">
+              SHOWTIME
+            </div>
+          ) : (
+            <img
+              src={cover}
+              alt={title}
+              onError={() => setImageError(true)}
+              className=" min-h-45.5 md:max-h-80 2xl:max-h-85 w-full object-cover rounded transition-all duration-500 group-hover:shadow-xl group-active:shadow-xl"
+            />
+          )}
+        </div>
 
         {/* TITLE */}
         <div

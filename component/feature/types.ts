@@ -2,6 +2,7 @@
 export interface HomeProps {
   banner: Array<Banner>;
   listMovie: FullMovieProps;
+  top: FullMovieProps;
 }
 // Tipos de filtros
 export interface FilterOptions {
@@ -34,7 +35,7 @@ export interface SuccessSectionProps {
 }
 
 export interface DebutHomeProps {
-  listMovie: FullMovieProps;
+  listMovie: Movie[];
 }
 
 export interface NewsSectionProps {

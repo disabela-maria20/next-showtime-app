@@ -13,7 +13,7 @@ export const ComeHere = ({ listMovie }: ComeHereProps) => (
   >
     <div className="container max-w-490 m-auto px-12">
       <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-bold mb-6 md:mb-12">
-        SUCESSOS
+        VEM AÍ
       </h2>
       <Slide
         options={{
