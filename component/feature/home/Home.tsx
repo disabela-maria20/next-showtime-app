@@ -13,6 +13,7 @@ import { useMovieFilters } from '../hook/useMovieFilters';
 import { ReleasesSection } from './ReleasesSection';
 import { Success } from './Success';
 import { ComeHere } from './ComeHere';
+import { NEWSPage } from '@/lib/constants';
 
 const Home = ({ banner, listMovie, top }: HomeProps) => {
   const { isMobile } = useIsMobile();
@@ -33,7 +34,7 @@ const Home = ({ banner, listMovie, top }: HomeProps) => {
       {isMobile && <Divider />}
       <Top10Section listMovie={listMovie} />
       <DebutSection listMovie={top.release_week} />
-      <NewsSection noticias={mook.noticias} />
+      {NEWSPage && <NewsSection noticias={mook.noticias} />}
 
       {!isMobile && <Divider />}
 

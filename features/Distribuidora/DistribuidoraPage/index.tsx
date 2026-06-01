@@ -9,6 +9,7 @@ import {
   StreamButton,
 } from '@/component';
 import { useTruncate } from '@/hooks/useTruncate';
+import { NEWSPage } from '@/lib/constants';
 import { FullMovieProps, Movie, Noticia } from '@/models';
 import { Rating } from 'primereact/rating';
 import React, { useState, useTransition } from 'react';
@@ -192,81 +193,44 @@ const DistribuidoraPage = ({
             </Slide>
           </div>
         </section>
-        <section className="pb-14 md:pb-32">
-          <div className="container max-w-490 m-auto px-12">
-            <Slide
-              options={{ loop: false, slides: { perView: 1, spacing: 12 } }}
-            >
-              <Slide.Track>
-                {noticias.map((item) => (
-                  <Slide.Item key={item.id}>
-                    <News.Grid className="grid-cols-1 md:grid-cols-2 gap-4 items-start md:items-center md:gap-16 xl:gap-36">
-                      <div className="flex flex-col gap-7">
-                        <News.Tag href={item.category.slug}>
-                          {item.category.label}
-                        </News.Tag>
-                        <News.Title>{item.content.title}</News.Title>
-                        <News.Description>
-                          {item.content.description}
-                        </News.Description>
-                        <div className="flex flex-col items-center gap-3.5 md:flex-row md:items-center md:justify-between">
-                          <StreamButton href={item.content.slug} size="lg">
-                            Ver mais notícias
-                          </StreamButton>
-                          <Slide.Dots center={false} />
-                        </div>
-                      </div>
-                      <div>
-                        <News.Img
-                          src={item.media.src}
-                          alt={item.media.alt}
-                          className="md:h-131"
-                        />
-                      </div>
-                    </News.Grid>
-                  </Slide.Item>
+        {NEWSPage && (
+          <section className="py-8 md:py-16 bg-neutral-800">
+            <div className="container max-w-490 m-auto px-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch h-full">
+                {noticias.slice(0, 2).map((item) => (
+                  <News.Grid
+                    className="grid grid-cols-1 md:grid-cols-2 gap-9 items-stretch h-full"
+                    key={item.id}
+                  >
+                    <div className="flex flex-col gap-2 justify-center">
+                      <News.Tag href={item.category.slug}>
+                        {item.category.label}
+                      </News.Tag>
+                      <News.Title size="md">{item.content.title}</News.Title>
+                      <News.Description>
+                        {truncate(item.content.description, 80)}
+                      </News.Description>
+                    </div>
+                    <div className="h-full">
+                      <News.Img
+                        src={item.media.src}
+                        alt={item.media.alt}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    </div>
+                  </News.Grid>
                 ))}
-              </Slide.Track>
-            </Slide>
-          </div>
-        </section>
+              </div>
+              <div className="flex justify-center md:justify-end pt-6 md:pt-16">
+                <button className="flex items-center gap-1.5 transition hover:text-blue-600 cursor-pointer">
+                  <i className="pi pi-plus"></i>
+                  <span>Ver mais</span>
+                </button>
+              </div>
+            </div>
+          </section>
+        )}
       </div>
-
-      {/* <section className="py-8 md:py-16 bg-neutral-800">
-        <div className="container max-w-490 m-auto px-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch h-full">
-            {noticias.slice(0, 2).map((item) => (
-              <News.Grid
-                className="grid grid-cols-1 md:grid-cols-2 gap-9 items-stretch h-full"
-                key={item.id}
-              >
-                <div className="flex flex-col gap-2 justify-center">
-                  <News.Tag href={item.category.slug}>
-                    {item.category.label}
-                  </News.Tag>
-                  <News.Title size="md">{item.content.title}</News.Title>
-                  <News.Description>
-                    {truncate(item.content.description, 80)}
-                  </News.Description>
-                </div>
-                <div className="h-full">
-                  <News.Img
-                    src={item.media.src}
-                    alt={item.media.alt}
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                </div>
-              </News.Grid>
-            ))}
-          </div>
-          <div className="flex justify-center md:justify-end pt-6 md:pt-16">
-            <button className="flex items-center gap-1.5 transition hover:text-blue-600 cursor-pointer">
-              <i className="pi pi-plus"></i>
-              <span>Ver mais</span>
-            </button>
-          </div>
-        </div>
-      </section> */}
     </main>
   );
 };

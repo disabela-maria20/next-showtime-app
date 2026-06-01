@@ -54,13 +54,13 @@ const Menu = () => {
           </Link>
 
           {/* SELECT CIDADE */}
-          {city && (
+          {/* {city && (
             <div className="row-start-1 col-start-2 md:col-start-2">
               <select className="bg-gray-800 border border-gray-600 text-sm px-2 py-1 rounded-md w-full lg:w-45.5">
                 <option>{city}</option>
               </select>
             </div>
-          )}
+          )} */}
 
           {/* AÇÕES */}
           <div className="row-start-1 col-start-3 md:col-start-4 grid grid-flow-col gap-2 justify-self-end">

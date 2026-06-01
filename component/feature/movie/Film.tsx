@@ -83,8 +83,8 @@ const Film = ({ movie }: MovieProps) => {
   const [activeDate, setActiveDate] = useState<string>('');
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [selectedState, setSelectedState] = useState<string>('');
-  const [isValid, setIsValid] = useState<boolean | null>(null);
-
+  const [isGalery, setIsGalery] = useState<boolean>(false);
+  const [isVideo, setIsVideo] = useState<boolean>(false);
   const { isMobile } = useIsMobile();
 
   const { city, state: storedState, setCity, consent } = useLocationStore();
@@ -212,11 +212,20 @@ const Film = ({ movie }: MovieProps) => {
     }));
   }, [filteredSessions]);
 
+  const handleToggleGallery = () => {
+    setIsGalery((prev) => !prev);
+    setIsVideo(false);
+  };
+
+  const handleToggleVideo = () => {
+    setIsVideo((prev) => !prev);
+    setIsGalery(false);
+  };
   return (
     <Suspense fallback={<div>Carregando...</div>}>
       {/* ================= HERO ================= */}
       <section
-        className="relative max-w-490 m-auto w-full aspect-video bg-cover bg-center bg-no-repeat pt-44 md:pt-36 xl:h-screen flex items-center"
+        className=" relative max-w-490 m-auto w-full aspect-video bg-cover bg-center bg-no-repeat pt-44 md:pt-36 xl2:h-screen flex items-center"
         style={{
           backgroundImage: `url(${
             isMobile ? movie.bannerMobile : movie.bannerDesktop
@@ -277,22 +286,44 @@ const Film = ({ movie }: MovieProps) => {
                 <p className="font-bold">{movie.cast}</p>
               </div>
               <p className="md:text-[18px]">{movie.synopsis}</p>
-            </div>
-            <div className="hidden md:block">
-              <CtaButton href="/">comprar ingressos</CtaButton>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <Divider />
-      <section className="overflow-hidden">
-        <div className="px-9 md:grid md:grid-cols-3 py-12 gap-9">
-          {!!movie.trailer && (
-            <div>
-              <h2 className="font-extrabold pb-3.5 text-[18px] md:text-3xl">
-                assista ao trailer
-              </h2>
+              <div className="flex items-center gap-4">
+                <button
+                  className="cursor-pointer bg-white/40 py-2.5 px-5 rounded border border-white/60 flex justify-center items-center gap-4
+                  transition-all duration-300 ease-in-out
+                  hover:bg-white/60 hover:border-white/80 hover:scale-[1.02]"
+                  onClick={handleToggleGallery}
+                >
+                  <span>{isGalery ? 'Fechar Galeria' : 'Galeria'}</span>
+                  {isGalery ? (
+                    <i className="pi pi-times"></i>
+                  ) : (
+                    <i className="pi pi-image"></i>
+                  )}
+                </button>
+
+                <button
+                  className="cursor-pointer bg-white/40 py-2.5 px-5 rounded border border-white/60 flex justify-center items-center gap-4
+                  transition-all duration-300 ease-in-out
+                  hover:bg-white/60 hover:border-white/80 hover:scale-[1.02]"
+                  onClick={handleToggleVideo}
+                >
+                  <span>{isVideo ? 'Fechar Vídeo' : 'Trailer'}</span>
+                  {isVideo ? (
+                    <i className="pi pi-times"></i>
+                  ) : (
+                    <i className="pi pi-video"></i>
+                  )}
+                </button>
+              </div>
+            </div>
+            {!isVideo && (
+              <div className="hidden md:block">
+                <CtaButton href="/#sessoes">comprar ingressos</CtaButton>
+              </div>
+            )}
+
+            {isVideo && movie.trailer && (
               <div className="w-full">
                 <iframe
                   className="w-full aspect-video"
@@ -303,358 +334,363 @@ const Film = ({ movie }: MovieProps) => {
                   allowFullScreen
                 ></iframe>
               </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <Divider />
+      <section className="overflow-hidden  ">
+        {isGalery && movie?.images?.length !== 0 && (
+          <div className="px-9 py-12 gap-9 bg-neutral-400">
+            <h2 className="font-extrabold pb-3.5 text-[18px] md:text-3xl">
+              galeria
+            </h2>
+            <Slide
+              options={{
+                loop: false,
+                slides: { perView: 1, spacing: 12 },
+                breakpoints: {
+                  '(min-width: 640px)': {
+                    slides: { perView: 3, spacing: 16 },
+                  },
+                },
+              }}
+            >
+              <Slide.Track
+                style={{ overflow: isMobile ? 'visible' : 'hidden' }}
+              >
+                {movie?.images?.map((item, i) => (
+                  <Slide.Item key={i} className="md:w-auto!">
+                    <Image
+                      src={
+                        item && typeof item === 'string'
+                          ? item
+                          : item?.url || ''
+                      }
+                      className="w-full object-cover"
+                      preview
+                      pt={{
+                        image: () => {
+                          return 'aspect-video object-cover rounded';
+                        },
+                      }}
+                    />
+                  </Slide.Item>
+                ))}
+              </Slide.Track>
+              <Slide.Arrows />
+            </Slide>
+          </div>
+        )}
+
+        <div className="bg-[#1C1C1C] pt-9 md:pt-16" id="sessoes">
+          {/* ================= DATES BADGES ================= */}
+          {movie.hasSession && (
+            <div className="container m-auto px-9 md:px-0">
+              <h2 className="text-2xl md:text-4xl 2xl:text-5xl mb-6 md:mb-12 text-blue-600">
+                <strong>bora</strong> pro <u>cinema</u>
+              </h2>
+              <div className="grid gap-4 md:grid-cols-2 mb-6 md:mb-12">
+                <select
+                  className="w-full p-3 border border-blue-600 text-blue-600 rounded"
+                  value={selectedState}
+                  onChange={({ target }) => {
+                    setSelectedState(target.value);
+                    // Limpa cidade ao trocar estado
+                    setCity(null);
+                  }}
+                >
+                  <option value="" disabled>
+                    Estado
+                  </option>
+                  {listSessionLocation
+                    ?.sort((a: { state: string }, b: { state: string }) =>
+                      a.state.localeCompare(b.state)
+                    )
+                    ?.map((data: { state: string }) => (
+                      <option key={data.state} value={data.state}>
+                        {findStateName(data.state)}
+                      </option>
+                    ))}
+                </select>
+
+                <select
+                  className="w-full p-3 border border-blue-600 text-blue-600 rounded"
+                  value={city || ''}
+                  onChange={({ target }) => {
+                    if (target.value) setCity(target.value);
+                  }}
+                >
+                  <option value="" disabled>
+                    Cidade
+                  </option>
+                  {listSessionLocation
+                    ?.find(
+                      (item: { state: string }) => item.state === selectedState
+                    )
+                    ?.cities.slice()
+                    .sort((a: string, b: any) => a.localeCompare(b))
+                    .map((c: string) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              {isLoadingSessions ? (
+                <div className="flex gap-4">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div
+                      key={i}
+                      className="w-28 h-20 bg-neutral-800 animate-pulse rounded"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <Slide
+                  options={{
+                    loop: false,
+                    mode: 'free-snap',
+                    slides: { perView: 'auto', spacing: 20 },
+                  }}
+                >
+                  <Slide.Track style={{ overflow: 'visible' }}>
+                    {availableDates.map((date: string) => (
+                      <Slide.Item
+                        key={date}
+                        className="overflow-visible! md:w-auto!"
+                      >
+                        <DateBadge
+                          date={date}
+                          active={activeDate === date}
+                          onClick={() => setActiveDate(date)}
+                        />
+                      </Slide.Item>
+                    ))}
+                  </Slide.Track>
+                </Slide>
+              )}
             </div>
           )}
 
-          {movie?.images?.length !== 0 && (
-            <div className="md:col-span-2">
-              <h2 className="font-extrabold pb-3.5 text-[18px] md:text-3xl">
-                galeria
-              </h2>
-              <Slide
-                options={{
-                  loop: false,
-                  slides: { perView: 1, spacing: 12 },
-                  breakpoints: {
-                    '(min-width: 640px)': {
-                      slides: { perView: 2, spacing: 16 },
-                    },
-                  },
-                }}
-              >
-                <Slide.Track
-                  style={{ overflow: isMobile ? 'visible' : 'hidden' }}
-                >
-                  {movie?.images?.map((item, i) => (
-                    <Slide.Item key={i} className="md:w-auto!">
-                      <Image
-                        src={
-                          item && typeof item === 'string'
-                            ? item
-                            : item?.url || ''
-                        }
-                        className="w-full object-cover"
-                        preview
-                        pt={{
-                          image: () => {
-                            return 'aspect-video object-cover rounded';
-                          },
-                        }}
-                      />
-                    </Slide.Item>
-                  ))}
-                </Slide.Track>
-                <Slide.Arrows />
-              </Slide>
+          {/* ================= LISTAGEM ================= */}
+          {listSessions?.sessions && listSessions.sessions.length > 0 && (
+            <div className="container mx-auto px-6 md:px-0 py-12 ">
+              <div className="flex flex-col md:flex-row gap-8">
+                <aside className="w-full md:w-72">
+                  <div className="flex flex-col gap-4">
+                    <input
+                      type="text"
+                      disabled
+                      placeholder={movie.title}
+                      className="w-full p-3 placeholder-blue-600! border border-blue-600 text-blue-600 rounded"
+                    />
+
+                    <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
+                      <option>Gênero</option>
+                    </select>
+
+                    <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
+                      <option>Cinema</option>
+                    </select>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                        Normal
+                      </button>
+                      <button className="bg-blue-600 text-white p-2 rounded">
+                        imax
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                        3D
+                      </button>
+                      <button className="bg-blue-600 text-white p-2 rounded">
+                        D-Box
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                        Vip
+                      </button>
+                      <button className="bg-blue-600 text-white p-2 rounded">
+                        Laser
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                        Dublado
+                      </button>
+                      <button className="bg-blue-600 text-white p-2 rounded">
+                        Legendado
+                      </button>
+                    </div>
+
+                    <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
+                      <option>Tecnologia</option>
+                    </select>
+
+                    <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold">
+                      Buscar Filmes
+                    </button>
+                  </div>
+                </aside>
+                <div className="flex-1 flex flex-col gap-6">
+                  {isLoadingSessions || isFetching || isInitialLoad ? (
+                    <div className="space-y-6">
+                      {[1, 2, 3].map((i) => (
+                        <div
+                          key={i}
+                          className="flex flex-row gap-2.5 animate-pulse"
+                        >
+                          <div className="bg-neutral-800 rounded-br-3xl rounded-tr-3xl px-5 py-8 w-32">
+                            <div className="h-8 bg-neutral-700 rounded mb-4"></div>
+                            <div className="h-6 bg-neutral-700 rounded"></div>
+                          </div>
+                          <div className="flex-1 bg-neutral-800 rounded-bl-3xl rounded-tl-3xl px-5 py-8">
+                            <div className="h-6 bg-neutral-700 rounded w-1/3 mb-4"></div>
+                            <div className="h-4 bg-neutral-700 rounded w-2/3 mb-4"></div>
+                            <div className="flex gap-3">
+                              {[1, 2, 3, 4].map((j) => (
+                                <div
+                                  key={j}
+                                  className="h-8 w-16 bg-neutral-700 rounded"
+                                ></div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : isErrorSessions ? (
+                    <p className="text-red-500">
+                      Erro ao carregar sessões. Tente novamente.
+                    </p>
+                  ) : !city ? (
+                    <p className="text-neutral-400">
+                      Selecione um estado e cidade para ver as sessões
+                      disponíveis.
+                    </p>
+                  ) : groupedSessions.length > 0 ? (
+                    groupedSessions.map((session, index) => (
+                      <div key={index} className="flex flex-row gap-2.5">
+                        {/* Tecnologia */}
+                        <div className="bg-neutral-800 rounded-br-3xl rounded-tr-3xl px-5 py-8 flex items-center gap-8 flex-col justify-center">
+                          <h3
+                            className={`text-2xl font-bold ${
+                              session.technology === '3D'
+                                ? 'text-blue-600'
+                                : 'text-neutral-400'
+                            }`}
+                          >
+                            {session.technology}
+                          </h3>
+
+                          <img
+                            src="/img/logos/imax.png"
+                            alt="Imax"
+                            className={`${session.isImax ? '' : 'grayscale'}`}
+                          />
+                          <div>
+                            <span
+                              className={`text-sm w-2 font-bold ${session.isImax ? 'text-blue-600' : 'text-neutral-400'}`}
+                            >
+                              Sala VIP
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Cinema */}
+                        <div className="flex-1 bg-neutral-800 rounded-bl-3xl rounded-tl-3xl px-5 py-8">
+                          <div className="flex flex-col md:flex-row justify-between">
+                            <div className="w-full md:w-1/2">
+                              <h2 className="text-xl font-bold">
+                                {session.theaterName}
+                              </h2>
+
+                              <p className="text-sm">
+                                {session.address}, {session.number} |{' '}
+                                {session.city} - {findStateName(session.state)}
+                              </p>
+                              <div className="mt-7">
+                                <span className="bg-blue-600 text-white px-1.5 py-1 rounded">
+                                  Dublado
+                                </span>
+                              </div>
+                              {/* Horários */}
+                              <div className="mt-7 flex flex-wrap gap-3">
+                                {session.times.map((time, i) => {
+                                  const ticketLink =
+                                    time.link_ingresso ||
+                                    time.link ||
+                                    time.link_cinemark;
+                                  return ticketLink ? (
+                                    <a
+                                      key={i}
+                                      href={ticketLink}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="font-bold border border-blue-600 px-2.5 py-1.5 rounded-md text-blue-600 transition-all hover:bg-blue-600 hover:text-neutral-800"
+                                    >
+                                      {time.hour.slice(0, 5)}
+                                    </a>
+                                  ) : (
+                                    <span
+                                      key={i}
+                                      className="font-bold border border-neutral-600 px-2.5 py-1.5 rounded-md text-neutral-600"
+                                    >
+                                      {time.hour.slice(0, 5)}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                            <div className="flex flex-row md:flex-col gap-5 items-center mt-7 justify-center md:justify-normal">
+                              <a href="#" aria-label="Mais informações">
+                                <img
+                                  src="/img/icon/plus.png"
+                                  alt="plus"
+                                  className={`${session.isImax ? 'grayscale-0' : 'grayscale'}`}
+                                />
+                              </a>
+                              <a href="#" aria-label="Selecionar assento">
+                                <img
+                                  src="/img/icon/braco-de-cadeira.png"
+                                  alt="braco de cadeira"
+                                  className={`${session.isImax ? 'grayscale-0' : 'grayscale'}`}
+                                />
+                              </a>
+                              <a href="#" aria-label="Comprar ingresso">
+                                <img
+                                  src="/img/icon/bilhete.png"
+                                  alt="bilhete"
+                                  className={`${session.isImax ? 'grayscale-0' : 'grayscale'}`}
+                                />
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-neutral-400">
+                      Nenhuma sessão disponível para{' '}
+                      {activeDate
+                        ? new Date(activeDate).toLocaleDateString('pt-BR')
+                        : 'esta data'}
+                      .
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           )}
         </div>
-
-        {/* ================= DATES BADGES ================= */}
-        {movie.hasSession && (
-          <div className="container m-auto px-9 md:px-0">
-            <h2 className="text-2xl md:text-4xl 2xl:text-5xl mb-6 md:mb-12 text-blue-600">
-              <strong>puro suco</strong> do <u>cinema</u>
-            </h2>
-            <div className="grid gap-4 md:grid-cols-2 mb-6 md:mb-12">
-              <select
-                className="w-full p-3 border border-blue-600 text-blue-600 rounded"
-                value={selectedState}
-                onChange={({ target }) => {
-                  setSelectedState(target.value);
-                  // Limpa cidade ao trocar estado
-                  setCity(null);
-                }}
-              >
-                <option value="" disabled>
-                  Estado
-                </option>
-                {listSessionLocation
-                  ?.sort((a: { state: string }, b: { state: string }) =>
-                    a.state.localeCompare(b.state)
-                  )
-                  ?.map((data: { state: string }) => (
-                    <option key={data.state} value={data.state}>
-                      {findStateName(data.state)}
-                    </option>
-                  ))}
-              </select>
-
-              <select
-                className="w-full p-3 border border-blue-600 text-blue-600 rounded"
-                value={city || ''}
-                onChange={({ target }) => {
-                  if (target.value) setCity(target.value);
-                }}
-              >
-                <option value="" disabled>
-                  Cidade
-                </option>
-                {listSessionLocation
-                  ?.find(
-                    (item: { state: string }) => item.state === selectedState
-                  )
-                  ?.cities.slice()
-                  .sort((a: string, b: any) => a.localeCompare(b))
-                  .map((c: string) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-              </select>
-            </div>
-
-            {isLoadingSessions ? (
-              <div className="flex gap-4">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div
-                    key={i}
-                    className="w-28 h-20 bg-neutral-800 animate-pulse rounded"
-                  />
-                ))}
-              </div>
-            ) : (
-              <Slide
-                options={{
-                  loop: false,
-                  mode: 'free-snap',
-                  slides: { perView: 'auto', spacing: 20 },
-                }}
-              >
-                <Slide.Track style={{ overflow: 'visible' }}>
-                  {availableDates.map((date: string) => (
-                    <Slide.Item
-                      key={date}
-                      className="overflow-visible! md:w-auto!"
-                    >
-                      <DateBadge
-                        date={date}
-                        active={activeDate === date}
-                        onClick={() => setActiveDate(date)}
-                      />
-                    </Slide.Item>
-                  ))}
-                </Slide.Track>
-              </Slide>
-            )}
-          </div>
-        )}
-
-        {/* ================= LISTAGEM ================= */}
-        {listSessions?.sessions && listSessions.sessions.length > 0 && (
-          <div className="container mx-auto px-6 md:px-0 py-12">
-            <div className="flex flex-col md:flex-row gap-8">
-              <aside className="w-full md:w-72">
-                <div className="flex flex-col gap-4">
-                  <input
-                    type="text"
-                    disabled
-                    placeholder={movie.title}
-                    className="w-full p-3 placeholder-blue-600! border border-blue-600 text-blue-600 rounded"
-                  />
-
-                  <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
-                    <option>Gênero</option>
-                  </select>
-
-                  <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
-                    <option>Cinema</option>
-                  </select>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <button className="border border-blue-600 text-blue-600 p-2 rounded">
-                      Normal
-                    </button>
-                    <button className="bg-blue-600 text-white p-2 rounded">
-                      imax
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <button className="border border-blue-600 text-blue-600 p-2 rounded">
-                      3D
-                    </button>
-                    <button className="bg-blue-600 text-white p-2 rounded">
-                      D-Box
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <button className="border border-blue-600 text-blue-600 p-2 rounded">
-                      Vip
-                    </button>
-                    <button className="bg-blue-600 text-white p-2 rounded">
-                      Laser
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button className="border border-blue-600 text-blue-600 p-2 rounded">
-                      Dublado
-                    </button>
-                    <button className="bg-blue-600 text-white p-2 rounded">
-                      Legendado
-                    </button>
-                  </div>
-
-                  <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
-                    <option>Tecnologia</option>
-                  </select>
-
-                  <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold">
-                    Buscar Filmes
-                  </button>
-                </div>
-              </aside>
-              <div className="flex-1 flex flex-col gap-6">
-                {isLoadingSessions || isFetching || isInitialLoad ? (
-                  <div className="space-y-6">
-                    {[1, 2, 3].map((i) => (
-                      <div
-                        key={i}
-                        className="flex flex-row gap-2.5 animate-pulse"
-                      >
-                        <div className="bg-neutral-800 rounded-br-3xl rounded-tr-3xl px-5 py-8 w-32">
-                          <div className="h-8 bg-neutral-700 rounded mb-4"></div>
-                          <div className="h-6 bg-neutral-700 rounded"></div>
-                        </div>
-                        <div className="flex-1 bg-neutral-800 rounded-bl-3xl rounded-tl-3xl px-5 py-8">
-                          <div className="h-6 bg-neutral-700 rounded w-1/3 mb-4"></div>
-                          <div className="h-4 bg-neutral-700 rounded w-2/3 mb-4"></div>
-                          <div className="flex gap-3">
-                            {[1, 2, 3, 4].map((j) => (
-                              <div
-                                key={j}
-                                className="h-8 w-16 bg-neutral-700 rounded"
-                              ></div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : isErrorSessions ? (
-                  <p className="text-red-500">
-                    Erro ao carregar sessões. Tente novamente.
-                  </p>
-                ) : !city ? (
-                  <p className="text-neutral-400">
-                    Selecione um estado e cidade para ver as sessões
-                    disponíveis.
-                  </p>
-                ) : groupedSessions.length > 0 ? (
-                  groupedSessions.map((session, index) => (
-                    <div key={index} className="flex flex-row gap-2.5">
-                      {/* Tecnologia */}
-                      <div className="bg-neutral-800 rounded-br-3xl rounded-tr-3xl px-5 py-8 flex items-center gap-8 flex-col justify-center">
-                        <h3
-                          className={`text-2xl font-bold ${
-                            session.technology === '3D'
-                              ? 'text-blue-600'
-                              : 'text-neutral-400'
-                          }`}
-                        >
-                          {session.technology}
-                        </h3>
-
-                        <img
-                          src="/img/logos/imax.png"
-                          alt="Imax"
-                          className={`${session.isImax ? '' : 'grayscale'}`}
-                        />
-                        <div>
-                          <span
-                            className={`text-sm w-2 font-bold ${session.isImax ? 'text-blue-600' : 'text-neutral-400'}`}
-                          >
-                            Sala VIP
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Cinema */}
-                      <div className="flex-1 bg-neutral-800 rounded-bl-3xl rounded-tl-3xl px-5 py-8">
-                        <div className="flex flex-col md:flex-row justify-between">
-                          <div className="w-full md:w-1/2">
-                            <h2 className="text-xl font-bold">
-                              {session.theaterName}
-                            </h2>
-
-                            <p className="text-sm">
-                              {session.address}, {session.number} |{' '}
-                              {session.city} - {findStateName(session.state)}
-                            </p>
-                            <div className="mt-7">
-                              <span className="bg-blue-600 text-white px-1.5 py-1 rounded">
-                                Dublado
-                              </span>
-                            </div>
-                            {/* Horários */}
-                            <div className="mt-7 flex flex-wrap gap-3">
-                              {session.times.map((time, i) => {
-                                const ticketLink =
-                                  time.link_ingresso ||
-                                  time.link ||
-                                  time.link_cinemark;
-                                return ticketLink ? (
-                                  <a
-                                    key={i}
-                                    href={ticketLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="font-bold border border-blue-600 px-2.5 py-1.5 rounded-md text-blue-600 transition-all hover:bg-blue-600 hover:text-neutral-800"
-                                  >
-                                    {time.hour.slice(0, 5)}
-                                  </a>
-                                ) : (
-                                  <span
-                                    key={i}
-                                    className="font-bold border border-neutral-600 px-2.5 py-1.5 rounded-md text-neutral-600"
-                                  >
-                                    {time.hour.slice(0, 5)}
-                                  </span>
-                                );
-                              })}
-                            </div>
-                          </div>
-                          <div className="flex flex-row md:flex-col gap-5 items-center mt-7 justify-center md:justify-normal">
-                            <a href="#" aria-label="Mais informações">
-                              <img
-                                src="/img/icon/plus.png"
-                                alt="plus"
-                                className={`${session.isImax ? 'grayscale-0' : 'grayscale'}`}
-                              />
-                            </a>
-                            <a href="#" aria-label="Selecionar assento">
-                              <img
-                                src="/img/icon/braco-de-cadeira.png"
-                                alt="braco de cadeira"
-                                className={`${session.isImax ? 'grayscale-0' : 'grayscale'}`}
-                              />
-                            </a>
-                            <a href="#" aria-label="Comprar ingresso">
-                              <img
-                                src="/img/icon/bilhete.png"
-                                alt="bilhete"
-                                className={`${session.isImax ? 'grayscale-0' : 'grayscale'}`}
-                              />
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-neutral-400">
-                    Nenhuma sessão disponível para{' '}
-                    {activeDate
-                      ? new Date(activeDate).toLocaleDateString('pt-BR')
-                      : 'esta data'}
-                    .
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
       </section>
     </Suspense>
   );
