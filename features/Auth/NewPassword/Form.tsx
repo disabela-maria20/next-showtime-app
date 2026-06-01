@@ -20,7 +20,6 @@ interface FormProps {
 const Form = ({ token }: FormProps) => {
   const msgs = useRef<Messages>(null);
   const router = useRouter();
-  console.log(token);
   const {
     register,
     handleSubmit,

@@ -3,8 +3,6 @@ import React from 'react';
 import { DebutHomeProps } from '../types';
 
 const DebutSection = ({ listMovie }: DebutHomeProps) => {
-  console.log(listMovie);
-
   return (
     <section
       className="pb-14 md:pb-32 overflow-hidden relative

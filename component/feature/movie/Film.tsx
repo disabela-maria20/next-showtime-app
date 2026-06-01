@@ -85,8 +85,6 @@ const Film = ({ movie }: MovieProps) => {
   const [selectedState, setSelectedState] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
-  console.log(movie.contentRating);
-
   const { isMobile } = useIsMobile();
 
   const { city, state: storedState, setCity, consent } = useLocationStore();
