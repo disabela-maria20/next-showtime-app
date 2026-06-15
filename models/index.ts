@@ -70,29 +70,40 @@ export interface StreamingPlatform {
 // ==========================
 
 export interface Session {
-  date(date: any): unknown;
-  distance: number;
+  date: string;
+  hour: string;
+  sessionHour?: string;
+
   theaterName: string;
+  exhibitor: string;
+
   technology: string;
   isImax: boolean;
-  sessionHour: string;
-  hour: string;
+  is2D: boolean;
+  is3D: boolean;
+
+  language: 'DUB' | 'LEG' | string;
+
+  distance?: number;
 
   link?: string;
-  addressComplement?: string;
-  number?: string;
+  alternative_link?: string;
   link_cinemark?: string;
   link_ingresso?: string;
+
   postalCode: string;
   address: string;
+  addressComplement?: string | null;
+  number?: string | null;
+
   city: string;
   state: string;
-  stateName: string;
+  stateName?: string;
 
   lat: string;
   lng: string;
 
-  hours: SessionHour[];
+  hours?: SessionHour[];
 }
 
 export interface SessionHour {

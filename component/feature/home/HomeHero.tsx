@@ -61,6 +61,7 @@ export const HomeHero = ({ banner, isMobile }: HomeBannerProps) => {
           </Slide.Item>
         ))}
       </Slide.Track>
+
       <Slide.Dots />
     </Slide>
   );

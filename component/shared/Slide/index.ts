@@ -6,6 +6,7 @@ import Arrows from './Arrows';
 import Dots from './Dots';
 import Content from './Content';
 import Root from './Root';
+import WhenLoaded from './WhenLoaded';
 
 export const Slide = Object.assign(Root, {
   Track: Track,
@@ -13,4 +14,5 @@ export const Slide = Object.assign(Root, {
   Arrows: Arrows,
   Dots: Dots,
   Content: Content,
+  WhenLoaded: WhenLoaded,
 });

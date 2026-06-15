@@ -49,6 +49,9 @@ function findStateName(sigla: string): string {
   );
 }
 
+const cleanTheaterName = (name: string) => {
+  return name.replace(/^\d+\s*-\s*/, '').trim();
+};
 const DateBadge = ({
   date,
   active,
@@ -85,6 +88,14 @@ const Film = ({ movie }: MovieProps) => {
   const [selectedState, setSelectedState] = useState<string>('');
   const [isGalery, setIsGalery] = useState<boolean>(false);
   const [isVideo, setIsVideo] = useState<boolean>(false);
+  const [filter, setFilter] = useState({
+    isImax: false,
+    is3D: false,
+    language: '',
+    technology: '',
+    theaterName: '',
+    exhibitor: '',
+  });
   const { isMobile } = useIsMobile();
 
   const { city, state: storedState, setCity, consent } = useLocationStore();
@@ -103,15 +114,6 @@ const Film = ({ movie }: MovieProps) => {
       getSessionLocationsByMovie(movie.slug) as Promise<StateCitiesResponse>,
     enabled: !!movie.slug,
   });
-
-  const isCityExists = useMemo(
-    () =>
-      city &&
-      listSessionLocation?.some((data: { cities: string | any[] }) =>
-        data.cities.includes(city)
-      ),
-    [city, listSessionLocation]
-  );
 
   useEffect(() => {
     if (city && listSessionLocation && !selectedState) {
@@ -145,19 +147,6 @@ const Film = ({ movie }: MovieProps) => {
     );
   }, [listSessions]);
 
-  useEffect(() => {
-    if (availableDates.length > 0 && isInitialLoad) {
-      const todayAvailable = availableDates.includes(today);
-      setActiveDate(todayAvailable ? today : availableDates[0]);
-      setIsInitialLoad(false);
-    }
-  }, [availableDates, today, isInitialLoad]);
-
-  useEffect(() => {
-    setIsInitialLoad(true);
-    setActiveDate('');
-  }, [city]);
-
   const filteredSessions = useMemo(() => {
     if (
       !listSessions?.sessions ||
@@ -174,19 +163,52 @@ const Film = ({ movie }: MovieProps) => {
     );
   }, [listSessions, activeDate]);
 
-  const groupedSessions: GroupedSession[] = useMemo(() => {
+  const sessionsFilteredByOptions = useMemo(() => {
     if (!filteredSessions?.sessions) return [];
+
+    return filteredSessions.sessions.filter((session: Session) => {
+      if (filter.isImax && !session.isImax) {
+        return false;
+      }
+
+      if (filter.is3D && !session.is3D) {
+        return false;
+      }
+
+      if (filter.language && session.language !== filter.language) {
+        return false;
+      }
+
+      if (filter.technology && session.technology !== filter.technology) {
+        return false;
+      }
+      if (
+        filter.theaterName &&
+        cleanTheaterName(session.theaterName) !== filter.theaterName
+      ) {
+        return false;
+      }
+
+      if (filter.exhibitor && session.exhibitor !== filter.exhibitor) {
+        return false;
+      }
+      return true;
+    });
+  }, [filteredSessions, filter]);
+
+  const groupedSessions: GroupedSession[] = useMemo(() => {
+    if (!sessionsFilteredByOptions.length) return [];
 
     const map = new Map<string, GroupedSession>();
 
-    filteredSessions.sessions.forEach((session: Session) => {
+    sessionsFilteredByOptions.forEach((session: Session) => {
       const key = session.theaterName;
 
       if (!map.has(key)) {
         map.set(key, {
           theaterName: session.theaterName,
           address: session.address,
-          number: session.number,
+          number: session.number ?? undefined,
           city: session.city,
           state: session.state,
           technology: session.technology,
@@ -210,6 +232,42 @@ const Film = ({ movie }: MovieProps) => {
       ...cinema,
       times: cinema.times.sort((a, b) => a.hour.localeCompare(b.hour)),
     }));
+  }, [sessionsFilteredByOptions]);
+
+  const technologies = useMemo(() => {
+    if (!filteredSessions?.sessions) return [];
+
+    return [
+      ...new Set(
+        filteredSessions.sessions
+          .map((session: Session) => session.technology)
+          .filter(Boolean)
+      ),
+    ];
+  }, [filteredSessions]);
+
+  const theaters = useMemo(() => {
+    if (!filteredSessions?.sessions) return [];
+
+    return [
+      ...new Set(
+        filteredSessions.sessions
+          .map((session: Session) => cleanTheaterName(session.theaterName))
+          .filter(Boolean)
+      ),
+    ];
+  }, [filteredSessions]);
+
+  const exhibitors = useMemo(() => {
+    if (!filteredSessions?.sessions) return [];
+
+    return [
+      ...new Set(
+        filteredSessions.sessions
+          .map((session: Session) => session.exhibitor)
+          .filter(Boolean)
+      ),
+    ];
   }, [filteredSessions]);
 
   const handleToggleGallery = () => {
@@ -221,6 +279,20 @@ const Film = ({ movie }: MovieProps) => {
     setIsVideo((prev) => !prev);
     setIsGalery(false);
   };
+
+  useEffect(() => {
+    if (availableDates.length > 0 && isInitialLoad) {
+      const todayAvailable = availableDates.includes(today);
+      setActiveDate(todayAvailable ? today : availableDates[0]);
+      setIsInitialLoad(false);
+    }
+  }, [availableDates, today, isInitialLoad]);
+
+  useEffect(() => {
+    setIsInitialLoad(true);
+    setActiveDate('');
+  }, [city]);
+
   return (
     <Suspense fallback={<div>Carregando...</div>}>
       {/* ================= HERO ================= */}
@@ -256,8 +328,8 @@ const Film = ({ movie }: MovieProps) => {
               </StreamButton>
             </div>
           </div>
-          <div className="flex flex-col gap-7 md:flex-row md:items-end justify-between px-11 pb-10 md:px-0">
-            <div className="flex flex-col gap-4 md:max-w-2xl mt-11">
+          <div className="grid grid-cols-1 md:grid-cols-5  gap-5 md:items-end justify-between px-11 pb-10 md:px-0">
+            <div className="md:col-span-3 flex flex-col gap-4 md:max-w-2xl mt-11">
               <h2 className="text-4xl text-center md:text-left font-bold md:text-6xl">
                 {movie.title}
               </h2>
@@ -317,22 +389,38 @@ const Film = ({ movie }: MovieProps) => {
                 </button>
               </div>
             </div>
+
             {!isVideo && (
-              <div className="hidden md:block">
+              <div className="md:col-span-2 hidden md:block">
                 <CtaButton href="/#sessoes">comprar ingressos</CtaButton>
               </div>
             )}
 
-            {isVideo && movie.trailer && (
-              <div className="w-full">
-                <iframe
-                  className="w-full aspect-video"
-                  src={`${movie.trailer}?enablejsapi=1&origin=diamondfilms.com.br`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
+            {isVideo && movie.videos?.length > 0 && (
+              <div className="md:col-span-2 max-w-full bg-black/45 p-5">
+                <Slide
+                  options={{
+                    loop: true,
+                    slides: { perView: 1, spacing: 12 },
+                  }}
+                >
+                  <Slide.Track>
+                    {movie.videos.map((item, i) => (
+                      <Slide.Item key={i}>
+                        <iframe
+                          className="w-full aspect-video"
+                          src={`${item.url}`}
+                          title={`Trailer ${i + 1}`}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </Slide.Item>
+                    ))}
+                  </Slide.Track>
+
+                  <Slide.Arrows />
+                </Slide>
               </div>
             )}
           </div>
@@ -358,7 +446,7 @@ const Film = ({ movie }: MovieProps) => {
               }}
             >
               <Slide.Track
-                style={{ overflow: isMobile ? 'visible' : 'hidden' }}
+              /// style={{ overflow: isMobile ? 'visible' : 'hidden' }}
               >
                 {movie?.images?.map((item, i) => (
                   <Slide.Item key={i} className="md:w-auto!">
@@ -440,7 +528,7 @@ const Film = ({ movie }: MovieProps) => {
               </div>
 
               {isLoadingSessions ? (
-                <div className="flex gap-4">
+                <div className="flex gap-4 pb-8">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <div
                       key={i}
@@ -487,29 +575,98 @@ const Film = ({ movie }: MovieProps) => {
                       placeholder={movie.title}
                       className="w-full p-3 placeholder-blue-600! border border-blue-600 text-blue-600 rounded"
                     />
+                    <select
+                      className="w-full p-3 border border-blue-600 text-blue-600 rounded"
+                      value={filter.exhibitor}
+                      onChange={(e) =>
+                        setFilter((prev) => ({
+                          ...prev,
+                          exhibitor: e.target.value,
+                        }))
+                      }
+                    >
+                      <option value="">Todos os exibidores</option>
 
-                    <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
-                      <option>Gênero</option>
+                      {exhibitors.map((exhibitor) => (
+                        <option key={exhibitor} value={exhibitor}>
+                          {exhibitor}
+                        </option>
+                      ))}
                     </select>
 
-                    <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
-                      <option>Cinema</option>
+                    <select
+                      className="w-full p-3 border border-blue-600 text-blue-600 rounded"
+                      value={filter.theaterName}
+                      onChange={(e) =>
+                        setFilter((prev) => ({
+                          ...prev,
+                          theaterName: e.target.value,
+                        }))
+                      }
+                    >
+                      <option value="">Todos os cinemas</option>
+
+                      {theaters.map((theater) => (
+                        <option key={theater} value={theater}>
+                          {theater}
+                        </option>
+                      ))}
                     </select>
 
                     <div className="grid grid-cols-2 gap-3">
-                      <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                      <button
+                        onClick={() =>
+                          setFilter((prev) => ({
+                            ...prev,
+                            isImax: false,
+                          }))
+                        }
+                        className={`p-2 rounded border ${
+                          !filter.isImax
+                            ? ' text-white border-blue-600'
+                            : 'border-blue-600 text-blue-600'
+                        }`}
+                      >
                         Normal
                       </button>
-                      <button className="bg-blue-600 text-white p-2 rounded">
-                        imax
+
+                      <button
+                        onClick={() =>
+                          setFilter((prev) => ({
+                            ...prev,
+                            isImax: true,
+                          }))
+                        }
+                        className={`p-2 rounded border ${
+                          filter.isImax
+                            ? ' text-white border-blue-600'
+                            : 'border-blue-600 text-blue-600'
+                        }`}
+                      >
+                        IMAX
                       </button>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
-                      <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                      <button
+                        onClick={() =>
+                          setFilter((prev) => ({
+                            ...prev,
+                            is3D: !prev.is3D,
+                          }))
+                        }
+                        className={`p-2 rounded border ${
+                          filter.is3D
+                            ? ' text-white border-blue-600'
+                            : 'border-blue-600 text-blue-600'
+                        }`}
+                      >
                         3D
                       </button>
-                      <button className="bg-blue-600 text-white p-2 rounded">
+                      <button
+                        className="border border-blue-600 text-blue-600 p-2 rounded"
+                        disabled
+                      >
                         D-Box
                       </button>
                     </div>
@@ -518,23 +675,60 @@ const Film = ({ movie }: MovieProps) => {
                       <button className="border border-blue-600 text-blue-600 p-2 rounded">
                         Vip
                       </button>
-                      <button className="bg-blue-600 text-white p-2 rounded">
+                      <button className="border border-blue-600 text-blue-600 p-2 rounded">
                         Laser
                       </button>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                      <button className="border border-blue-600 text-blue-600 p-2 rounded">
+                      <button
+                        className={`p-2 rounded border ${
+                          filter.language === 'DUB'
+                            ? ' text-white border-blue-600'
+                            : 'border-blue-600 text-blue-600'
+                        }`}
+                        onClick={() =>
+                          setFilter((prev) => ({
+                            ...prev,
+                            language: prev.language === 'DUB' ? '' : 'DUB',
+                          }))
+                        }
+                      >
                         Dublado
                       </button>
-                      <button className="bg-blue-600 text-white p-2 rounded">
+                      <button
+                        className={`p-2 rounded border ${
+                          filter.language === 'LEG'
+                            ? ' text-white border-blue-600'
+                            : 'border-blue-600 text-blue-600'
+                        }`}
+                        onClick={() =>
+                          setFilter((prev) => ({
+                            ...prev,
+                            language: prev.language === 'LEG' ? '' : 'LEG',
+                          }))
+                        }
+                      >
                         Legendado
                       </button>
                     </div>
+                    <select
+                      className="w-full p-3 border border-blue-600 text-blue-600 rounded"
+                      value={filter.technology}
+                      onChange={(e) =>
+                        setFilter((prev) => ({
+                          ...prev,
+                          technology: e.target.value,
+                        }))
+                      }
+                    >
+                      <option value="">Todas as tecnologias</option>
 
-                    <select className="w-full p-3 border border-blue-600 text-blue-600 rounded">
-                      <option>Tecnologia</option>
+                      {technologies.map((technology) => (
+                        <option key={technology} value={technology}>
+                          {technology}
+                        </option>
+                      ))}
                     </select>
-
                     <button className="w-full bg-blue-600 text-white p-3 rounded font-semibold">
                       Buscar Filmes
                     </button>
@@ -622,33 +816,6 @@ const Film = ({ movie }: MovieProps) => {
                                   Dublado
                                 </span>
                               </div>
-                              {/* Horários */}
-                              <div className="mt-7 flex flex-wrap gap-3">
-                                {session.times.map((time, i) => {
-                                  const ticketLink =
-                                    time.link_ingresso ||
-                                    time.link ||
-                                    time.link_cinemark;
-                                  return ticketLink ? (
-                                    <a
-                                      key={i}
-                                      href={ticketLink}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="font-bold border border-blue-600 px-2.5 py-1.5 rounded-md text-blue-600 transition-all hover:bg-blue-600 hover:text-neutral-800"
-                                    >
-                                      {time.hour.slice(0, 5)}
-                                    </a>
-                                  ) : (
-                                    <span
-                                      key={i}
-                                      className="font-bold border border-neutral-600 px-2.5 py-1.5 rounded-md text-neutral-600"
-                                    >
-                                      {time.hour.slice(0, 5)}
-                                    </span>
-                                  );
-                                })}
-                              </div>
                             </div>
                             <div className="flex flex-row md:flex-col gap-5 items-center mt-7 justify-center md:justify-normal">
                               <a href="#" aria-label="Mais informações">
@@ -673,6 +840,34 @@ const Film = ({ movie }: MovieProps) => {
                                 />
                               </a>
                             </div>
+                          </div>
+
+                          {/* Horários */}
+                          <div className="mt-7 flex flex-wrap gap-3">
+                            {session.times.map((time, i) => {
+                              const ticketLink =
+                                time.link_ingresso ||
+                                time.link ||
+                                time.link_cinemark;
+                              return ticketLink ? (
+                                <a
+                                  key={i}
+                                  href={ticketLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="font-bold border border-blue-600 px-2.5 py-1.5 rounded-md text-blue-600 transition-all hover:bg-blue-600 hover:text-neutral-800"
+                                >
+                                  {time.hour.slice(0, 5)}
+                                </a>
+                              ) : (
+                                <span
+                                  key={i}
+                                  className="font-bold border border-neutral-600 px-2.5 py-1.5 rounded-md text-neutral-600"
+                                >
+                                  {time.hour.slice(0, 5)}
+                                </span>
+                              );
+                            })}
                           </div>
                         </div>
                       </div>
